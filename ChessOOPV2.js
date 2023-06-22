@@ -49,8 +49,9 @@ function domloaded() {
   let bane = document.getElementById("bane");
   let innhold = bane.getContext("2d");
 
-  document.getElementById("startEnKnapp").onclick = function() {startSpill(1)};
-  document.getElementById("startToKnapp").onclick = function() {startSpill(2)};
+  document.getElementById("startEnKnapp").onclick = function() { startSpill(1) };
+  document.getElementById("startToKnapp").onclick = function() { startSpill(2) };
+  document.getElementById("pauseKnapp").onclick = function() { pauseGame() };
 
   function startSpill(spillere) {
     clearInterval(timeInterval);
@@ -103,7 +104,21 @@ function domloaded() {
     document.getElementById("turnTimerDiv").style.display = "initial";
   }
 
-  bane.addEventListener('click', function(e) {
+  function pauseGame() {
+    if (!pause) {
+
+      pause = true;
+
+      document.getElementById("pauseKnapp").textContent = "Play";
+    } else if (pause) {
+
+      pause = false;
+
+      document.getElementById("pauseKnapp").textContent = "Pause";
+    }
+  }
+
+  bane.addEventListener('click', function(event) {
     if (started && !pause) {
       const rect = bane.getBoundingClientRect();
       const x = event.clientX - rect.left;
@@ -113,12 +128,12 @@ function domloaded() {
       if (selected != undefined) {
         if (mod(turn,2) == 1) {
           if (pieceArray[x_true][y_true] == 0 || pieceArray[x_true][y_true] >= 7) {
-            movePieceOld(selected.getPosition()["position"][0],selected.getPosition()["position"][1], x_true, y_true);
+            selected.movePieceOld(selected.getPosition()["position"][0],selected.getPosition()["position"][1], x_true, y_true);
             return;
           }
         } else if (mod(turn,2) == 0) {
           if (pieceArray[x_true][y_true] == 0 || pieceArray[x_true][y_true] <= 6) {
-            movePieceOld(selected.getPosition()["position"][0],selected.getPosition()["position"][1], x_true, y_true);
+            selected.movePieceOld(selected.getPosition()["position"][0],selected.getPosition()["position"][1], x_true, y_true);
             return;
           }
         }
@@ -281,6 +296,8 @@ function domloaded() {
       }
     }
 
+
+    // FIX THIS
     pieceArray.push([8,7,0,0,0,0,1,2]);
     pieceArray.push([9,7,0,0,0,0,1,3]);
     pieceArray.push([10,7,0,0,0,0,1,4]);
@@ -292,17 +309,17 @@ function domloaded() {
   }
 
   function paintPieces(column, row, piece) {
-    innhold.font = "42px Helvetica"
+    innhold.font = "60px 'DejaVu Sans'"
     if (piece >= 1 && piece <= 6) {
-      innhold.strokeStyle = "#000000"
+      innhold.strokeStyle = "#778899"
       innhold.fillStyle = "#FFFFFF"
     } else if (piece >= 7 && piece <= 12) {
-      innhold.strokeStyle = "#FFFFFF"
+      innhold.strokeStyle = "#778899"
       innhold.fillStyle = "#000000"
     }
     switch (piece) {
       case 1:
-        piece = "P";
+        piece = "\u{2659}"
         // White pawn
         if (!setup) {
           switch (column) {
@@ -365,7 +382,7 @@ function domloaded() {
         }
         break;
       case 2:
-        piece = "R";
+        piece = "\u{2656}";
         // White rook
         if (!setup) {
           switch (column) {
@@ -382,7 +399,7 @@ function domloaded() {
         }
         break;
       case 3:
-        piece = "N";
+        piece = "\u{2658}";
         // White knight
         if (!setup) {
           switch (column) {
@@ -403,7 +420,7 @@ function domloaded() {
         }
         break;
       case 4:
-        piece = "B";
+        piece = "\u{2657}";
         // White bishop
         if (!setup) {
           switch (column) {
@@ -418,7 +435,7 @@ function domloaded() {
         }
         break;
       case 5:
-        piece = "Q";
+        piece = "\u{2655}";
         // White queen
         if (!setup) {
           whiteQueen = new Queen("whiteQueen", 5, "white", "queen", [column, row]);
@@ -426,7 +443,7 @@ function domloaded() {
         }
         break;
       case 6:
-        piece = "K";
+        piece = "\u{2654}";
         // White king
         if (!setup) {
           whiteKing = new King("whiteKing", 6, "white", "king", [column, row]);
@@ -434,7 +451,7 @@ function domloaded() {
         }
         break;
       case 7:
-        piece = "P";
+        piece = "\u{265F}";
         // Black pawn
         if (!setup) {
           switch (column) {
@@ -497,7 +514,7 @@ function domloaded() {
         }
         break;
       case 8:
-        piece = "R";
+        piece = "\u{265C}";
         // Black rook
         if (!setup) {
           switch (column) {
@@ -512,7 +529,7 @@ function domloaded() {
         }
         break;
       case 9:
-        piece = "N";
+        piece = "\u{265E}";
         // Black knight
         if (!setup) {
           switch (column) {
@@ -531,7 +548,7 @@ function domloaded() {
         }
         break;
       case 10:
-        piece = "B";
+        piece = "\u{265D}";
         // Black bishop
         if (!setup) {
           switch (column) {
@@ -546,7 +563,7 @@ function domloaded() {
         }
         break;
       case 11:
-        piece = "Q";
+        piece = "\u{265B}";
         // Black queen
         if (!setup) {
           blackQueen = new Queen("blackQueen", 11, "black", "queen", [column, row]);
@@ -554,7 +571,7 @@ function domloaded() {
         }
         break;
       case 12:
-        piece = "K";
+        piece = "\u{265A}";
         // Black king
         if (!setup) {
           blackKing = new King("blackKing", 12, "black", "king", [column, row]);
@@ -566,9 +583,9 @@ function domloaded() {
         // Blank space
     }
     innhold.lineWidth = 4;
-    innhold.strokeText(piece, column*(width/8)+(5*(width/128)), row*(height/8)+(5*(height/64)));
+    innhold.strokeText(piece, column*(width/8)+(3*(width/128)), row*(height/8)+(6*(height/64)));
     innhold.lineWidth = 1;
-    innhold.fillText(piece, column*(width/8)+(5*(width/128)), row*(height/8)+(5*(height/64)));
+    innhold.fillText(piece, column*(width/8)+(3*(width/128)), row*(height/8)+(6*(height/64)));
   }
 
   class Piece {
@@ -592,7 +609,7 @@ function domloaded() {
     }
 
     getPiece() {
-      return {color:this.color};
+      return {piece:this.piece};
     }
 
     getAvailableMoves() {
