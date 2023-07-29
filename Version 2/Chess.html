@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chess</title>
+    <script defer type="module" src="Chess.js"></script>
+    <link rel="stylesheet" href="Chess.css">
+    <link rel="icon" href="./favicon.ico">
+  </head>
+  <body>
+    <div class="home">
+      <h1>Chess</h1>
+      <div class="meny">
+        <button id="startEnKnapp" class="knapp startEnKnapp" type="button" name="startEnKnapp">1 Player</button>
+        <button id="startToKnapp" class="knapp startToKnapp" type="button" name="startToKnapp">2 Player</button>
+        <p>
+        <button id="pauseKnapp" class="knapp hidden pauseKnapp" type="button" name="pauseKnapp">Pause</button>
+        <button id="undoKnapp" class="knapp hidden undoKnapp" type="button" name="button">Undo</button>
+        </p>
+      </div>
+      <div id="turnTimerDiv" class="turnTimerDiv">
+        <table id="turnTimerTable" class="turnTimerTable" border="1">
+          <tbody>
+            <tr>
+              <td>Black time</td>
+              <td>Turn</td>
+              <td>White time</td>
+            </tr>
+            <tr>
+              <td><span id="blackTime" class="blackTime">0</span></td>
+              <td><span id="playerTurn" class="playerTurn">0</span></td>
+              <td><span id="whiteTime" class="whiteTime">0</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="blackHome">
+
+      </div>
+      <div class="spillDiv">
+        <canvas id="board" class="board" width="800" height="800"></canvas>
+      </div>
+      <div class="whiteHome">
+
+      </div>
+    </div>
+  </body>
+</html>
