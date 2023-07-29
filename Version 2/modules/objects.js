@@ -40,7 +40,7 @@ const typeObjects = {
 }
 
 const turnObject = {
-    turn: 0,
+    turn: 1,
 
     /**
      * @param {number} turn
@@ -54,4 +54,4 @@ const turnObject = {
     }
 }
 
-export { turnObject };
+export { typeObjects, turnObject };

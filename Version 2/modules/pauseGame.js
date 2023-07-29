@@ -1,4 +1,6 @@
 import { myHeaders } from "./header.js";
+import { tickGame } from "./playGame.js";
+
 
 // Stores the value of pause in an object for easier access and storage
 const pauseObject = {
@@ -24,6 +26,8 @@ const pauseObject = {
         } else if (this.pause) {
             
             this.pause = false;
+
+            tickGame();
         }
     }
 };

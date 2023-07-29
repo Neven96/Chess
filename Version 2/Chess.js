@@ -1,5 +1,9 @@
 import { myHeaders } from "./modules/header.js";
 import { mod } from "./modules/modulo.js";
+import { typeObjects, turnObject } from "./modules/objects.js";
+import { pauseObject } from "./modules/pauseGame.js";
+import { tickGame } from "./modules/playGame.js";
+import { timeObject } from "./modules/timeKeeping.js";
 
 let pieceArray;
 let changedArray;
@@ -17,23 +21,12 @@ let antallSpillere;
 let width;
 let height;
 let selected;
-let turn;
-
-let whiteHours;
-let whiteMinutes;
-let whiteSeconds;
-let blackHours;
-let blackMinutes;
-let blackSeconds;
-let timeInterval;
 
 let x_true;
 let y_true;
 let previous_x;
 let previous_y;
 
-let pause = false;
-let started = false;
 let moved = false;
 let rokade = false;
 let attack = false;
@@ -53,11 +46,11 @@ let innhold = board.getContext("2d");
 
 document.getElementById("startEnKnapp").onclick = function () { startSpill(1) };
 document.getElementById("startToKnapp").onclick = function () { startSpill(2) };
-document.getElementById("pauseKnapp").onclick = function () { pauseGame() };
+document.getElementById("pauseKnapp").onclick = function () { pauseObject.pauseGame() };
+
+timeObject.setUpTime();
 
 function startSpill(spillere) {
-    clearInterval(timeInterval);
-
     pieceArray = [];
     changedArray = [];
     levelArray = [];
@@ -71,33 +64,24 @@ function startSpill(spillere) {
 
     antallSpillere = spillere;
     selected = undefined;
-    pause = false;
+    pauseObject.setPause = false;
     setup = false;
 
     width = board.width;
     height = board.height;
 
-    turn = 1;
-    document.getElementById("playerTurn").textContent = turn;
+    document.getElementById("playerTurn").textContent = turnObject.getTurn;
 
-    whiteHours = 0;
-    whiteMinutes = 0;
-    whiteSeconds = 0;
-    blackHours = 0;
-    blackMinutes = 0;
-    blackSeconds = 0;
-    document.getElementById("whiteTime").textContent = "0" + whiteHours + ":0" + whiteMinutes + ":0" + whiteSeconds;
-    document.getElementById("blackTime").textContent = "0" + blackHours + ":0" + blackMinutes + ":0" + blackSeconds;
-    timeKeeping();
+    tickGame();
 
     paintLevel();
     for (var i = 0; i < pieceArray.length; i++) {
         for (var j = 0; j < pieceArray[i].length; j++) {
-            paintPieces(i, j, pieceArray[i][j])
+            paintPieces(j, i, pieceArray[i][j])
         }
     }
 
-    started = true;
+    typeObjects.setStarted = true;
     setup = true;
     console.log(pieceClass);
     console.log(pieceArray);
@@ -106,36 +90,22 @@ function startSpill(spillere) {
     document.getElementById("turnTimerDiv").style.display = "initial";
 }
 
-function pauseGame() {
-    if (!pause) {
-
-        pause = true;
-
-        document.getElementById("pauseKnapp").textContent = "Play";
-    } else if (pause) {
-
-        pause = false;
-
-        document.getElementById("pauseKnapp").textContent = "Pause";
-    }
-}
-
 board.addEventListener('click', function (event) {
-    if (started && !pause) {
+    if (typeObjects.getStarted && !pauseObject.getPause) {
         const rect = board.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
         x_true = Math.floor(x / (width / 8));
         y_true = Math.floor(y / (height / 8));
         if (selected != undefined) {
-            if (mod(turn, 2) == 1) {
+            if (mod(turnObject.getTurn, 2) == 1) {
                 if (pieceArray[x_true][y_true] == 0 || pieceArray[x_true][y_true] >= 7) {
-                    selected.movePieceOld([selected.getPosition()["position"][0], selected.getPosition()["position"][1]], turn, false);
+                    selected.movePieceOld([selected.getPosition()["position"][0], selected.getPosition()["position"][1]], false);
                     return;
                 }
-            } else if (mod(turn, 2) == 0) {
+            } else if (mod(turnObject.getTurn, 2) == 0) {
                 if (pieceArray[x_true][y_true] == 0 || pieceArray[x_true][y_true] <= 6) {
-                    selected.movePieceOld([selected.getPosition()["position"][0], selected.getPosition()["position"][1]], turn, false);
+                    selected.movePieceOld([selected.getPosition()["position"][0], selected.getPosition()["position"][1]], false);
                     return;
                 }
             }
@@ -147,7 +117,7 @@ board.addEventListener('click', function (event) {
 });
 
 function selectPiece() {
-    if (started) {
+    if (typeObjects.getStarted) {
         if (selected != undefined) {
             paintTile(previous_x, previous_y);
             if (selected.getPosition()["position"][0] == x_true && selected.getPosition()["position"][1] == y_true) {
@@ -157,7 +127,7 @@ function selectPiece() {
             }
         }
         innhold.fillStyle = "#0000FF";
-        if (mod(turn, 2) == 1) {
+        if (mod(turnObject.getTurn, 2) == 1) {
             for (var name in pieceClass) {
                 if (pieceClass[name].getColor()["color"] == "white") {
                     if (pieceClass[name].getNameFromPosition([x_true, y_true])) {
@@ -167,7 +137,7 @@ function selectPiece() {
                     }
                 }
             }
-        } else if (mod(turn, 2) == 0) {
+        } else if (mod(turnObject.getTurn, 2) == 0) {
             for (var name in pieceClass) {
                 if (pieceClass[name].getColor()["color"] == "black") {
                     if (pieceClass[name].getNameFromPosition([x_true, y_true])) {
@@ -186,75 +156,23 @@ function selectPiece() {
     }
 }
 
-function timeKeeping() {
-    timeInterval = setInterval(function () {
-        whiteSeconds = parseInt(whiteSeconds);
-        whiteMinutes = parseInt(whiteMinutes);
-        whiteHours = parseInt(whiteHours);
-        blackSeconds = parseInt(blackSeconds);
-        blackMinutes = parseInt(blackMinutes);
-        blackHours = parseInt(blackHours);
-        if (mod(turn, 2) == 1) {
-            whiteSeconds++;
-            if (whiteSeconds == 60) {
-                whiteMinutes++;
-                whiteSeconds = 0;
-            }
-            if (whiteMinutes == 60) {
-                whiteHours++;
-                whiteMinutes = 0;
-            }
-            if (whiteSeconds < 10) {
-                whiteSeconds = "0" + whiteSeconds;
-            }
-            if (whiteMinutes < 10) {
-                whiteMinutes = "0" + whiteMinutes;
-            }
-            if (whiteHours < 10) {
-                whiteHours = "0" + whiteHours;
-            }
-            document.getElementById("whiteTime").textContent = whiteHours + ":" + whiteMinutes + ":" + whiteSeconds;
-        } else if (mod(turn, 2) == 0) {
-            blackSeconds++;
-            if (blackSeconds == 60) {
-                blackMinutes++;
-                blackSeconds = 0;
-            }
-            if (blackMinutes == 60) {
-                blackHours++;
-                blackSeconds = 0;
-            }
-            if (blackSeconds < 10) {
-                blackSeconds = "0" + blackSeconds;
-            }
-            if (blackMinutes < 10) {
-                blackMinutes = "0" + blackMinutes;
-            }
-            if (blackHours < 10) {
-                blackHours = "0" + blackHours;
-            }
-            document.getElementById("blackTime").textContent = blackHours + ":" + blackMinutes + ":" + blackSeconds;
-        }
-    }, 1000);
-}
-
 function endTurn() {
-    turn++;
-    document.getElementById("playerTurn").textContent = turn;
+    turnObject.getTurn++;
+    document.getElementById("playerTurn").textContent = turnObject.getTurn;
 }
 
-document.getElementById("undoKnapp").onclick = function () { if (turn > 1) { undoMove(); } }
+document.getElementById("undoKnapp").onclick = function () { if (turnObject.getTurn > 1) { undoMove(); } }
 
 function undoMove() {
-    turn--;
-    document.getElementById("playerTurn").textContent = turn;
+    turnObject.getTurn--;
+    document.getElementById("playerTurn").textContent = turnObject.getTurn;
     for (var name in pieceClass) {
-        if (turn in pieceClass[name].getPreviousPositions()) {
-            previousPosition = pieceClass[name].getPreviousPositions()[turn];
+        if (turnObject.getTurn in pieceClass[name].getPreviousPositions()) {
+            previousPosition = pieceClass[name].getPreviousPositions()[turnObject.getTurn];
 
             pieceArray[previousPosition[0]][previousPosition[1]] = pieceArray[previousPosition[2]][previousPosition[3]];
             pieceArray[previousPosition[2]][previousPosition[3]] = 0;
-            pieceClass[name].movePieceOld([previousPosition[0], previousPosition[1]], turn, true);
+            pieceClass[name].movePieceOld([previousPosition[0], previousPosition[1]], true);
 
             paintTile(previousPosition[2], previousPosition[3]);
             paintTile(previousPosition[0], previousPosition[1]);
@@ -263,14 +181,14 @@ function undoMove() {
     }
 }
 
-function paintTile(column, row) {
-    if (levelArray[column][row] == 1) {
+function paintTile(row, col) {
+    if (levelArray[row][col] == 1) {
         innhold.fillStyle = "#FFFFFF";
-    } else if (levelArray[column][row] == 0) {
+    } else if (levelArray[row][col] == 0) {
         innhold.fillStyle = "#000000";
     }
-    innhold.fillRect(column * (width / 8), row * (height / 8), height / 8, width / 8);
-    paintPieces(column, row, pieceArray[column][row]);
+    innhold.fillRect(row * (width / 8), col * (height / 8), height / 8, width / 8);
+    paintPieces(row, col, pieceArray[row][col]);
 }
 
 function paintLevel() {
@@ -298,19 +216,17 @@ function paintLevel() {
         }
     }
 
-
-    // FIX THIS
-    pieceArray.push([8, 7, 0, 0, 0, 0, 1, 2]);
-    pieceArray.push([9, 7, 0, 0, 0, 0, 1, 3]);
-    pieceArray.push([10, 7, 0, 0, 0, 0, 1, 4]);
-    pieceArray.push([11, 7, 0, 0, 0, 0, 1, 5]);
-    pieceArray.push([12, 7, 0, 0, 0, 0, 1, 6]);
-    pieceArray.push([10, 7, 0, 0, 0, 0, 1, 4]);
-    pieceArray.push([9, 7, 0, 0, 0, 0, 1, 3]);
-    pieceArray.push([8, 7, 0, 0, 0, 0, 1, 2]);
+    pieceArray.push([8, 9, 10, 11, 12, 10, 9, 8]);
+    pieceArray.push([7, 7, 7, 7, 7, 7, 7, 7]);
+    pieceArray.push([0, 0, 0, 0, 0, 0, 0, 0]);
+    pieceArray.push([0, 0, 0, 0, 0, 0, 0, 0]);
+    pieceArray.push([0, 0, 0, 0, 0, 0, 0, 0]);
+    pieceArray.push([0, 0, 0, 0, 0, 0, 0, 0]);
+    pieceArray.push([1, 1, 1, 1, 1, 1, 1, 1]);
+    pieceArray.push([2, 3, 4, 5, 6, 4, 3, 2]);
 }
 
-function paintPieces(column, row, piece) {
+function paintPieces(row, col, piece) {
     innhold.font = "60px 'DejaVu Sans'"
     if (piece >= 1 && piece <= 6) {
         innhold.strokeStyle = "#778899"
@@ -319,275 +235,253 @@ function paintPieces(column, row, piece) {
         innhold.strokeStyle = "#778899"
         innhold.fillStyle = "#000000"
     }
-    switch (piece) {
-        case 1:
-            piece = "\u{2659}"
-            // White pawn
-            if (!setup) {
-                switch (column) {
+    if (!setup) {
+        switch (piece) {
+            case 1:
+                piece = "\u{2659}"
+                // White pawn
+                switch (row) {
                     case 0:
-                        whitePawnA = new Pawn("whitePawnA", 1, "white", "pawn", [column, row]);
+                        whitePawnA = new Pawn("whitePawnA", 1, "white", "pawn", [row, col]);
                         pieceClass["whitePawnA"] = whitePawnA;
                         pawnClass["whitePawnA"] = whitePawnA;
-                        whitePawnA.updateMoves(column, row - 1);
-                        whitePawnA.updateMoves(column, row - 2);
+                        whitePawnA.updateMoves(row, col - 1);
+                        whitePawnA.updateMoves(row, col - 2);
                         break;
                     case 1:
-                        whitePawnB = new Pawn("whitePawnB", 1, "white", "pawn", [column, row]);
+                        whitePawnB = new Pawn("whitePawnB", 1, "white", "pawn", [row, col]);
                         pieceClass["whitePawnB"] = whitePawnB;
                         pawnClass["whitePawnB"] = whitePawnB;
-                        whitePawnB.updateMoves(column, row - 1);
-                        whitePawnB.updateMoves(column, row - 2);
+                        whitePawnB.updateMoves(row, col - 1);
+                        whitePawnB.updateMoves(row, col - 2);
                         break;
                     case 2:
-                        whitePawnC = new Pawn("whitePawnC", 1, "white", "pawn", [column, row]);
+                        whitePawnC = new Pawn("whitePawnC", 1, "white", "pawn", [row, col]);
                         pieceClass["whitePawnC"] = whitePawnC;
                         pawnClass["whitePawnC"] = whitePawnC;
-                        whitePawnC.updateMoves(column, row - 1);
-                        whitePawnC.updateMoves(column, row - 2);
+                        whitePawnC.updateMoves(row, col - 1);
+                        whitePawnC.updateMoves(row, col - 2);
                         break;
                     case 3:
-                        whitePawnD = new Pawn("whitePawnD", 1, "white", "pawn", [column, row]);
+                        whitePawnD = new Pawn("whitePawnD", 1, "white", "pawn", [row, col]);
                         pieceClass["whitePawnD"] = whitePawnD;
                         pawnClass["whitePawnD"] = whitePawnD;
-                        whitePawnD.updateMoves(column, row - 1);
-                        whitePawnD.updateMoves(column, row - 2);
+                        whitePawnD.updateMoves(row, col - 1);
+                        whitePawnD.updateMoves(row, col - 2);
                         break;
                     case 4:
-                        whitePawnE = new Pawn("whitePawnE", 1, "white", "pawn", [column, row]);
+                        whitePawnE = new Pawn("whitePawnE", 1, "white", "pawn", [row, col]);
                         pieceClass["whitePawnE"] = whitePawnE;
                         pawnClass["whitePawnE"] = whitePawnE;
-                        whitePawnE.updateMoves(column, row - 1);
-                        whitePawnE.updateMoves(column, row - 2);
+                        whitePawnE.updateMoves(row, col - 1);
+                        whitePawnE.updateMoves(row, col - 2);
                         break;
                     case 5:
-                        whitePawnF = new Pawn("whitePawnF", 1, "white", "pawn", [column, row]);
+                        whitePawnF = new Pawn("whitePawnF", 1, "white", "pawn", [row, col]);
                         pieceClass["whitePawnF"] = whitePawnF;
                         pawnClass["whitePawnF"] = whitePawnF;
-                        whitePawnF.updateMoves(column, row - 1);
-                        whitePawnF.updateMoves(column, row - 2);
+                        whitePawnF.updateMoves(row, col - 1);
+                        whitePawnF.updateMoves(row, col - 2);
                         break;
                     case 6:
-                        whitePawnG = new Pawn("whitePawnG", 1, "white", "pawn", [column, row]);
+                        whitePawnG = new Pawn("whitePawnG", 1, "white", "pawn", [row, col]);
                         pieceClass["whitePawnG"] = whitePawnG;
                         pawnClass["whitePawnG"] = whitePawnG;
-                        whitePawnG.updateMoves(column, row - 1);
-                        whitePawnG.updateMoves(column, row - 2);
+                        whitePawnG.updateMoves(row, col - 1);
+                        whitePawnG.updateMoves(row, col - 2);
                         break;
                     case 7:
-                        whitePawnH = new Pawn("whitePawnH", 1, "white", "pawn", [column, row]);
+                        whitePawnH = new Pawn("whitePawnH", 1, "white", "pawn", [row, col]);
                         pieceClass["whitePawnH"] = whitePawnH;
                         pawnClass["whitePawnH"] = whitePawnH;
-                        whitePawnH.updateMoves(column, row - 1);
-                        whitePawnH.updateMoves(column, row - 2);
+                        whitePawnH.updateMoves(row, col - 1);
+                        whitePawnH.updateMoves(row, col - 2);
                 }
-            }
-            break;
-        case 2:
-            piece = "\u{2656}";
-            // White rook
-            if (!setup) {
-                switch (column) {
+                break;
+            case 2:
+                piece = "\u{2656}";
+                // White rook
+                switch (row) {
                     case 0:
-                        whiteRookA = new Rook("whiteRookA", 2, "white", "rook", [column, row]);
+                        whiteRookA = new Rook("whiteRookA", 2, "white", "rook", [row, col]);
                         pieceClass["whiteRookA"] = whiteRookA;
                         rookClass["whiteRookA"] = whiteRookA;
                         break;
                     case 7:
-                        whiteRookH = new Rook("whiteRookH", 2, "white", "rook", [column, row]);
+                        whiteRookH = new Rook("whiteRookH", 2, "white", "rook", [row, col]);
                         pieceClass["whiteRookH"] = whiteRookH;
                         rookClass["whiteRookH"] = whiteRookH;
                 }
-            }
-            break;
-        case 3:
-            piece = "\u{2658}";
-            // White knight
-            if (!setup) {
-                switch (column) {
+                break;
+            case 3:
+                piece = "\u{2658}";
+                // White knight
+                switch (row) {
                     case 1:
-                        whiteKnightB = new Knight("whiteKnightB", 3, "white", "knight", [column, row]);
+                        whiteKnightB = new Knight("whiteKnightB", 3, "white", "knight", [row, col]);
                         pieceClass["whiteKnightB"] = whiteKnightB;
                         knightClass["whiteKnightB"] = whiteKnightB;
-                        whiteKnightB.updateMoves(column - 1, row - 2);
-                        whiteKnightB.updateMoves(column + 1, row - 2);
+                        whiteKnightB.updateMoves(row - 1, col - 2);
+                        whiteKnightB.updateMoves(row + 1, col - 2);
                         break;
                     case 6:
-                        whiteKnightG = new Knight("whiteKnightG", 3, "white", "knight", [column, row]);
+                        whiteKnightG = new Knight("whiteKnightG", 3, "white", "knight", [row, col]);
                         pieceClass["whiteKnightG"] = whiteKnightG;
                         knightClass["whiteKnightG"] = whiteKnightG;
-                        whiteKnightG.updateMoves(column - 1, row - 2);
-                        whiteKnightG.updateMoves(column + 1, row - 2);
+                        whiteKnightG.updateMoves(row - 1, col - 2);
+                        whiteKnightG.updateMoves(row + 1, col - 2);
                 }
-            }
-            break;
-        case 4:
-            piece = "\u{2657}";
-            // White bishop
-            if (!setup) {
-                switch (column) {
+                break;
+            case 4:
+                piece = "\u{2657}";
+                // White bishop
+                switch (row) {
                     case 2:
-                        whiteBishopC = new Bishop("whiteBishopC", 4, "white", "bishop", [column, row]);
+                        whiteBishopC = new Bishop("whiteBishopC", 4, "white", "bishop", [row, col]);
                         pieceClass["whiteBishopC"] = whiteBishopC;
                         break;
                     case 5:
-                        whiteBishopF = new Bishop("whiteBishopF", 4, "white", "bishop", [column, row]);
+                        whiteBishopF = new Bishop("whiteBishopF", 4, "white", "bishop", [row, col]);
                         pieceClass["whiteBishopF"] = whiteBishopF;
                 }
-            }
-            break;
-        case 5:
-            piece = "\u{2655}";
-            // White queen
-            if (!setup) {
-                whiteQueen = new Queen("whiteQueen", 5, "white", "queen", [column, row]);
+                break;
+            case 5:
+                piece = "\u{2655}";
+                // White queen
+                whiteQueen = new Queen("whiteQueen", 5, "white", "queen", [row, col]);
                 pieceClass["whiteQueen"] = whiteQueen;
-            }
-            break;
-        case 6:
-            piece = "\u{2654}";
-            // White king
-            if (!setup) {
-                whiteKing = new King("whiteKing", 6, "white", "king", [column, row]);
+                break;
+            case 6:
+                piece = "\u{2654}";
+                // White king
+                whiteKing = new King("whiteKing", 6, "white", "king", [row, col]);
                 pieceClass["whiteKing"] = whiteKing;
-            }
-            break;
-        case 7:
-            piece = "\u{265F}";
-            // Black pawn
-            if (!setup) {
-                switch (column) {
+                break;
+            case 7:
+                piece = "\u{265F}";
+                // Black pawn
+                switch (row) {
                     case 0:
-                        blackPawnA = new Pawn("blackPawnA", 7, "black", "pawn", [column, row]);
+                        blackPawnA = new Pawn("blackPawnA", 7, "black", "pawn", [row, col]);
                         pieceClass["blackPawnA"] = blackPawnA;
                         pawnClass["blackPawnA"] = blackPawnA;
-                        blackPawnA.updateMoves(column, row + 1);
-                        blackPawnA.updateMoves(column, row + 2);
+                        blackPawnA.updateMoves(row, col + 1);
+                        blackPawnA.updateMoves(row, col + 2);
                         break;
                     case 1:
-                        blackPawnB = new Pawn("blackPawnB", 7, "black", "pawn", [column, row]);
+                        blackPawnB = new Pawn("blackPawnB", 7, "black", "pawn", [row, col]);
                         pieceClass["blackPawnB"] = blackPawnB;
                         pawnClass["blackPawnB"] = blackPawnB;
-                        blackPawnB.updateMoves(column, row + 1);
-                        blackPawnB.updateMoves(column, row + 2);
+                        blackPawnB.updateMoves(row, col + 1);
+                        blackPawnB.updateMoves(row, col + 2);
                         break;
                     case 2:
-                        blackPawnC = new Pawn("blackPawnC", 7, "black", "pawn", [column, row]);
+                        blackPawnC = new Pawn("blackPawnC", 7, "black", "pawn", [row, col]);
                         pieceClass["blackPawnC"] = blackPawnC;
                         pawnClass["blackPawnC"] = blackPawnC;
-                        blackPawnC.updateMoves(column, row + 1);
-                        blackPawnC.updateMoves(column, row + 2);
+                        blackPawnC.updateMoves(row, col + 1);
+                        blackPawnC.updateMoves(row, col + 2);
                         break;
                     case 3:
-                        blackPawnD = new Pawn("blackPawnD", 7, "black", "pawn", [column, row]);
+                        blackPawnD = new Pawn("blackPawnD", 7, "black", "pawn", [row, col]);
                         pieceClass["blackPawnD"] = blackPawnD;
                         pawnClass["blackPawnD"] = blackPawnD;
-                        blackPawnD.updateMoves(column, row + 1);
-                        blackPawnD.updateMoves(column, row + 2);
+                        blackPawnD.updateMoves(row, col + 1);
+                        blackPawnD.updateMoves(row, col + 2);
                         break;
                     case 4:
-                        blackPawnE = new Pawn("blackPawnE", 7, "black", "pawn", [column, row]);
+                        blackPawnE = new Pawn("blackPawnE", 7, "black", "pawn", [row, col]);
                         pieceClass["blackPawnE"] = blackPawnE;
                         pawnClass["blackPawnE"] = blackPawnE;
-                        blackPawnE.updateMoves(column, row + 1);
-                        blackPawnE.updateMoves(column, row + 2);
+                        blackPawnE.updateMoves(row, col + 1);
+                        blackPawnE.updateMoves(row, col + 2);
                         break;
                     case 5:
-                        blackPawnF = new Pawn("blackPawnF", 7, "black", "pawn", [column, row]);
+                        blackPawnF = new Pawn("blackPawnF", 7, "black", "pawn", [row, col]);
                         pieceClass["blackPawnF"] = blackPawnF;
                         pawnClass["blackPawnF"] = blackPawnF;
-                        blackPawnF.updateMoves(column, row + 1);
-                        blackPawnF.updateMoves(column, row + 2);
+                        blackPawnF.updateMoves(row, col + 1);
+                        blackPawnF.updateMoves(row, col + 2);
                         break;
                     case 6:
-                        blackPawnG = new Pawn("blackPawnG", 7, "black", "pawn", [column, row]);
+                        blackPawnG = new Pawn("blackPawnG", 7, "black", "pawn", [row, col]);
                         pieceClass["blackPawnG"] = blackPawnG;
                         pawnClass["blackPawnG"] = blackPawnG;
-                        blackPawnG.updateMoves(column, row + 1);
-                        blackPawnG.updateMoves(column, row + 2);
+                        blackPawnG.updateMoves(row, col + 1);
+                        blackPawnG.updateMoves(row, col + 2);
                         break;
                     case 7:
-                        blackPawnH = new Pawn("blackPawnH", 7, "black", "pawn", [column, row]);
+                        blackPawnH = new Pawn("blackPawnH", 7, "black", "pawn", [row, col]);
                         pieceClass["blackPawnH"] = blackPawnH;
                         pawnClass["blackPawnH"] = blackPawnH;
-                        blackPawnH.updateMoves(column, row + 1);
-                        blackPawnH.updateMoves(column, row + 2);
+                        blackPawnH.updateMoves(row, col + 1);
+                        blackPawnH.updateMoves(row, col + 2);
                 }
-            }
-            break;
-        case 8:
-            piece = "\u{265C}";
-            // Black rook
-            if (!setup) {
-                switch (column) {
+                break;
+            case 8:
+                piece = "\u{265C}";
+                // Black rook
+                switch (row) {
                     case 0:
-                        blackRookA = new Rook("blackRookA", 8, "black", "rook", [column, row]);
+                        blackRookA = new Rook("blackRookA", 8, "black", "rook", [row, col]);
                         pieceClass["blackRookA"] = blackRookA;
                         break;
                     case 7:
-                        blackRookH = new Rook("blackRookH", 8, "black", "rook", [column, row]);
+                        blackRookH = new Rook("blackRookH", 8, "black", "rook", [row, col]);
                         pieceClass["blackRookH"] = blackRookH;
                 }
-            }
-            break;
-        case 9:
-            piece = "\u{265E}";
-            // Black knight
-            if (!setup) {
-                switch (column) {
+                break;
+            case 9:
+                piece = "\u{265E}";
+                // Black knight
+                switch (row) {
                     case 1:
-                        blackKnightB = new Knight("blackKnightB", 9, "black", "knight", [column, row]);
+                        blackKnightB = new Knight("blackKnightB", 9, "black", "knight", [row, col]);
                         pieceClass["blackKnightB"] = blackKnightB;
-                        blackKnightB.updateMoves(column - 1, row + 2);
-                        blackKnightB.updateMoves(column + 1, row + 2);
+                        blackKnightB.updateMoves(row - 1, col + 2);
+                        blackKnightB.updateMoves(row + 1, col + 2);
                         break;
                     case 6:
-                        blackKnightG = new Knight("blackKnightG", 9, "black", "knight", [column, row]);
+                        blackKnightG = new Knight("blackKnightG", 9, "black", "knight", [row, col]);
                         pieceClass["blackKnightG"] = blackKnightG;
-                        blackKnightG.updateMoves(column - 1, row + 2);
-                        blackKnightG.updateMoves(column + 1, row + 2);
+                        blackKnightG.updateMoves(row - 1, col + 2);
+                        blackKnightG.updateMoves(row + 1, col + 2);
                 }
-            }
-            break;
-        case 10:
-            piece = "\u{265D}";
-            // Black bishop
-            if (!setup) {
-                switch (column) {
+                break;
+            case 10:
+                piece = "\u{265D}";
+                // Black bishop
+                switch (row) {
                     case 2:
-                        blackBishopC = new Bishop("blackBishopC", 10, "black", "bishop", [column, row]);
+                        blackBishopC = new Bishop("blackBishopC", 10, "black", "bishop", [row, col]);
                         pieceClass["blackBishopC"] = blackBishopC;
                         break;
                     case 5:
-                        blackBishopF = new Bishop("blackBishopF", 10, "black", "bishop", [column, row]);
+                        blackBishopF = new Bishop("blackBishopF", 10, "black", "bishop", [row, col]);
                         pieceClass["blackBishopF"] = blackBishopF;
                 }
-            }
-            break;
-        case 11:
-            piece = "\u{265B}";
-            // Black queen
-            if (!setup) {
-                blackQueen = new Queen("blackQueen", 11, "black", "queen", [column, row]);
+                break;
+            case 11:
+                piece = "\u{265B}";
+                // Black queen
+                blackQueen = new Queen("blackQueen", 11, "black", "queen", [row, col]);
                 pieceClass["blackQueen"] = blackQueen;
-            }
-            break;
-        case 12:
-            piece = "\u{265A}";
-            // Black king
-            if (!setup) {
-                blackKing = new King("blackKing", 12, "black", "king", [column, row]);
+                break;
+            case 12:
+                piece = "\u{265A}";
+                // Black king
+                blackKing = new King("blackKing", 12, "black", "king", [row, col]);
                 pieceClass["blackKing"] = blackKing;
-            }
-            break;
-        default:
-            piece = "";
-        // Blank space
+                break;
+            default:
+                piece = "";
+            // Blank space
+        }
     }
     innhold.lineWidth = 4;
-    innhold.strokeText(piece, column * (width / 8) + (3 * (width / 128)), row * (height / 8) + (6 * (height / 64)));
+    innhold.strokeText(piece, row * (width / 8) + (3 * (width / 128)), col * (height / 8) + (6 * (height / 64)));
     innhold.lineWidth = 1;
-    innhold.fillText(piece, column * (width / 8) + (3 * (width / 128)), row * (height / 8) + (6 * (height / 64)));
+    innhold.fillText(piece, row * (width / 8) + (3 * (width / 128)), col * (height / 8) + (6 * (height / 64)));
 }
 
 class Piece {
@@ -650,12 +544,8 @@ class Piece {
 
     }
 
-    undoMove(turn) {
-        this.turn = turn;
-    }
-
-    movePieceOld(newPosition, turn, undo) {
-        this.turn = turn;
+    movePieceOld(newPosition, undo) {
+        this.turn = turnObject.getTurn;
         this.undo = undo;
         if (!this.undo) {
             this.tempPosition = [];

@@ -5,8 +5,16 @@ import { timeObject } from "./timeKeeping.js";
 
 function tickGame() {
     if (typeObjects.getStarted && !pauseObject.getPause) {
-        setTimeout(timeObject.updateTime, 1000);
+        setTimeout(playGame, 1000);
     }
 
     // board.addEventListener("click")
 }
+
+function playGame() {
+    if (!pauseObject.getPause) {
+        timeObject.updateTime();
+    }   
+}
+
+export { tickGame };
