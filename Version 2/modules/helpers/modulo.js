@@ -1,4 +1,4 @@
-import { myHeaders } from "./header.js";
+import { myHeaders } from "../header.js";
 
 // Proper modulo function for JavaScript
 function mod(n, m) {

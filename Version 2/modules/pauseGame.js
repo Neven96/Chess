@@ -23,9 +23,13 @@ const pauseObject = {
 
             this.pause = true;
 
+            // board.removeEventListener("click")
+
         } else if (this.pause) {
             
             this.pause = false;
+
+            // board.addEventListener("click")
 
             tickGame();
         }

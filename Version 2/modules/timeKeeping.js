@@ -1,8 +1,8 @@
 import { myHeaders } from "./header.js";
 import { turnObject } from "./objects.js";
-import { mod } from "./modulo.js";
+import { mod } from "./helpers/modulo.js";
 import { tickGame } from "./playGame.js";
-import { zeroPad } from "./zeroPad.js";
+import { zeroPad } from "./helpers/zeroPad.js";
 
 const timeObject = {
     whiteHours: 0,

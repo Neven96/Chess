@@ -1,4 +1,4 @@
-import { myHeaders } from "./header.js";
+import { myHeaders } from "../header.js";
 
 function zeroPad(length, num) {
     return num.toString().padStart(length, "0");

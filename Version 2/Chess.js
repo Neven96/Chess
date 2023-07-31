@@ -1,12 +1,11 @@
 import { myHeaders } from "./modules/header.js";
-import { mod } from "./modules/modulo.js";
-import { typeObjects, pieceObject, turnObject } from "./modules/objects.js";
+import { mod } from "./modules/helpers/modulo.js";
+import { typeObjects, boardObject, pieceObject, turnObject } from "./modules/objects.js";
 import { pauseObject } from "./modules/pauseGame.js";
 import { tickGame } from "./modules/playGame.js";
 import { timeObject } from "./modules/timeKeeping.js";
 import { Pawn, Rook, Knight, Bishop, Queen, King } from "./modules/classes.js";
 
-let pieceArray;
 let changedArray;
 let levelArray;
 let movedSpaces;
@@ -44,7 +43,7 @@ document.getElementById("pauseKnapp").onclick = function () { pauseObject.pauseG
 timeObject.setUpTime();
 
 function startSpill(spillere) {
-    pieceArray = [];
+    boardObject.resetPieces();
     changedArray = [];
     levelArray = [];
     pieceClass = {};
@@ -56,7 +55,7 @@ function startSpill(spillere) {
     kingClass = {};
 
     typeObjects.setPlayers = spillere;
-    pieceObject.setSelected = undefined;
+    pieceObject.setSelected = null;
     pauseObject.setPause = false;
     setup = false;
 
@@ -68,9 +67,11 @@ function startSpill(spillere) {
     tickGame();
 
     paintLevel();
-    for (var i = 0; i < pieceArray.length; i++) {
-        for (var j = 0; j < pieceArray[i].length; j++) {
-            paintPieces(i, j, pieceArray[i][j]);
+    let pieceArrayLength = boardObject.getPieceArray.length;
+    for (var i = 0; i < pieceArrayLength; i++) {
+        let pieceArrayILength = boardObject.getPieceArray[i].length;
+        for (var j = 0; j < pieceArrayILength; j++) {
+            paintPieces(i, j, boardObject.getPieceArray[i][j]);
         }
     }
 
@@ -94,15 +95,15 @@ board.addEventListener('click', function (event) {
         pieceObject.setX_selected = x_true;
         pieceObject.setY_selected = y_true;
 
-        if (pieceObject.getSelected != undefined) {
+        if (pieceObject.getSelected !== null) {
             // TO REMOVE
             if (mod(turnObject.getTurn, 2) === 1) {
-                if (pieceArray[y_true][x_true] === 0 || pieceArray[y_true][x_true] >= 7) {
+                if (boardObject.getPieceArray[y_true][x_true] === 0 || boardObject.getPieceArray[y_true][x_true] >= 7) {
                     pieceObject.getSelected.movePieceOld([pieceObject.getSelected.getPiecePosition[0], pieceObject.getSelected.getPiecePosition[1]], false);
                     return;
                 }
             } else if (mod(turnObject.getTurn, 2) === 0) {
-                if (pieceArray[y_true][x_true] === 0 || pieceArray[y_true][x_true] <= 6) {
+                if (boardObject.getPieceArray[y_true][x_true] === 0 || boardObject.getPieceArray[y_true][x_true] <= 6) {
                     pieceObject.getSelected.movePieceOld([pieceObject.getSelected.getPiecePosition[0], pieceObject.getSelected.getPiecePosition[1]], false);
                     return;
                 }
@@ -112,7 +113,7 @@ board.addEventListener('click', function (event) {
                 
             // }
         }
-        if (pieceArray[y_true][x_true] > 0) {
+        if (boardObject.getPieceArray[y_true][x_true] > 0) {
             selectPiece()
         }
     }
@@ -121,12 +122,12 @@ board.addEventListener('click', function (event) {
 function selectPiece() {
     if (typeObjects.getStarted) {
         let pieceSymbol = "";
-        if (pieceObject.getSelected != undefined) {
+        if (pieceObject.getSelected !== null) {
             paintTile(pieceObject.getY_previous, pieceObject.getX_previous);
             if (pieceObject.getX_previous === pieceObject.getX_selected && pieceObject.getY_previous === pieceObject.getY_selected) {
                 paintTile(pieceObject.getY_selected, pieceObject.getX_selected);
-                pieceObject.setSelected = undefined;
-                pieceObject.setPrevSelected = undefined;
+                pieceObject.setSelected = null;
+                pieceObject.setPrevSelected = null;
                 pieceObject.setX_selected = 0;
                 pieceObject.setY_selected = 0;
                 pieceObject.setX_previous = 0;
@@ -164,7 +165,7 @@ function selectPiece() {
         pieceObject.setY_previous = pieceObject.getY_selected;
         pieceObject.setPrevSelected = pieceObject.getSelected;
         pieceObject.setPrevPieceSymbol = pieceObject.getPieceSymbol;
-        paintPieces(pieceObject.getY_selected, pieceObject.getX_selected, pieceArray[pieceObject.getY_selected][pieceObject.getX_selected], pieceObject.getPieceSymbol)
+        paintPieces(pieceObject.getY_selected, pieceObject.getX_selected, boardObject.getPieceArray[pieceObject.getY_selected][pieceObject.getX_selected], pieceObject.getPieceSymbol)
     }
 }
 
@@ -189,7 +190,7 @@ function paintTile(col, row) {
         innhold.fillStyle = "#000000";
     }
     innhold.fillRect(row * (width / 8), col * (height / 8), width / 8, height / 8);
-    paintPieces(pieceObject.getY_previous, pieceObject.getX_previous, pieceArray[pieceObject.getY_previous][pieceObject.getX_previous], pieceObject.getPrevPieceSymbol)
+    paintPieces(pieceObject.getY_previous, pieceObject.getX_previous, boardObject.getPieceArray[pieceObject.getY_previous][pieceObject.getX_previous], pieceObject.getPrevPieceSymbol)
 }
 
 function paintLevel() {
@@ -216,15 +217,6 @@ function paintLevel() {
             innhold.fillRect(i * (width / 8), j * (height / 8), width / 8, height / 8);
         }
     }
-
-    pieceArray.push([8, 9, 10, 11, 12, 10, 9, 8]);
-    pieceArray.push([7, 7, 7, 7, 7, 7, 7, 7]);
-    pieceArray.push([0, 0, 0, 0, 0, 0, 0, 0]);
-    pieceArray.push([0, 0, 0, 0, 0, 0, 0, 0]);
-    pieceArray.push([0, 0, 0, 0, 0, 0, 0, 0]);
-    pieceArray.push([0, 0, 0, 0, 0, 0, 0, 0]);
-    pieceArray.push([1, 1, 1, 1, 1, 1, 1, 1]);
-    pieceArray.push([2, 3, 4, 5, 6, 4, 3, 2]);
 }
 
 function paintPieces(col, row, piece, pieceSymbol = "") {
@@ -232,7 +224,7 @@ function paintPieces(col, row, piece, pieceSymbol = "") {
     if (piece >= 1 && piece <= 6) {
         innhold.strokeStyle = "#778899"
         innhold.fillStyle = "#FFFFFF"
-    } else if (piece >= 7 && piece <= 12) {
+    } else if (piece <= -1  && piece >= -6) {
         innhold.strokeStyle = "#778899"
         innhold.fillStyle = "#000000"
     }
@@ -338,7 +330,7 @@ function paintPieces(col, row, piece, pieceSymbol = "") {
                 whiteKing = new King("whiteKing", 6, "white", "king", pieceSymbol, [row, col]);
                 pieceClass["whiteKing"] = whiteKing;
                 break;
-            case 7:
+            case -1:
                 pieceSymbol = "\u{265F}";
                 // Black pawn
                 switch (row) {
@@ -383,7 +375,7 @@ function paintPieces(col, row, piece, pieceSymbol = "") {
                         pawnClass["blackPawnH"] = blackPawnH;
                 }
                 break;
-            case 8:
+            case -2:
                 pieceSymbol = "\u{265C}";
                 // Black rook
                 switch (row) {
@@ -396,7 +388,7 @@ function paintPieces(col, row, piece, pieceSymbol = "") {
                         pieceClass["blackRookH"] = blackRookH;
                 }
                 break;
-            case 9:
+            case -3:
                 pieceSymbol = "\u{265E}";
                 // Black knight
                 switch (row) {
@@ -409,7 +401,7 @@ function paintPieces(col, row, piece, pieceSymbol = "") {
                         pieceClass["blackKnightG"] = blackKnightG;
                 }
                 break;
-            case 10:
+            case -4:
                 pieceSymbol = "\u{265D}";
                 // Black bishop
                 switch (row) {
@@ -422,13 +414,13 @@ function paintPieces(col, row, piece, pieceSymbol = "") {
                         pieceClass["blackBishopF"] = blackBishopF;
                 }
                 break;
-            case 11:
+            case -5:
                 pieceSymbol = "\u{265B}";
                 // Black queen
                 blackQueen = new Queen("blackQueen", 11, "black", "queen", pieceSymbol, [row, col]);
                 pieceClass["blackQueen"] = blackQueen;
                 break;
-            case 12:
+            case -6:
                 pieceSymbol = "\u{265A}";
                 // Black king
                 blackKing = new King("blackKing", 12, "black", "king", pieceSymbol, [row, col]);

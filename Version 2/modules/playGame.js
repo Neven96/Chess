@@ -7,8 +7,6 @@ function tickGame() {
     if (typeObjects.getStarted && !pauseObject.getPause) {
         setTimeout(playGame, 1000);
     }
-
-    // board.addEventListener("click")
 }
 
 function playGame() {
