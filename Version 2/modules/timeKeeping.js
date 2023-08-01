@@ -1,7 +1,7 @@
 import { myHeaders } from "./header.js";
 import { turnObject } from "./objects.js";
 import { mod } from "./helpers/modulo.js";
-import { tickGame } from "./playGame.js";
+import { playGameObject } from "./playGame.js";
 import { zeroPad } from "./helpers/zeroPad.js";
 
 const timeObject = {
@@ -44,6 +44,13 @@ const timeObject = {
     },
 
     setUpTime() {
+        this.whiteHours = 0;
+        this.whiteMinutes = 0;
+        this.whiteSeconds = 0;
+        this.blackHours = 0;
+        this.blackMinutes = 0;
+        this.blackSeconds = 0;
+
         document.getElementById("whiteTime").textContent = zeroPad(2, this.whiteHours) + ":" + zeroPad(2, this.whiteMinutes) + ":" + zeroPad(2, this.whiteSeconds);
         document.getElementById("blackTime").textContent = zeroPad(2, this.blackHours) + ":" + zeroPad(2, this.blackMinutes) + ":" + zeroPad(2, this.blackSeconds);
     },
@@ -72,7 +79,7 @@ const timeObject = {
             }
             document.getElementById("blackTime").textContent = zeroPad(2, this.blackHours) + ":" + zeroPad(2, this.blackMinutes) + ":" + zeroPad(2, this.blackSeconds);
         }
-        tickGame();
+        playGameObject.tickGame();
     }
 }
 

@@ -2,12 +2,10 @@ import { myHeaders } from "./modules/header.js";
 import { mod } from "./modules/helpers/modulo.js";
 import { typeObjects, boardObject, pieceObject, turnObject } from "./modules/objects.js";
 import { pauseObject } from "./modules/pauseGame.js";
-import { tickGame } from "./modules/playGame.js";
+import { playGameObject } from "./modules/playGame.js";
 import { timeObject } from "./modules/timeKeeping.js";
 import { Pawn, Rook, Knight, Bishop, Queen, King } from "./modules/classes.js";
 
-let changedArray;
-let levelArray;
 let movedSpaces;
 let pieceClass;
 let pawnClass;
@@ -33,8 +31,8 @@ let blackPawnA; let blackPawnB; let blackPawnC; let blackPawnD; let blackPawnE; 
 let blackRookA; let blackRookH; let blackKnightB; let blackKnightG; let blackBishopC; let blackBishopF;
 let blackQueen; let blackKing;
 
-let board = document.getElementById("board");
-let innhold = board.getContext("2d");
+const board = boardObject.setBoard = document.getElementById("board");
+boardObject.setContent = board.getContext("2d");
 
 document.getElementById("startEnKnapp").onclick = function () { startSpill(1) };
 document.getElementById("startToKnapp").onclick = function () { startSpill(2) };
@@ -44,8 +42,6 @@ timeObject.setUpTime();
 
 function startSpill(spillere) {
     boardObject.resetPieces();
-    changedArray = [];
-    levelArray = [];
     pieceClass = {};
     pawnClass = {};
     rookClass = {};
@@ -56,15 +52,17 @@ function startSpill(spillere) {
 
     typeObjects.setPlayers = spillere;
     pieceObject.setSelected = null;
-    pauseObject.setPause = false;
+    pauseObject.setPause = true;
     setup = false;
 
-    width = board.width;
-    height = board.height;
+    width = boardObject.getBoard.width;
+    height = boardObject.getBoard.height;
 
     document.getElementById("playerTurn").textContent = turnObject.getTurn;
 
-    tickGame();
+    clearTimeout(playGameObject.getTime);
+
+    timeObject.setUpTime();
 
     paintLevel();
     let pieceArrayLength = boardObject.getPieceArray.length;
@@ -75,6 +73,8 @@ function startSpill(spillere) {
         }
     }
 
+    pauseObject.pauseGame();
+
     typeObjects.setStarted = true;
     setup = true;
     console.log(pieceClass);
@@ -83,9 +83,11 @@ function startSpill(spillere) {
     document.getElementById("turnTimerDiv").style.display = "initial";
 }
 
-board.addEventListener('click', function (event) {
+board.addEventListener('click', clickPiece);
+
+function clickPiece(event) {
     if (typeObjects.getStarted && !pauseObject.getPause) {
-        const rect = board.getBoundingClientRect();
+        const rect = boardObject.getBoard.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
         let x_true = Math.floor(x / (height / 8));
@@ -110,14 +112,14 @@ board.addEventListener('click', function (event) {
             }
             // TO FIX
             // if (pieceObject.getSelected.getValidMove(x_true, y_true)) {
-                
+
             // }
         }
         if (boardObject.getPieceArray[y_true][x_true] > 0) {
             selectPiece()
         }
     }
-});
+}
 
 function selectPiece() {
     if (typeObjects.getStarted) {
@@ -137,14 +139,14 @@ function selectPiece() {
                 return;
             }
         }
-        innhold.fillStyle = "#0000FF";
+        boardObject.getContent.fillStyle = "#0000FF";
         if (mod(turnObject.getTurn, 2) === 1) {
             for (let name in pieceClass) {
                 if (pieceClass[name].getColor == "white") {
                     if (pieceClass[name].getNameFromPosition([pieceObject.getX_selected, pieceObject.getY_selected])) {
                         pieceObject.setSelected = pieceClass[name];
                         pieceObject.setPieceSymbol = pieceObject.getSelected.getPieceSymbol;
-                        innhold.fillRect(pieceObject.getX_selected * (width / 8), pieceObject.getY_selected * (height / 8), width / 8, height / 8);
+                        boardObject.getContent.fillRect(pieceObject.getX_selected * (width / 8), pieceObject.getY_selected * (height / 8), width / 8, height / 8);
                         console.log(pieceObject.getSelected);
                     }
                 }
@@ -155,7 +157,7 @@ function selectPiece() {
                     if (pieceClass[name].getNameFromPosition([pieceObject.getY_selected, pieceObject.getX_selected])) {
                         pieceObject.setSelected = pieceClass[name];
                         pieceObject.setPieceSymbol = pieceObject.getSelected.getPieceSymbol;
-                        innhold.fillRect(pieceObject.getX_selected * (width / 8), pieceObject.getY_selected * (height / 8), width / 8, height / 8);
+                        boardObject.getContent.fillRect(pieceObject.getX_selected * (width / 8), pieceObject.getY_selected * (height / 8), width / 8, height / 8);
                         console.log(pieceObject.getSelected);
                     }
                 }
@@ -184,49 +186,38 @@ function undoMove() {
 }
 
 function paintTile(col, row) {
-    if (levelArray[col][row] === 1) {
-        innhold.fillStyle = "#FFFFFF";
-    } else if (levelArray[col][row] === 0) {
-        innhold.fillStyle = "#000000";
+    if (boardObject.getBoardArray[col][row] === 1) {
+        boardObject.getContent.fillStyle = "#FFFFFF";
+    } else if (boardObject.getBoardArray[col][row] === 0) {
+        boardObject.getContent.fillStyle = "#000000";
     }
-    innhold.fillRect(row * (width / 8), col * (height / 8), width / 8, height / 8);
+    boardObject.getContent.fillRect(row * (width / 8), col * (height / 8), width / 8, height / 8);
     paintPieces(pieceObject.getY_previous, pieceObject.getX_previous, boardObject.getPieceArray[pieceObject.getY_previous][pieceObject.getX_previous], pieceObject.getPrevPieceSymbol)
 }
 
 function paintLevel() {
-    for (var i = 0; i < 8; i++) {
-        levelArray[i] = [];
-        for (var j = 0; j < 8; j++) {
-            if (mod(i, 2) == 0) {
-                if (mod(j, 2) == 0) {
-                    innhold.fillStyle = "#FFFFFF";
-                    levelArray[i][j] = 1;
-                } else if (mod(j, 2) == 1) {
-                    innhold.fillStyle = "#000000";
-                    levelArray[i][j] = 0;
-                }
-            } else if (mod(i, 2) == 1) {
-                if (mod(j, 2) == 0) {
-                    innhold.fillStyle = "#000000";
-                    levelArray[i][j] = 0;
-                } else if (mod(j, 2) == 1) {
-                    innhold.fillStyle = "#FFFFFF";
-                    levelArray[i][j] = 1;
-                }
+    let boardRowLength = boardObject.getBoardArray.length;
+    for (var i = 0; i < boardRowLength; i++) {
+        let boardColLength = boardObject.getBoardArray[i].length;
+        for (var j = 0; j < boardColLength; j++) {
+            if (boardObject.getBoardArray[i][j] === 1) {
+                boardObject.getContent.fillStyle = "#FFFFFF";
+            } else if (boardObject.getBoardArray[i][j] === 0) {
+                boardObject.getContent.fillStyle = "#000000";
             }
-            innhold.fillRect(i * (width / 8), j * (height / 8), width / 8, height / 8);
+            boardObject.getContent.fillRect(i * (width / 8), j * (height / 8), width / 8, height / 8);
         }
     }
 }
 
 function paintPieces(col, row, piece, pieceSymbol = "") {
-    innhold.font = "60px 'DejaVu Sans'"
+    boardObject.getContent.font = "60px 'DejaVu Sans'"
     if (piece >= 1 && piece <= 6) {
-        innhold.strokeStyle = "#778899"
-        innhold.fillStyle = "#FFFFFF"
+        boardObject.getContent.strokeStyle = "#778899";
+        boardObject.getContent.fillStyle = "#FFFFFF";
     } else if (piece <= -1  && piece >= -6) {
-        innhold.strokeStyle = "#778899"
-        innhold.fillStyle = "#000000"
+        boardObject.getContent.strokeStyle = "#778899"
+        boardObject.getContent.fillStyle = "#000000"
     }
     if (!setup) {
         switch (piece) {
@@ -431,8 +422,8 @@ function paintPieces(col, row, piece, pieceSymbol = "") {
             // Blank space
         }
     }
-    innhold.lineWidth = 4;
-    innhold.strokeText(pieceSymbol, row * (width / 8) + (3 * (width / 128)), col * (height / 8) + (6 * (height / 64)));
-    innhold.lineWidth = 1;
-    innhold.fillText(pieceSymbol, row * (width / 8) + (3 * (width / 128)), col * (height / 8) + (6 * (height / 64)));
+    boardObject.getContent.lineWidth = 4;
+    boardObject.getContent.strokeText(pieceSymbol, row * (width / 8) + (3 * (width / 128)), col * (height / 8) + (6 * (height / 64)));
+    boardObject.getContent.lineWidth = 1;
+    boardObject.getContent.fillText(pieceSymbol, row * (width / 8) + (3 * (width / 128)), col * (height / 8) + (6 * (height / 64)));
 }

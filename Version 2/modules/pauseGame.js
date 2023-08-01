@@ -1,5 +1,5 @@
 import { myHeaders } from "./header.js";
-import { tickGame } from "./playGame.js";
+import { playGameObject } from "./playGame.js";
 
 
 // Stores the value of pause in an object for easier access and storage
@@ -31,7 +31,7 @@ const pauseObject = {
 
             // board.addEventListener("click")
 
-            tickGame();
+            playGameObject.tickGame();
         }
     }
 };

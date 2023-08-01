@@ -40,7 +40,32 @@ const typeObjects = {
 }
 
 const boardObject = {
-    board: [[1, 0, 1, 0, 1, 0, 1, 0],
+    board: "",
+    content: "",
+
+    get getBoard() {
+        return this.board;
+    },
+
+    /**
+     * @param {HTMLElement | null} board
+     */
+    set setBoard(board) {
+        this.board = board;
+    },
+
+    get getContent() {
+        return this.content;
+    },
+
+    /**
+     * @param {any} content
+     */
+    set setContent(content) {
+        this.content = content;
+    },
+
+    boardArray: [[1, 0, 1, 0, 1, 0, 1, 0],
             [0, 1, 0, 1, 0, 1, 0, 1],
             [1, 0, 1, 0, 1, 0, 1, 0],
             [0, 1, 0, 1, 0, 1, 0, 1],
@@ -57,8 +82,8 @@ const boardObject = {
                  [ 1,  1,  1,  1,  1,  1,  1,  1],
                  [ 2,  3,  4,  5,  6,  4,  3,  2]],
 
-    get getBoard() {
-        return this.board;
+    get getBoardArray() {
+        return this.boardArray;
     },
 
     /**
@@ -119,7 +144,7 @@ const pieceObject = {
 
 
     /**
-     * @param {any} pieceSymbol
+     * @param {string} pieceSymbol
      */
     set setPieceSymbol(pieceSymbol) {
         this.pieceSymbol = pieceSymbol;
@@ -131,7 +156,7 @@ const pieceObject = {
 
 
     /**
-     * @param {any} prevPieceSymbol
+     * @param {string} prevPieceSymbol
      */
     set setPrevPieceSymbol(prevPieceSymbol) {
         this.prevPieceSymbol = prevPieceSymbol;
