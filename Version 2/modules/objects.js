@@ -42,6 +42,22 @@ const typeObjects = {
 const boardObject = {
     board: "",
     content: "",
+    boardArray: [[1, 0, 1, 0, 1, 0, 1, 0],
+            [0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 0, 1, 0, 1, 0, 1, 0],
+            [0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 0, 1, 0, 1, 0, 1, 0],
+            [0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 0, 1, 0, 1, 0, 1, 0],
+            [0, 1, 0, 1, 0, 1, 0, 1]],
+    pieceArray: [[-2, -3, -4, -5, -6, -4, -3, -2],
+                 [-1, -1, -1, -1, -1, -1, -1, -1],
+                 [ 0,  0,  0,  0,  0,  0,  0,  0],
+                 [ 0,  0,  0,  0,  0,  0,  0,  0],
+                 [ 0,  0,  0,  0,  0,  0,  0,  0],
+                 [ 0,  0,  0,  0,  0,  0,  0,  0],
+                 [ 1,  1,  1,  1,  1,  1,  1,  1],
+                 [ 2,  3,  4,  5,  6,  4,  3,  2]],
 
     get getBoard() {
         return this.board;
@@ -65,23 +81,6 @@ const boardObject = {
         this.content = content;
     },
 
-    boardArray: [[1, 0, 1, 0, 1, 0, 1, 0],
-            [0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 0, 1, 0, 1, 0, 1, 0],
-            [0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 0, 1, 0, 1, 0, 1, 0],
-            [0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 0, 1, 0, 1, 0, 1, 0],
-            [0, 1, 0, 1, 0, 1, 0, 1]],
-    pieceArray: [[-2, -3, -4, -5, -6, -4, -3, -2],
-                 [-1, -1, -1, -1, -1, -1, -1, -1],
-                 [ 0,  0,  0,  0,  0,  0,  0,  0],
-                 [ 0,  0,  0,  0,  0,  0,  0,  0],
-                 [ 0,  0,  0,  0,  0,  0,  0,  0],
-                 [ 0,  0,  0,  0,  0,  0,  0,  0],
-                 [ 1,  1,  1,  1,  1,  1,  1,  1],
-                 [ 2,  3,  4,  5,  6,  4,  3,  2]],
-
     get getBoardArray() {
         return this.boardArray;
     },
@@ -97,6 +96,10 @@ const boardObject = {
         return this.pieceArray;
     },
 
+    pieceArrayPosition(position) {
+        return this.pieceArray[position[0]][position[1]];
+    },
+
     resetPieces() {
         this.pieceArray = [[-2, -3, -4, -5, -6, -4, -3, -2],
                            [-1, -1, -1, -1, -1, -1, -1, -1],
@@ -106,6 +109,21 @@ const boardObject = {
                            [ 0,  0,  0,  0,  0,  0,  0,  0],
                            [ 1,  1,  1,  1,  1,  1,  1,  1],
                            [ 2,  3,  4,  5,  6,  4,  3,  2]];
+    }
+}
+
+const turnObject = {
+    turn: 1,
+
+    /**
+     * @param {number} turn
+     */
+    set setTurn(turn) {
+        this.turn = turn;
+    },
+
+    get getTurn() {
+        return this.turn;
     }
 }
 
@@ -211,19 +229,119 @@ const pieceObject = {
     },
 }
 
-const turnObject = {
-    turn: 1,
+const listObject = {
+    pieceList: {},
+    pawnList: {},
+    rookList: {},
+    knightList: {},
+    bishopList: {},
+    queenList: {},
+    kingList: {},
 
     /**
-     * @param {number} turn
+     * @param {{}} pieceList
      */
-    set setTurn(turn) {
-        this.turn = turn;
+    set setPieceList(pieceList) {
+        this.pieceList = pieceList;
     },
 
-    get getTurn() {
-        return this.turn;
-    }
+    get getPieceList() {
+        return this.pieceList;
+    },
+
+    /**
+     * @param {{}} pawnList
+     */
+    set setPawnList(pawnList) {
+        this.pawnList = pawnList;
+    },
+
+    get getPawnList() {
+        return this.pawnList;
+    },
+
+    /**
+     * @param {{}} rookList
+     */
+    set setRookList(rookList) {
+        this.rookList = rookList;
+    },
+
+    get getRookList() {
+        return this.rookList;
+    },
+
+    /**
+     * @param {{}} knightList
+     */
+    set setKnightList(knightList) {
+        this.knightList = knightList;
+    },
+
+    get getKnightList() {
+        return this.knightList;
+    },
+
+    /**
+     * @param {{}} bishopList
+     */
+    set setBishopList(bishopList) {
+        this.bishopList = bishopList;
+    },
+
+    get getBishopList() {
+        return this.bishopList;
+    },
+
+    /**
+     * @param {{}} queenList
+     */
+    set setQueenList(queenList) {
+        this.queenList = queenList;
+    },
+
+    get getQueenList() {
+        return this.queenList;
+    },
+
+    /**
+     * @param {{}} kingList
+     */
+    set setKingList(kingList) {
+        this.kingList = kingList;
+    },
+
+    get getKingList() {
+        return this.kingList;
+    },
+
+    addToPieceList(newObject) {
+        this.pieceList[newObject.name] = newObject;
+    },
+
+    addToPawnList(newObject) {
+        this.pawnList[newObject.name] = newObject;
+    },
+
+    addToRookList(newObject) {
+        this.rookList[newObject.name] = newObject;
+    },
+
+    addToKnightList(newObject) {
+        this.knightList[newObject.name] = newObject;
+    },
+
+    addToBishopList(newObject) {
+        this.bishopList[newObject.name] = newObject;
+    },
+
+    addToQueenList(newObject) {
+        this.queenList[newObject.name] = newObject;
+    },
+
+    addToKingList(newObject) {
+        this.kingList[newObject.name] = newObject;
+    },
 }
 
-export { typeObjects, boardObject, pieceObject, turnObject };
+export { typeObjects, boardObject, turnObject, pieceObject, listObject };

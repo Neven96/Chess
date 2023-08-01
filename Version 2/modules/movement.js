@@ -9,7 +9,8 @@ function pawnMovement() {
     let newMoves = [];
 
     if (selected.getColor === "white") {
-        if (arrayAddition(curPosition, [1, 0]) ) {
+        // Move 1
+        if (boardObject.pieceArrayPosition(arrayAddition(curPosition, [1, 0])) === 0) {
             
         }
         
