@@ -12,9 +12,8 @@ class Piece {
         this.piecePosition = piecePosition;
         this.moved = false;
         this.taken = false;
-        this.undo = false;
         this.availableMoves = [];
-        this.previousPositions = [];
+        this.previousPositions = {};
     }
 
     get getName() {
@@ -109,40 +108,23 @@ class Piece {
     }
 
     // Updates the moves for the piece, as long as it's in game
-    updateAvailableMoves([row, col]) {
+    updateAvailableMoves(newAvailablePositions) {
         if (!this.taken) {
-            this.availableMoves.push[row, col];
+            this.availableMoves = newAvailablePositions;
         }
     }
 
-    updatePreviousPostions(turn) {
-
+    updatePreviousPostions() {
+        this.previousPositions[turnObject.getTurn] = this.piecePosition;
     }
 
-    // TO BE REMOVED
-    movePieceOld(newPosition, undo) {
-        this.turn = turnObject.getTurn;
-        this.undo = undo;
-        if (!this.undo) {
-            this.tempPosition = [];
-            this.tempPosition = this.piecePosition.concat(newPosition)
-            this.previousPositions.push([this.turn, this.tempPosition]);
-            this.piecePosition = newPosition;
-            if (!this.moved) {
-                this.moved = true;
-            }
-        } else if (this.undo) {
-            this.piecePosition = [this.previousPositions[this.turn][0], this.previousPositions[this.turn][1]];
-            delete this.previousPositions[this.turn];
-            if (Object.keys(this.previousPositions).length == 0) {
-                this.moved = false;
-            }
-        }
-    }
-
+    // FIX ME
     movePiece(newPos) {
-        this.setPiecePosition(newPos);
-        this.moved = true;
+        this.updatePreviousPostions();
+        this.piecePosition = newPos;
+        if (!this.moved) {
+            this.moved = true;
+        }
     }
 }
 

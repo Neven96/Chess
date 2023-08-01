@@ -43,13 +43,13 @@ const boardObject = {
     board: "",
     content: "",
     boardArray: [[1, 0, 1, 0, 1, 0, 1, 0],
-            [0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 0, 1, 0, 1, 0, 1, 0],
-            [0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 0, 1, 0, 1, 0, 1, 0],
-            [0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 0, 1, 0, 1, 0, 1, 0],
-            [0, 1, 0, 1, 0, 1, 0, 1]],
+                 [0, 1, 0, 1, 0, 1, 0, 1],
+                 [1, 0, 1, 0, 1, 0, 1, 0],
+                 [0, 1, 0, 1, 0, 1, 0, 1],
+                 [1, 0, 1, 0, 1, 0, 1, 0],
+                 [0, 1, 0, 1, 0, 1, 0, 1],
+                 [1, 0, 1, 0, 1, 0, 1, 0],
+                 [0, 1, 0, 1, 0, 1, 0, 1]],
     pieceArray: [[-2, -3, -4, -5, -6, -4, -3, -2],
                  [-1, -1, -1, -1, -1, -1, -1, -1],
                  [ 0,  0,  0,  0,  0,  0,  0,  0],
@@ -58,6 +58,7 @@ const boardObject = {
                  [ 0,  0,  0,  0,  0,  0,  0,  0],
                  [ 1,  1,  1,  1,  1,  1,  1,  1],
                  [ 2,  3,  4,  5,  6,  4,  3,  2]],
+    pieceTypes: {"pawn": [-1, 1], "rook": [-2, 2], "knight": [-3, 3], "bishop": [-4, 4], "queen": [-5, 5], "king": [-6, 6]},
 
     get getBoard() {
         return this.board;
@@ -97,7 +98,10 @@ const boardObject = {
     },
 
     pieceArrayPosition(position) {
-        return this.pieceArray[position[0]][position[1]];
+        if (position[0] < 0 || position[0] > 7 || position[1] < 0 || position[1] > 7) {
+            return 99;
+        }
+        return this.pieceArray[position[1]][position[0]];
     },
 
     resetPieces() {

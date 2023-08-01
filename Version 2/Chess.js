@@ -7,6 +7,7 @@ import { playGameObject } from "./modules/playGame.js";
 import { timeObject } from "./modules/timeKeeping.js";
 import { setUpPieces } from "./modules/setupPieces.js";
 import { paintPiece } from "./modules/paintPiece.js";
+import { pawnMovement, rookMovement, knightMovement, bishopMovement, queenMovement, kingMovement } from "./modules/movement.js";
 
 let movedSpaces;
 
@@ -52,6 +53,9 @@ function startSpill(spillere) {
         }
     }
 
+    pawnMovement();
+    rookMovement();
+    bishopMovement();
     pauseObject.pauseGame();
 
     typeObjects.setStarted = true;
@@ -78,22 +82,22 @@ function clickPiece(event) {
         if (pieceObject.getSelected !== null) {
             // TO REMOVE
             if (mod(turnObject.getTurn, 2) === 1) {
-                if (boardObject.getPieceArray[y_true][x_true] === 0 || boardObject.getPieceArray[y_true][x_true] >= 7) {
-                    pieceObject.getSelected.movePieceOld([pieceObject.getSelected.getPiecePosition[0], pieceObject.getSelected.getPiecePosition[1]], false);
+                if (boardObject.getPieceArray[y_true][x_true] === 0 || boardObject.getPieceArray[y_true][x_true] <= 0) {
+                    pieceObject.getSelected.movePiece([pieceObject.getSelected.getPiecePosition[0], pieceObject.getSelected.getPiecePosition[1]]);
                     return;
                 }
             } else if (mod(turnObject.getTurn, 2) === 0) {
-                if (boardObject.getPieceArray[y_true][x_true] === 0 || boardObject.getPieceArray[y_true][x_true] <= 6) {
-                    pieceObject.getSelected.movePieceOld([pieceObject.getSelected.getPiecePosition[0], pieceObject.getSelected.getPiecePosition[1]], false);
+                if (boardObject.getPieceArray[y_true][x_true] === 0 || boardObject.getPieceArray[y_true][x_true] >= 0) {
+                    pieceObject.getSelected.movePiece([pieceObject.getSelected.getPiecePosition[0], pieceObject.getSelected.getPiecePosition[1]]);
                     return;
                 }
             }
             // TO FIX
-            // if (pieceObject.getSelected.getValidMove(x_true, y_true)) {
+            // if (pieceObject.getSelected.getValidMove([y_true, x_true])) {
 
             // }
         }
-        if (boardObject.getPieceArray[y_true][x_true] > 0) {
+        if (boardObject.getPieceArray[y_true][x_true] !== 0) {
             selectPiece()
         }
     }
@@ -101,19 +105,13 @@ function clickPiece(event) {
 
 function selectPiece() {
     if (typeObjects.getStarted) {
-        let pieceSymbol = "";
         if (pieceObject.getSelected !== null) {
             paintTile(pieceObject.getY_previous, pieceObject.getX_previous);
             if (pieceObject.getX_previous === pieceObject.getX_selected && pieceObject.getY_previous === pieceObject.getY_selected) {
                 paintTile(pieceObject.getY_selected, pieceObject.getX_selected);
-                pieceObject.setSelected = null;
-                pieceObject.setPrevSelected = null;
-                pieceObject.setX_selected = 0;
-                pieceObject.setY_selected = 0;
-                pieceObject.setX_previous = 0;
-                pieceObject.setY_previous = 0;
-                pieceObject.setPrevSelected = "";
-                pieceObject.setPrevPieceSymbol = "";
+                pieceObject.setSelected = pieceObject.setPrevSelected = null;
+                pieceObject.setX_selected = pieceObject.setY_selected = pieceObject.setX_previous = pieceObject.setY_previous = 0;
+                pieceObject.setPieceSymbol = pieceObject.setPrevPieceSymbol = "";
                 return;
             }
         }
