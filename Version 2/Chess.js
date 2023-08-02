@@ -65,7 +65,6 @@ function startSpill(spillere) {
     console.log(listObject.getPieceList);
     document.getElementById("pauseKnapp").style.display = "initial";
     document.getElementById("undoKnapp").style.display = "initial";
-    document.getElementById("turnTimerDiv").style.display = "initial";
 }
 
 board.addEventListener('click', clickPiece);

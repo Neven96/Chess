@@ -10,39 +10,50 @@
   </head>
   <body>
     <div class="home">
-      <h1>Chess</h1>
-      <div class="meny">
-        <button id="startEnKnapp" class="knapp startEnKnapp" type="button" name="startEnKnapp">1 Player</button>
-        <button id="startToKnapp" class="knapp startToKnapp" type="button" name="startToKnapp">2 Player</button>
-        <p>
-        <button id="pauseKnapp" class="knapp hidden pauseKnapp" type="button" name="pauseKnapp">Pause</button>
-        <button id="undoKnapp" class="knapp hidden undoKnapp" type="button" name="button">Undo</button>
-        </p>
-      </div>
-      <div id="turnTimerDiv" class="turnTimerDiv">
-        <table id="turnTimerTable" class="turnTimerTable" border="1">
-          <tbody>
-            <tr>
-              <td>Black time</td>
-              <td>Turn</td>
-              <td>White time</td>
-            </tr>
-            <tr>
-              <td><span id="blackTime" class="blackTime">0</span></td>
-              <td><span id="playerTurn" class="playerTurn">0</span></td>
-              <td><span id="whiteTime" class="whiteTime">0</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="blackHome">
-
-      </div>
-      <div class="spillDiv">
-        <canvas id="board" class="board" width="800" height="800"></canvas>
-      </div>
-      <div class="whiteHome">
-
+      <div class="chessContent">
+        <h1>Chess</h1>
+        <div id="toppDiv" class="toppDiv">
+          <div class="menu">
+            <p>
+              <button id="startEnKnapp" class="knapp startEnKnapp" type="button" name="startEnKnapp">1 Player</button>
+              <button id="startToKnapp" class="knapp startToKnapp" type="button" name="startToKnapp">2 Player</button>
+              <button id="pauseKnapp" class="knapp hidden pauseKnapp" type="button" name="pauseKnapp">Pause</button>
+              <button id="undoKnapp" class="knapp hidden undoKnapp" type="button" name="button">Undo</button>
+            </p>
+          </div>
+          <div id="turnTimerDiv" class="turnTimerDiv">
+            <table id="turnTimerTable" class="turnTimerTable">
+              <tbody>
+                <tr class="tableRows">
+                  <td class="turnTimers timers">Black time</td>
+                  <td class="turnTimers turns">Turn</td>
+                  <td class="turnTimers timers">White time</td>
+                </tr>
+                <tr class="tableRows">
+                  <td class="turnTimers"><span id="blackTime" class="blackTime">0</span></td>
+                  <td class="turnTimers"><span id="playerTurn" class="playerTurn">0</span></td>
+                  <td class="turnTimers"><span id="whiteTime" class="whiteTime">0</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div id="gameDiv" class="gameDiv">
+          <div class="pieceHome floatLeft">
+            <div class="blackHome">
+              <p class="testP">Black Taken</p>
+            </div>
+            <div class="whiteHome">
+              <p class="testP">White Taken</p>
+            </div>
+          </div>
+          <div class="boardDiv floatLeft">
+            <canvas id="board" class="board" width="800" height="800"></canvas>
+          </div>
+          <div class="previousTurnsDiv floatLeft">
+            <p class="testP">Previous Turns</p>
+          </div>
+        </div>
       </div>
     </div>
   </body>

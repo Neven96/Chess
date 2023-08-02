@@ -5,15 +5,88 @@
   text-align: center;
 }
 
+.chessContent {
+  width: 1606px;
+  display: inline-block;
+}
+
+/* ToppDiv */
+
+.toppDiv {
+  width: 100%;
+  text-align: center;
+}
+
+.turnTimerDiv {
+  width: 805.333px;
+  display: inline-block;
+  padding-bottom: 4px;
+}
+
+#turnTimerTable {
+  border: solid 1px;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.turnTimers {
+  border-right: solid 1px;
+  border-left: solid 1px;
+}
+
+.timers {
+  width: 300px;
+  padding: 0;
+}
+
+.turns {
+  width: 203px;
+  padding: 0;
+}
+
+/* GameDiv */
+
+.gameDiv {
+  text-align: center;
+  padding-top: 4px;
+}
+
+.floatLeft {
+  float: left;
+}
+
+.pieceHome, .previousTurnsDiv {
+  width: 400px;
+}
+
+.previousTurnsDiv {
+  height: 806px;
+}
+
+.whiteHome,
+.blackHome {
+  height: 403px;
+}
+
+.testP {
+  margin: 0;
+}
+
+.boardDiv {
+  width: fit-content;
+  border-style: solid;
+  border-spacing: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  display: block;
+  width: 800px;
+}
+
 .board {
-  border-style: outset;
+  display: block;
 }
 
 .hidden {
   display: none;
-}
-
-table {
-  margin-left: auto;
-  margin-right: auto;
 }
