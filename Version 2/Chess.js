@@ -55,7 +55,10 @@ function startSpill(spillere) {
 
     pawnMovement();
     rookMovement();
+    knightMovement();
     bishopMovement();
+    queenMovement();
+    kingMovement();
     pauseObject.pauseGame();
 
     typeObjects.setStarted = true;

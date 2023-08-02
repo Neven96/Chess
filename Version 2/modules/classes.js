@@ -136,20 +136,20 @@ class Pawn extends Piece {
     changePiece(newNumber) {
         this.number = newNumber;
         switch (this.number) {
+            case -2:
             case 2:
-            case 8:
                 this.piece = "rook";
                 break;
+            case -3:
             case 3:
-            case 9:
                 this.piece = "knight";
                 break;
+            case -4:
             case 4:
-            case 10:
                 this.piece = "bishop";
                 break;
+            case -5:
             case 5:
-            case 11:
                 this.piece = "queen";
                 break;
             default:
