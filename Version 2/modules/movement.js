@@ -185,6 +185,14 @@ function diagonalMovement(piece, newPosition) {
     return newPosition;
 }
 
+function rokadeMove(piece) {
+    let newPosition = [];
+
+    if (!piece.getMoved) {
+        
+    }
+}
+
 // Movement for pawns
 function pawnMovement() {
     let newPosition = [];
@@ -251,9 +259,9 @@ function pawnMovement() {
 function rookMovement() {
     let newPosition = [];
 
-    for (let piece in listObject.getPieceList) {
+    for (let piece in listObject.getRookList) {
         newPosition = [];
-        piece = listObject.getPieceList[piece];
+        piece = listObject.getRookList[piece];
 
         if (piece.getPiece === "rook") {
             newPosition = lineMovement(piece, newPosition);
@@ -266,9 +274,9 @@ function rookMovement() {
 function knightMovement() {
     let newPosition = [];
 
-    for (let piece in listObject.getPieceList) {
+    for (let piece in listObject.getKnightList) {
         newPosition = [];
-        piece = listObject.getPieceList[piece];
+        piece = listObject.getKnightList[piece];
 
         if (piece.getPiece === "knight") {
             // One up, two left
@@ -424,14 +432,16 @@ function knightMovement() {
 function bishopMovement() {
     let newPosition = [];
 
-    for (let piece in listObject.getPieceList) {
+    for (let piece in listObject.getBishopList) {
         newPosition = [];
-        piece = listObject.getPieceList[piece];
+        piece = listObject.getBishopList[piece];
 
-        if (piece.getPiece === "bishop") {
-            newPosition = diagonalMovement(piece, newPosition);
-            piece.updateAvailableMoves(newPosition);
-        }
+        if (!piece.getTaken) {
+            if (piece.getPiece === "bishop") {
+                newPosition = diagonalMovement(piece, newPosition);
+                piece.updateAvailableMoves(newPosition);
+            }
+        }    
     }
 }
 
@@ -439,15 +449,17 @@ function bishopMovement() {
 function queenMovement() {
     let newPosition = [];
 
-    for (let piece in listObject.getPieceList) {
+    for (let piece in listObject.getQueenList) {
         newPosition = [];
-        piece = listObject.getPieceList[piece];
+        piece = listObject.getQueenList[piece];
 
-        if (piece.getPiece === "queen") {
-            newPosition = lineMovement(piece, newPosition);
-            newPosition = diagonalMovement(piece, newPosition);
-            piece.updateAvailableMoves(newPosition);
-        }
+        if (!piece.getTaken) {
+            if (piece.getPiece === "queen") {
+                newPosition = lineMovement(piece, newPosition);
+                newPosition = diagonalMovement(piece, newPosition);
+                piece.updateAvailableMoves(newPosition);
+            }
+        }  
     }
 }
 

@@ -1,8 +1,8 @@
 import { myHeaders } from "./header.js";
-import { turnObject } from "./objects.js";
 import { mod } from "./helpers/modulo.js";
-import { playGameObject } from "./playGame.js";
 import { zeroPad } from "./helpers/zeroPad.js";
+import { playGameObject } from "./playGame.js";
+import { turnObject } from "./turnKeeping.js";
 
 const timeObject = {
     whiteHours: 0,
@@ -56,7 +56,7 @@ const timeObject = {
     },
 
     updateTime() {
-        if (mod(turnObject.getTurn, 2) === 1) {
+        if (mod(turnObject.getInternalTurn, 2) === 1) {
             this.whiteSeconds++;
             if (this.whiteSeconds === 60) {
                 this.whiteMinutes++;
@@ -67,7 +67,7 @@ const timeObject = {
                 this.whiteMinutes = 0;
             }
             document.getElementById("whiteTime").textContent = zeroPad(2, this.whiteHours) + ":" + zeroPad(2, this.whiteMinutes) + ":" + zeroPad(2, this.whiteSeconds);
-        } else if (mod(turnObject.getTurn, 2) === 0) {
+        } else if (mod(turnObject.getInternalTurn, 2) === 0) {
             this.blackSeconds++;
             if (this.blackSeconds === 60) {
                 this.blackMinutes++;

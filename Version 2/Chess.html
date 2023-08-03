@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Chess</title>
-    <script defer type="module" src="Chess.js"></script>
+    <script type="module" src="Chess.js"></script>
     <link rel="stylesheet" href="Chess.css">
     <link rel="icon" href="./favicon.ico">
   </head>
@@ -31,7 +31,7 @@
                 </tr>
                 <tr class="tableRows">
                   <td class="turnTimers"><span id="blackTime" class="blackTime">0</span></td>
-                  <td class="turnTimers"><span id="playerTurn" class="playerTurn">0</span></td>
+                  <td class="turnTimers"><span id="playerTurn" class="playerTurn, turnSpans"></span><span id="turnDivider" class="hidden"> - </span><span id="playerTurnColor" class="turnSpans"></span></td>
                   <td class="turnTimers"><span id="whiteTime" class="whiteTime">0</span></td>
                 </tr>
               </tbody>
@@ -47,8 +47,14 @@
               <p class="testP">White Taken</p>
             </div>
           </div>
-          <div class="boardDiv floatLeft">
-            <canvas id="board" class="board" width="800" height="800"></canvas>
+          <div id="boardContainerDiv" class="floatLeft">
+            <div id="topNumbering" class="topNumbering letterNumbering"></div>
+            <div id="leftNumbering" class="leftNumbering numberNumbering"></div>
+            <div id="boardDiv" class="boardDiv floatLeft">
+              <canvas id="board" class="board" width="800" height="800"></canvas>
+            </div>
+            <div id="rightNumbering" class="rightNumbering numberNumbering"></div>
+            <div id="bottomNumbering" class="bottomNumbering letterNumbering"></div>
           </div>
           <div class="previousTurnsDiv floatLeft">
             <p class="testP">Previous Turns</p>

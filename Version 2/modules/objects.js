@@ -2,7 +2,7 @@ import { myHeaders } from "./header.js";
 
 const typeObjects = {
     players: 1,
-    started: true,
+    started: false,
     finish: false,
 
     /**
@@ -113,21 +113,6 @@ const boardObject = {
                            [ 0,  0,  0,  0,  0,  0,  0,  0],
                            [ 1,  1,  1,  1,  1,  1,  1,  1],
                            [ 2,  3,  4,  5,  6,  4,  3,  2]];
-    }
-}
-
-const turnObject = {
-    turn: 1,
-
-    /**
-     * @param {number} turn
-     */
-    set setTurn(turn) {
-        this.turn = turn;
-    },
-
-    get getTurn() {
-        return this.turn;
     }
 }
 
@@ -348,4 +333,4 @@ const listObject = {
     },
 }
 
-export { typeObjects, boardObject, turnObject, pieceObject, listObject };
+export { typeObjects, boardObject, pieceObject, listObject };

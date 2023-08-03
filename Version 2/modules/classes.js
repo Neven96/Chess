@@ -1,5 +1,6 @@
 import { myHeaders } from "./header.js";
-import { turnObject } from "./objects.js";
+import { listObject } from "./objects.js";
+import { turnObject } from "./turnKeeping.js";
 
 // The class for all pieces
 class Piece {
@@ -115,7 +116,7 @@ class Piece {
     }
 
     updatePreviousPostions() {
-        this.previousPositions[turnObject.getTurn] = this.piecePosition;
+        this.previousPositions[turnObject.getInternalTurn] = this.piecePosition;
     }
 
     // FIX ME
@@ -133,24 +134,28 @@ class Pawn extends Piece {
         super(name, number, color, piece, position, piecePosition);
     }
 
-    changePiece(newNumber) {
+    changePiece(selected, newNumber) {
         this.number = newNumber;
         switch (this.number) {
             case -2:
             case 2:
                 this.piece = "rook";
+                listObject.addToRookList(selected);
                 break;
             case -3:
             case 3:
                 this.piece = "knight";
+                listObject.addToKnightList(selected);
                 break;
             case -4:
             case 4:
                 this.piece = "bishop";
+                listObject.addToBishopList(selected);
                 break;
             case -5:
             case 5:
                 this.piece = "queen";
+                listObject.addToQueenList(selected);
                 break;
             default:
                 this.piece = "pawn";
