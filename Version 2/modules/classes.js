@@ -115,6 +115,20 @@ class Piece {
         }
     }
 
+    pushAvailableMove(newAvailableMove) {
+        if (!this.taken) {
+            for (const array in this.availableMoves) {
+                if (newAvailableMove.length === array.length && newAvailableMove.every(function(el, index) {
+                    return el === array[index];
+                })) {
+                    return;
+                } else {
+                    this.availableMoves.push(newAvailableMove);
+                }
+            }
+        }
+    }
+
     updatePreviousPostions() {
         this.previousPositions[turnObject.getInternalTurn] = this.piecePosition;
     }

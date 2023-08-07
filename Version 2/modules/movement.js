@@ -185,11 +185,64 @@ function diagonalMovement(piece, newPosition) {
     return newPosition;
 }
 
-function rokadeMove(piece) {
-    let newPosition = [];
-
+function rokadeMove(piece, newPosition) {
     if (!piece.getMoved) {
-        
+        if (piece.getColor === "white") {
+            if (piece.getPiece === "rook") {
+                for (let otherPiece in listObject.getKingList) {
+                    otherPiece = listObject.getKingList[otherPiece];
+                    if (otherPiece.getColor === "white") {
+                        if (!otherPiece.getMoved) {
+                            if (piece.getPiecePosition === [0, 7]) {
+                                for (let i = 1; i < 4; i++) {
+                                    if (boardObject.pieceArrayPosition([i, 7]) > 0) {
+                                        return;
+                                    }
+                                }
+                                newPosition.push([3, 7])
+                            } else if (piece.getPiecePosition === [7, 7]) {
+                                for (let i = 5; i < 7; i++) {
+                                    if (boardObject.pieceArrayPosition([i, 7]) > 0) {
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (piece.getPiece === "king") {
+                for (let otherPiece in listObject.getRookList) {
+                    otherPiece = listObject.getRookList[otherPiece];
+                    if (otherPiece.getColor === "white") {
+                        if (!otherPiece.getMoved) {
+
+                        }
+                    }
+                }
+            }
+        } else if (piece.getColor === "black") {
+            if (piece.getPiece === "rook") {
+                for (let otherPiece in listObject.getKingList) {
+                    otherPiece = listObject.getKingList[otherPiece];
+                    if (otherPiece.getColor === "black") {
+                        if (!otherPiece.getMoved) {
+
+                        }
+                    }
+                }
+            }
+            if (piece.getPiece === "king") {
+                for (let otherPiece in listObject.getRookList) {
+                    otherPiece = listObject.getRookList[otherPiece];
+                    if (otherPiece.getColor === "black") {
+                        if (!otherPiece.getMoved) {
+
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

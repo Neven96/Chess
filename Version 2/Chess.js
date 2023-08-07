@@ -27,7 +27,9 @@ function startSpill(spillere) {
     listObject.setKnightList = listObject.setBishopList = listObject.setQueenList = listObject.setKingList = {};
 
     typeObjects.setPlayers = spillere;
-    pieceObject.setSelected = null;
+    pieceObject.setSelected = pieceObject.setPrevSelected = null;
+    pieceObject.setX_selected = pieceObject.setY_selected = pieceObject.setX_previous = pieceObject.setY_previous = 0;
+    pieceObject.setPieceSymbol = pieceObject.setPrevPieceSymbol = "";
     pauseObject.setPause = true;
 
     document.getElementById("playerTurn").textContent = turnObject.getInternalTurn;
@@ -81,12 +83,14 @@ function clickPiece(event) {
             // TO REMOVE
             if (mod(turnObject.getInternalTurn, 2) === 1) {
                 if (boardObject.getPieceArray[y_true][x_true] === 0 || boardObject.getPieceArray[y_true][x_true] <= 0) {
-                    pieceObject.getSelected.movePiece([pieceObject.getSelected.getPiecePosition[0], pieceObject.getSelected.getPiecePosition[1]]);
+                    pieceObject.getSelected.movePiece([pieceObject.getSelected.getPiecePosition[0], 
+                                                       pieceObject.getSelected.getPiecePosition[1]]);
                     return;
                 }
             } else if (mod(turnObject.getInternalTurn, 2) === 0) {
                 if (boardObject.getPieceArray[y_true][x_true] === 0 || boardObject.getPieceArray[y_true][x_true] >= 0) {
-                    pieceObject.getSelected.movePiece([pieceObject.getSelected.getPiecePosition[0], pieceObject.getSelected.getPiecePosition[1]]);
+                    pieceObject.getSelected.movePiece([pieceObject.getSelected.getPiecePosition[0], 
+                                                       pieceObject.getSelected.getPiecePosition[1]]);
                     return;
                 }
             }
@@ -126,13 +130,14 @@ function selectPiece() {
                                                         boardObject.getBoard.width / 8, 
                                                         boardObject.getBoard.height / 8);
                         console.log(pieceObject.getSelected);
+                        break;
                     }
                 }
             }
         } else if (mod(turnObject.getInternalTurn, 2) === 0) {
             for (let name in listObject.getPieceList) {
                 if (listObject.getPieceList[name].getColor == "black") {
-                    if (listObject.getPieceList[name].getNameFromPosition([pieceObject.getY_selected, pieceObject.getX_selected])) {
+                    if (listObject.getPieceList[name].getNameFromPosition([pieceObject.getX_selected, pieceObject.getY_selected])) {
                         pieceObject.setSelected = listObject.getPieceList[name];
                         pieceObject.setPieceSymbol = pieceObject.getSelected.getPieceSymbol;
                         boardObject.getContent.fillRect(pieceObject.getX_selected * (boardObject.getBoard.width / 8), 
@@ -140,6 +145,7 @@ function selectPiece() {
                                                         boardObject.getBoard.width / 8, 
                                                         boardObject.getBoard.height / 8);
                         console.log(pieceObject.getSelected);
+                        break;
                     }
                 }
             }
@@ -156,9 +162,8 @@ function selectPiece() {
 }
 
 function endTurn() {
-    console.log("End turn");
-    turnObject.incrementTurn;
-    document.getElementById("playerTurn").textContent = turnObject.getInternalTurn;
+    turnObject.incrementTurn();
+    document.getElementById("playerTurn").textContent = turnObject.getExternalTurn;
     document.getElementById("playerTurnColor").textContent = turnObject.getTurnColor;
 }
 
