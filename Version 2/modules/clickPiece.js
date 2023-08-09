@@ -53,15 +53,18 @@ function clickPiece(event) {
                 // Makes the previous position of the piece blank
                 paintTile(pieceObject.getY_previous, pieceObject.getX_previous);
 
+
+                // Updates the previous positions of all pieces
+                for (let name in listObject.getPieceList) {
+                    listObject.getPieceList[name].updatePreviousPosition(listObject.getPieceList[name].getMoved);
+                }
+
                 // Resets the selected piece
                 pieceObject.setSelected = pieceObject.setPrevSelected = null;
                 pieceObject.setX_selected = pieceObject.setY_selected = pieceObject.setX_previous = pieceObject.setY_previous = 0;
                 pieceObject.setPieceSymbol = pieceObject.setPrevPieceSymbol = "";
 
-                // Updates the previous positions of all pieces
-                for (let name in listObject.getPieceList) {
-                    listObject.getPieceList[name].updatePreviousPosition();
-                }
+                
 
                 // Updates the moves of all pieces
                 pawnMovement();

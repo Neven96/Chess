@@ -333,11 +333,11 @@ function pawnMovement() {
                         }
                     }
                     // Attack
-                    if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [1, 1])) <= -1 &&
+                    if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [1, 1])) >= 1 &&
                         boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [1, 1])) !== 99) {
                         newPosition.push(arrayAddition(piece.getPiecePosition, [1, 1]));
                     }
-                    if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [-1, 1])) <= -1 &&
+                    if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [-1, 1])) >= 1 &&
                         boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [-1, 1])) !== 99) {
                         newPosition.push(arrayAddition(piece.getPiecePosition, [-1, 1]));
                     }

@@ -7,4 +7,10 @@ function endTurn() {
     document.getElementById("playerTurnColor").textContent = turnObject.getTurnColor;
 }
 
-export { endTurn };
+function undoTurn() {
+    turnObject.decrementTurn();
+    document.getElementById("playerTurn").textContent = turnObject.getExternalTurn;
+    document.getElementById("playerTurnColor").textContent = turnObject.getTurnColor;
+}   
+
+export { endTurn, undoTurn };

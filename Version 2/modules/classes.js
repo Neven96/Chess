@@ -53,7 +53,7 @@ class Piece {
     }
 
     /**
-     * @param {any} piecePosition
+     * @param {any[]} piecePosition
      */
     set setPiecePosition(piecePosition) {
         this.piecePosition = piecePosition;
@@ -126,8 +126,8 @@ class Piece {
         this.availableMoves = [];
     }
 
-    updatePreviousPosition() {
-        this.previousPositions[turnObject.getInternalTurn] = this.piecePosition;
+    updatePreviousPosition(move) {
+        this.previousPositions[turnObject.getInternalTurn] = [this.piecePosition, move];
     }
 
     // Checks if newPos array is in the availableMoves 2d array
@@ -145,7 +145,7 @@ class Piece {
 
     // Moves the piece and updates the board
     movePiece(newPos) {
-        this.updatePreviousPosition();
+        this.updatePreviousPosition(true);
         this.piecePosition = newPos;
         if (!this.moved) {
             this.moved = true;

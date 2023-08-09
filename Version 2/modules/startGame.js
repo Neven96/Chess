@@ -25,14 +25,6 @@ function startGame(players) {
     pieceObject.setPieceSymbol = pieceObject.setPrevPieceSymbol = "";
     pauseObject.setPause = true;
 
-    document.getElementById("playerTurn").textContent = turnObject.getInternalTurn;
-    document.getElementById("turnDivider").style.display = "initial";
-    document.getElementById("playerTurnColor").textContent = turnObject.getTurnColor;
-
-    clearTimeout(playGameObject.getTime);
-
-    timeObject.setUpTime();
-
     paintLevel();
     let pieceArrayLength = boardObject.getPieceArray.length;
     for (var i = 0; i < pieceArrayLength; i++) {
@@ -41,6 +33,16 @@ function startGame(players) {
             setUpPieces(i, j, boardObject.getPieceArray[i][j]);
         }
     }
+
+    clearTimeout(playGameObject.getTime);
+
+    timeObject.setUpTime();
+
+    turnObject.incrementTurn();
+
+    document.getElementById("playerTurn").textContent = turnObject.getExternalTurn;
+    document.getElementById("turnDivider").style.display = "initial";
+    document.getElementById("playerTurnColor").textContent = turnObject.getTurnColor;
 
     pawnMovement();
     rookMovement();

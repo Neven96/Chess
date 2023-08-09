@@ -79,9 +79,9 @@ function selectPiece() {
         pieceObject.setPrevSelected = pieceObject.getSelected;
         pieceObject.setPrevPieceSymbol = pieceObject.getPieceSymbol;
         paintPiece(pieceObject.getY_selected,
-            pieceObject.getX_selected,
-            boardObject.getPieceArray[pieceObject.getY_selected][pieceObject.getX_selected],
-            pieceObject.getPieceSymbol)
+                   pieceObject.getX_selected,
+                   boardObject.getPieceArray[pieceObject.getY_selected][pieceObject.getX_selected],
+                   pieceObject.getPieceSymbol)
     }
 }
 

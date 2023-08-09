@@ -2,8 +2,8 @@ import { myHeaders } from "./header.js";
 import { mod } from "./helpers/modulo.js";
 
 const turnObject = {
-    internalTurn: 1,
-    externalTurn: 1,
+    internalTurn: 0,
+    externalTurn: 0,
     turnColor: "WHITE",
 
     /**
@@ -39,13 +39,25 @@ const turnObject = {
         return this.turnColor;
     },
 
+    // Increases the turn count
     incrementTurn() {
         this.internalTurn++;
+        // Since chess is one turn for white and black, the turn shown have to only increase after both have gone
         if (mod(this.internalTurn, 2) === 1) {
             this.externalTurn++;
             this.turnColor = "WHITE"
         } else {
             this.turnColor = "BLACK";
+        }
+    },
+
+    decrementTurn() {
+        this.internalTurn--;
+        if (mod(this.internalTurn, 2) === 0) {
+            this.externalTurn--;
+            this.turnColor = "BLACK"
+        } else {
+            this.turnColor = "WHITE";
         }
     }
 }
