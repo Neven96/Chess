@@ -97,11 +97,18 @@ const boardObject = {
         return this.pieceArray;
     },
 
+    // Position is an array of length 2
     pieceArrayPosition(position) {
         if (position[0] < 0 || position[0] > 7 || position[1] < 0 || position[1] > 7) {
             return 99;
         }
         return this.pieceArray[position[1]][position[0]];
+    },
+
+    // Updates the position of the piece on the board
+    movePiece(oldPos, newPos, pieceNumber) {
+        this.pieceArray[oldPos[0]][oldPos[1]] = 0;
+        this.pieceArray[newPos[0]][newPos[1]] = pieceNumber;
     },
 
     resetPieces() {

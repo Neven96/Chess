@@ -7,15 +7,20 @@ function lineMovement(piece, newPosition) {
     let moves = 1;
     // Y-axis
     // Up
-    while (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [0, moves])) === 0 &&
-           boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [0, moves])) !== 99) {
+    while (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [0, moves])) !== 99) {
         
         if (piece.getColor === "white") {
+            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [0, moves])) >= 1) {
+                break;
+            }
             if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [0, moves])) <= -1) {
                 newPosition.push(arraySubtraction(piece.getPiecePosition, [0, moves]));
                 break;
             }
         } else if (piece.getColor === "black") {
+            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [0, moves])) <= -1) {
+                break;
+            }
             if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [0, moves])) >= 1) {
                 newPosition.push(arraySubtraction(piece.getPiecePosition, [0, moves]));
                 break;
@@ -28,15 +33,20 @@ function lineMovement(piece, newPosition) {
 
     // Down
     moves = 1;
-    while (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, moves])) === 0 &&
-        boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, moves])) !== 99) {
+    while (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, moves])) !== 99) {
 
         if (piece.getColor === "white") {
+            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, moves])) >= 1) {
+                break;
+            }
             if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, moves])) <= -1) {
                 newPosition.push(arrayAddition(piece.getPiecePosition, [0, moves]));
                 break;
             }
         } else if (piece.getColor === "black") {
+            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, moves])) <= -1) {
+                break;
+            }
             if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, moves])) >= 1) {
                 newPosition.push(arrayAddition(piece.getPiecePosition, [0, moves]));
                 break;
@@ -50,15 +60,20 @@ function lineMovement(piece, newPosition) {
     // X-axis
     // Left
     moves = 1;
-    while (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, 0])) === 0 &&
-        boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, 0])) !== 99) {
+    while (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, 0])) !== 99) {
 
         if (piece.getColor === "white") {
+            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, 0])) >= 1) {
+                break;
+            }
             if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, 0])) <= -1) {
                 newPosition.push(arraySubtraction(piece.getPiecePosition, [moves, 0]));
                 break;
             }
         } else if (piece.getColor === "black") {
+            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, 0])) <= -1) {
+                break;
+            }
             if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, 0])) >= 1) {
                 newPosition.push(arraySubtraction(piece.getPiecePosition, [moves, 0]));
                 break;
@@ -71,15 +86,20 @@ function lineMovement(piece, newPosition) {
 
     // Right
     moves = 1;
-    while (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, 0])) === 0 &&
-        boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, 0])) !== 99) {
+    while (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, 0])) !== 99) {
 
         if (piece.getColor === "white") {
+            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, 0])) >= 1) {
+                break;
+            }
             if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, 0])) <= -1) {
                 newPosition.push(arrayAddition(piece.getPiecePosition, [moves, 0]));
                 break;
             }
         } else if (piece.getColor === "black") {
+            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, 0])) <= -1) {
+                break;
+            }
             if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, 0])) >= 1) {
                 newPosition.push(arrayAddition(piece.getPiecePosition, [moves, 0]));
                 break;
@@ -100,15 +120,20 @@ function diagonalMovement(piece, newPosition) {
 
     // Up-left
     moves = 1;
-    while (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, moves])) === 0 &&
-        boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, moves])) !== 99) {
+    while (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, moves])) !== 99) {
 
         if (piece.getColor === "white") {
+            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, moves])) >= 1) {
+                break;
+            }
             if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, moves])) <= -1) {
                 newPosition.push(arraySubtraction(piece.getPiecePosition, [moves, moves]));
                 break;
             }
         } else if (piece.getColor === "black") {
+            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, moves])) <= -1) {
+                break;
+            }
             if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, moves])) >= 1) {
                 newPosition.push(arraySubtraction(piece.getPiecePosition, [moves, moves]));
                 break;
@@ -121,15 +146,20 @@ function diagonalMovement(piece, newPosition) {
 
     // Up-right
     moves = 1;
-    while (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, -moves])) === 0 &&
-        boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, -moves])) !== 99) {
+    while (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, -moves])) !== 99) {
 
         if (piece.getColor === "white") {
+            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, -moves])) >= 1) {
+                break;
+            }
             if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, -moves])) <= -1) {
                 newPosition.push(arraySubtraction(piece.getPiecePosition, [moves, -moves]));
                 break;
             }
         } else if (piece.getColor === "black") {
+            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, -moves])) <= -1) {
+                break;
+            }
             if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, -moves])) >= 1) {
                 newPosition.push(arraySubtraction(piece.getPiecePosition, [moves, -moves]));
                 break;
@@ -142,15 +172,20 @@ function diagonalMovement(piece, newPosition) {
 
     // Down-left
     moves = 1;
-    while (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, -moves])) === 0 &&
-        boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, -moves])) !== 99) {
+    while (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, -moves])) !== 99) {
 
         if (piece.getColor === "white") {
+            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, -moves])) >= 1) {
+                break;
+            }
             if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, -moves])) <= -1) {
                 newPosition.push(arrayAddition(piece.getPiecePosition, [moves, -moves]));
                 break;
             }
         } else if (piece.getColor === "black") {
+            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, -moves])) <= -1) {
+                break;
+            }
             if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, -moves])) >= 1) {
                 newPosition.push(arrayAddition(piece.getPiecePosition, [moves, -moves]));
                 break;
@@ -163,15 +198,20 @@ function diagonalMovement(piece, newPosition) {
 
     // Down-right
     moves = 1;
-    while (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, moves])) === 0 &&
-        boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, moves])) !== 99) {
+    while (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, moves])) !== 99) {
 
         if (piece.getColor === "white") {
+            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, moves])) >= 1) {
+                break;
+            }
             if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, moves])) <= -1) {
                 newPosition.push(arrayAddition(piece.getPiecePosition, [moves, moves]));
                 break;
             }
         } else if (piece.getColor === "black") {
+            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, moves])) <= -1) {
+                break;
+            }
             if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, moves])) >= 1) {
                 newPosition.push(arrayAddition(piece.getPiecePosition, [moves, moves]));
                 break;
@@ -631,7 +671,7 @@ function kingMovement() {
                 }
             }
             // Down-left
-            boardPosition = arraySubtraction(piece.getPiecePosition, [-1, 1]);
+            boardPosition = arrayAddition(piece.getPiecePosition, [-1, 1]);
             checkBoard = boardObject.pieceArrayPosition(boardPosition);
             if (checkBoard !== 99) {
                 if (checkBoard === 0) {
@@ -648,7 +688,7 @@ function kingMovement() {
                 }
             }
             // Down-right
-            boardPosition = arraySubtraction(piece.getPiecePosition, [1, 1]);
+            boardPosition = arrayAddition(piece.getPiecePosition, [1, 1]);
             checkBoard = boardObject.pieceArrayPosition(boardPosition);
             if (checkBoard !== 99) {
                 if (checkBoard === 0) {

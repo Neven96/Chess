@@ -1,5 +1,5 @@
 import { myHeaders } from "./header.js";
-import { listObject } from "./objects.js";
+import { boardObject, listObject } from "./objects.js";
 import { turnObject } from "./turnKeeping.js";
 
 // The class for all pieces
@@ -15,6 +15,7 @@ class Piece {
         this.taken = false;
         this.availableMoves = [];
         this.previousPositions = {};
+        this.getValidMove.bind(this);
     }
 
     get getName() {
@@ -100,8 +101,8 @@ class Piece {
     }
 
     // If the position of the piece equals the position given, it returns the piece
-    getNameFromPosition(piecePosition) {
-        if (this.piecePosition.toString() === piecePosition.toString()) {
+    getNameFromPosition(newPosition) {
+        if (this.piecePosition.toString() === newPosition.toString()) {
             return this.name;
         } else {
             return false;
@@ -117,25 +118,34 @@ class Piece {
 
     pushAvailableMove(newAvailableMove) {
         if (!this.taken) {
-            for (const array in this.availableMoves) {
-                if (newAvailableMove.length === array.length && newAvailableMove.every(function(el, index) {
-                    return el === array[index];
-                })) {
-                    return;
-                } else {
-                    this.availableMoves.push(newAvailableMove);
-                }
-            }
+            this.availableMoves.push(newAvailableMove);
         }
     }
 
-    updatePreviousPostions() {
+    removeAvailableMoves() {
+        this.availableMoves = [];
+    }
+
+    updatePreviousPosition() {
         this.previousPositions[turnObject.getInternalTurn] = this.piecePosition;
     }
 
-    // FIX ME
+    // Checks if newPos array is in the availableMoves 2d array
+    getValidMove(newPos) {
+        if (this.availableMoves.length === 0) {
+            return false;
+        }
+        for (let array in this.availableMoves) {
+            if (this.availableMoves[array].toString() === newPos.toString()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Moves the piece and updates the board
     movePiece(newPos) {
-        this.updatePreviousPostions();
+        this.updatePreviousPosition();
         this.piecePosition = newPos;
         if (!this.moved) {
             this.moved = true;
@@ -182,9 +192,6 @@ class Rook extends Piece {
         super(name, number, color, piece, position, piecePosition);
     }
 
-    setMoves() {
-
-    }
 }
 
 class Knight extends Piece {
@@ -192,9 +199,6 @@ class Knight extends Piece {
         super(name, number, color, piece, position, piecePosition);
     }
 
-    setMoves() {
-
-    }
 }
 
 class Bishop extends Piece {
@@ -202,9 +206,6 @@ class Bishop extends Piece {
         super(name, number, color, piece, position, piecePosition);
     }
 
-    setMoves() {
-
-    }
 }
 
 class Queen extends Piece {
@@ -212,9 +213,6 @@ class Queen extends Piece {
         super(name, number, color, piece, position, piecePosition);
     }
 
-    setMoves() {
-
-    }
 }
 
 class King extends Piece {
@@ -222,9 +220,6 @@ class King extends Piece {
         super(name, number, color, piece, position, piecePosition);
     }
 
-    setMoves() {
-
-    }
 }
 
 export { Piece, Pawn, Rook, Knight, Bishop, Queen, King };
