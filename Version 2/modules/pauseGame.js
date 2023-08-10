@@ -23,13 +23,13 @@ const pauseObject = {
 
             this.pause = true;
 
-            // board.removeEventListener("click")
+            document.getElementById("pauseKnappSpan").textContent = "Play";
 
         } else if (this.pause) {
             
             this.pause = false;
 
-            // board.addEventListener("click")
+            document.getElementById("pauseKnappSpan").textContent = "Pause";
 
             playGameObject.tickGame();
         }

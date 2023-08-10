@@ -58,6 +58,7 @@ function startGame(players) {
     console.log(listObject.getPieceList);
     document.getElementById("pauseKnapp").style.display = "initial";
     document.getElementById("undoKnapp").style.display = "initial";
+    document.getElementById("undoKnapp").disabled = true;
 }
 
 export { startGame };

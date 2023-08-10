@@ -2,120 +2,76 @@ import { myHeaders } from "./header.js";
 import { arrayAddition, arraySubtraction } from "./helpers/arrayManipulation.js";
 import { boardObject, listObject } from "./objects.js";
 
-// Movement functions
+// Supporting movement functions
 
 // Movement in a straight line, up, down, left, right
 function lineMovement(piece, newPosition) {
-    let moves;
-    let movement;
 
     // Y-axis
     // Up
-    moves = 1;
-    movement = arraySubtraction(piece.getPiecePosition, [0, moves]);
-    while (boardObject.pieceArrayPosition(movement) !== 99) {
-        newPosition = helperMovement(piece, newPosition, movement);
-        moves++;
-        movement = arraySubtraction(piece.getPiecePosition, [0, moves]);
-    }
+    newPosition = helperMovement(piece, newPosition, 0, 1);
 
     // Down
-    moves = 1;
-    movement = arrayAddition(piece.getPiecePosition, [0, moves]);
-    while (boardObject.pieceArrayPosition(movement) !== 99) {
-        newPosition = helperMovement(piece, newPosition, movement);
-        moves++;
-        movement = arrayAddition(piece.getPiecePosition, [0, moves]);
-    }
+    newPosition = helperMovement(piece, newPosition, 0, -1);
 
     // X-axis
     // Left
-    moves = 1;
-    movement = arraySubtraction(piece.getPiecePosition, [moves, 0]);
-    while (boardObject.pieceArrayPosition(movement) !== 99) {
-        newPosition = helperMovement(piece, newPosition, movement);
-        moves++;
-        movement = arraySubtraction(piece.getPiecePosition, [moves, 0]);
-    }
+    newPosition = helperMovement(piece, newPosition, 1, 0);
 
     // Right
-    moves = 1;
-    movement = arrayAddition(piece.getPiecePosition, [moves, 0]);
-    while (boardObject.pieceArrayPosition(movement) !== 99) {
-        newPosition = helperMovement(piece, newPosition, movement);
-        moves++;
-        movement = arrayAddition(piece.getPiecePosition, [moves, 0]);
-    }
+    newPosition = helperMovement(piece, newPosition, -1, 0);
     
-
     return newPosition;
 }
 
 // Movement in a diagonal line, up-left, up-right, down-left, down-right
 function diagonalMovement(piece, newPosition) {
-    let moves;
-    let movement;
 
     // Up-left
-    moves = 1;
-    movement = arraySubtraction(piece.getPiecePosition, [moves, moves]);
-    while (boardObject.pieceArrayPosition(movement) !== 99) {
-        newPosition = helperMovement(piece, newPosition, movement);
-        moves++;
-        movement = arraySubtraction(piece.getPiecePosition, [moves, moves]);
-    }
+    newPosition = helperMovement(piece, newPosition, 1, 1);
     
-
     // Up-right
-    moves = 1;
-    movement = arraySubtraction(piece.getPiecePosition, [moves, -moves]);
-    while (boardObject.pieceArrayPosition(movement) !== 99) {
-        newPosition = helperMovement(piece, newPosition, movement);
-        moves++;
-        movement = arraySubtraction(piece.getPiecePosition, [moves, -moves]);
-    }
+    newPosition = helperMovement(piece, newPosition, 1, -1);
 
     // Down-left
-    moves = 1;
-    movement = arrayAddition(piece.getPiecePosition, [moves, -moves]);
-    while (boardObject.pieceArrayPosition(movement) !== 99) {
-        newPosition = helperMovement(piece, newPosition, movement);
-        moves++;
-        movement = arrayAddition(piece.getPiecePosition, [moves, -moves]);
-    }
+    newPosition = helperMovement(piece, newPosition, -1, 1);
 
     // Down-right
-    moves = 1;
-    movement = arrayAddition(piece.getPiecePosition, [moves, moves]);
-    while (boardObject.pieceArrayPosition(movement) !== 99) {
-        newPosition = helperMovement(piece, newPosition, movement);
-        moves++;
-        movement = arrayAddition(piece.getPiecePosition, [moves, moves]);
-    }
-    
+    newPosition = helperMovement(piece, newPosition, -1, -1);
+
     return newPosition;
 }
 
 // Helper-function for line and diagonal movement
-function helperMovement(piece, newPosition, movement) {
-    if (boardObject.pieceArrayPosition(movement) >= 1) {
-        if (piece.getColor === "white") {
-            return newPosition;
-        } else if (piece.getColor === "black") {
-            newPosition.push(movement);
-            return newPosition;
+function helperMovement(piece, newPosition, x, y) {
+    let moves = 1;
+    let movement = arraySubtraction(piece.getPiecePosition, [moves * x, moves * y]);
+    // Runs until it meets the edge of the board, or it meets another piece
+    while (boardObject.pieceArrayPosition(movement) !== 99) {
+        // Hitting a white piece
+        if (boardObject.pieceArrayPosition(movement) >= 1) {
+            if (piece.getColor === "white") {
+                break;
+            } else if (piece.getColor === "black") {
+                newPosition.push(movement);
+                break;
+            }
+        // Hitting a black piece
+        } else if (boardObject.pieceArrayPosition(movement) <= -1) {
+            if (piece.getColor === "white") {
+                newPosition.push(movement);
+                break;
+            } else if (piece.getColor === "black") {
+                break;
+            }
         }
-    } else if (boardObject.pieceArrayPosition(movement) <= -1) {
-        if (piece.getColor === "white") {
-            newPosition.push(movement);
-            return newPosition;
-        } else if (piece.getColor === "black") {
-            return newPosition;
-        }
+
+        newPosition.push(movement);
+
+        moves++;
+        movement = arraySubtraction(piece.getPiecePosition, [moves * x, moves * y]);
     }
-
-    newPosition.push(movement);
-
+    
     return newPosition;
 }
 
@@ -268,7 +224,7 @@ function pawnMovement() {
 
 // Movements for rook, using lineMovement
 function rookMovement() {
-    let newPosition = [];
+    let newPosition;
 
     for (let piece in listObject.getRookList) {
         newPosition = [];
@@ -340,7 +296,7 @@ function knightMovement() {
 
 // Movement for bishops, using diagonalMovement
 function bishopMovement() {
-    let newPosition = [];
+    let newPosition;
 
     for (let piece in listObject.getBishopList) {
         newPosition = [];
@@ -357,7 +313,7 @@ function bishopMovement() {
 
 // Movement for queens, using both lineMovement and diagonalMovement
 function queenMovement() {
-    let newPosition = [];
+    let newPosition;
 
     for (let piece in listObject.getQueenList) {
         newPosition = [];
