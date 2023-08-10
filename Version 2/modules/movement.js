@@ -2,112 +2,49 @@ import { myHeaders } from "./header.js";
 import { arrayAddition, arraySubtraction } from "./helpers/arrayManipulation.js";
 import { boardObject, listObject } from "./objects.js";
 
+// Movement functions
+
 // Movement in a straight line, up, down, left, right
 function lineMovement(piece, newPosition) {
-    let moves = 1;
+    let moves;
+    let movement;
+
     // Y-axis
     // Up
-    while (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [0, moves])) !== 99) {
-        
-        if (piece.getColor === "white") {
-            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [0, moves])) >= 1) {
-                break;
-            }
-            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [0, moves])) <= -1) {
-                newPosition.push(arraySubtraction(piece.getPiecePosition, [0, moves]));
-                break;
-            }
-        } else if (piece.getColor === "black") {
-            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [0, moves])) <= -1) {
-                break;
-            }
-            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [0, moves])) >= 1) {
-                newPosition.push(arraySubtraction(piece.getPiecePosition, [0, moves]));
-                break;
-            }
-        }
-        newPosition.push(arraySubtraction(piece.getPiecePosition, [0, moves]));
-
+    moves = 1;
+    movement = arraySubtraction(piece.getPiecePosition, [0, moves]);
+    while (boardObject.pieceArrayPosition(movement) !== 99) {
+        newPosition = helperMovement(piece, newPosition, movement);
         moves++;
+        movement = arraySubtraction(piece.getPiecePosition, [0, moves]);
     }
 
     // Down
     moves = 1;
-    while (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, moves])) !== 99) {
-
-        if (piece.getColor === "white") {
-            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, moves])) >= 1) {
-                break;
-            }
-            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, moves])) <= -1) {
-                newPosition.push(arrayAddition(piece.getPiecePosition, [0, moves]));
-                break;
-            }
-        } else if (piece.getColor === "black") {
-            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, moves])) <= -1) {
-                break;
-            }
-            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, moves])) >= 1) {
-                newPosition.push(arrayAddition(piece.getPiecePosition, [0, moves]));
-                break;
-            }
-        }
-        newPosition.push(arrayAddition(piece.getPiecePosition, [0, moves]));
-
+    movement = arrayAddition(piece.getPiecePosition, [0, moves]);
+    while (boardObject.pieceArrayPosition(movement) !== 99) {
+        newPosition = helperMovement(piece, newPosition, movement);
         moves++;
+        movement = arrayAddition(piece.getPiecePosition, [0, moves]);
     }
 
     // X-axis
     // Left
     moves = 1;
-    while (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, 0])) !== 99) {
-
-        if (piece.getColor === "white") {
-            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, 0])) >= 1) {
-                break;
-            }
-            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, 0])) <= -1) {
-                newPosition.push(arraySubtraction(piece.getPiecePosition, [moves, 0]));
-                break;
-            }
-        } else if (piece.getColor === "black") {
-            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, 0])) <= -1) {
-                break;
-            }
-            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, 0])) >= 1) {
-                newPosition.push(arraySubtraction(piece.getPiecePosition, [moves, 0]));
-                break;
-            }
-        }
-        newPosition.push(arraySubtraction(piece.getPiecePosition, [moves, 0]));
-
+    movement = arraySubtraction(piece.getPiecePosition, [moves, 0]);
+    while (boardObject.pieceArrayPosition(movement) !== 99) {
+        newPosition = helperMovement(piece, newPosition, movement);
         moves++;
+        movement = arraySubtraction(piece.getPiecePosition, [moves, 0]);
     }
 
     // Right
     moves = 1;
-    while (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, 0])) !== 99) {
-
-        if (piece.getColor === "white") {
-            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, 0])) >= 1) {
-                break;
-            }
-            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, 0])) <= -1) {
-                newPosition.push(arrayAddition(piece.getPiecePosition, [moves, 0]));
-                break;
-            }
-        } else if (piece.getColor === "black") {
-            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, 0])) <= -1) {
-                break;
-            }
-            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, 0])) >= 1) {
-                newPosition.push(arrayAddition(piece.getPiecePosition, [moves, 0]));
-                break;
-            }
-        }
-        newPosition.push(arrayAddition(piece.getPiecePosition, [moves, 0]));
-
+    movement = arrayAddition(piece.getPiecePosition, [moves, 0]);
+    while (boardObject.pieceArrayPosition(movement) !== 99) {
+        newPosition = helperMovement(piece, newPosition, movement);
         moves++;
+        movement = arrayAddition(piece.getPiecePosition, [moves, 0]);
     }
     
 
@@ -116,115 +53,93 @@ function lineMovement(piece, newPosition) {
 
 // Movement in a diagonal line, up-left, up-right, down-left, down-right
 function diagonalMovement(piece, newPosition) {
-    let moves = 1;
+    let moves;
+    let movement;
 
     // Up-left
     moves = 1;
-    while (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, moves])) !== 99) {
-
-        if (piece.getColor === "white") {
-            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, moves])) >= 1) {
-                break;
-            }
-            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, moves])) <= -1) {
-                newPosition.push(arraySubtraction(piece.getPiecePosition, [moves, moves]));
-                break;
-            }
-        } else if (piece.getColor === "black") {
-            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, moves])) <= -1) {
-                break;
-            }
-            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, moves])) >= 1) {
-                newPosition.push(arraySubtraction(piece.getPiecePosition, [moves, moves]));
-                break;
-            }
-        }
-        newPosition.push(arraySubtraction(piece.getPiecePosition, [moves, moves]));
-
+    movement = arraySubtraction(piece.getPiecePosition, [moves, moves]);
+    while (boardObject.pieceArrayPosition(movement) !== 99) {
+        newPosition = helperMovement(piece, newPosition, movement);
         moves++;
+        movement = arraySubtraction(piece.getPiecePosition, [moves, moves]);
     }
+    
 
     // Up-right
     moves = 1;
-    while (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, -moves])) !== 99) {
-
-        if (piece.getColor === "white") {
-            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, -moves])) >= 1) {
-                break;
-            }
-            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, -moves])) <= -1) {
-                newPosition.push(arraySubtraction(piece.getPiecePosition, [moves, -moves]));
-                break;
-            }
-        } else if (piece.getColor === "black") {
-            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, -moves])) <= -1) {
-                break;
-            }
-            if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [moves, -moves])) >= 1) {
-                newPosition.push(arraySubtraction(piece.getPiecePosition, [moves, -moves]));
-                break;
-            }
-        }
-        newPosition.push(arraySubtraction(piece.getPiecePosition, [moves, -moves]));
-
+    movement = arraySubtraction(piece.getPiecePosition, [moves, -moves]);
+    while (boardObject.pieceArrayPosition(movement) !== 99) {
+        newPosition = helperMovement(piece, newPosition, movement);
         moves++;
+        movement = arraySubtraction(piece.getPiecePosition, [moves, -moves]);
     }
 
     // Down-left
     moves = 1;
-    while (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, -moves])) !== 99) {
-
-        if (piece.getColor === "white") {
-            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, -moves])) >= 1) {
-                break;
-            }
-            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, -moves])) <= -1) {
-                newPosition.push(arrayAddition(piece.getPiecePosition, [moves, -moves]));
-                break;
-            }
-        } else if (piece.getColor === "black") {
-            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, -moves])) <= -1) {
-                break;
-            }
-            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, -moves])) >= 1) {
-                newPosition.push(arrayAddition(piece.getPiecePosition, [moves, -moves]));
-                break;
-            }
-        }
-        newPosition.push(arrayAddition(piece.getPiecePosition, [moves, -moves]));
-
+    movement = arrayAddition(piece.getPiecePosition, [moves, -moves]);
+    while (boardObject.pieceArrayPosition(movement) !== 99) {
+        newPosition = helperMovement(piece, newPosition, movement);
         moves++;
+        movement = arrayAddition(piece.getPiecePosition, [moves, -moves]);
     }
 
     // Down-right
     moves = 1;
-    while (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, moves])) !== 99) {
+    movement = arrayAddition(piece.getPiecePosition, [moves, moves]);
+    while (boardObject.pieceArrayPosition(movement) !== 99) {
+        newPosition = helperMovement(piece, newPosition, movement);
+        moves++;
+        movement = arrayAddition(piece.getPiecePosition, [moves, moves]);
+    }
+    
+    return newPosition;
+}
 
+// Helper-function for line and diagonal movement
+function helperMovement(piece, newPosition, movement) {
+    if (boardObject.pieceArrayPosition(movement) >= 1) {
         if (piece.getColor === "white") {
-            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, moves])) >= 1) {
-                break;
-            }
-            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, moves])) <= -1) {
-                newPosition.push(arrayAddition(piece.getPiecePosition, [moves, moves]));
-                break;
+            return newPosition;
+        } else if (piece.getColor === "black") {
+            newPosition.push(movement);
+            return newPosition;
+        }
+    } else if (boardObject.pieceArrayPosition(movement) <= -1) {
+        if (piece.getColor === "white") {
+            newPosition.push(movement);
+            return newPosition;
+        } else if (piece.getColor === "black") {
+            return newPosition;
+        }
+    }
+
+    newPosition.push(movement);
+
+    return newPosition;
+}
+
+// Helper-function for knight and king
+function helperMovement2(piece, boardPosition, checkBoard, newPosition) {
+    if (checkBoard !== 99) {
+        if (checkBoard === 0) {
+            newPosition.push(boardPosition);
+        }
+        if (piece.getColor === "white") {
+            if (checkBoard <= -1) {
+                newPosition.push(boardPosition);
             }
         } else if (piece.getColor === "black") {
-            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, moves])) <= -1) {
-                break;
-            }
-            if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [moves, moves])) >= 1) {
-                newPosition.push(arrayAddition(piece.getPiecePosition, [moves, moves]));
-                break;
+            if (checkBoard >= 1) {
+                newPosition.push(boardPosition);
             }
         }
-        newPosition.push(arrayAddition(piece.getPiecePosition, [moves, moves]));
-
-        moves++;
     }
 
     return newPosition;
 }
 
+// NEED FIX
 function rokadeMove(piece, newPosition) {
     if (!piece.getMoved) {
         if (piece.getColor === "white") {
@@ -286,6 +201,8 @@ function rokadeMove(piece, newPosition) {
     }
 }
 
+// Movement for the pieces
+
 // Movement for pawns
 function pawnMovement() {
     let newPosition = [];
@@ -342,6 +259,7 @@ function pawnMovement() {
                         newPosition.push(arrayAddition(piece.getPiecePosition, [-1, 1]));
                     }
                 }
+
                 piece.updateAvailableMoves(newPosition);
             }
         }   
@@ -365,7 +283,9 @@ function rookMovement() {
 
 // Movement for knights, using own movement
 function knightMovement() {
-    let newPosition = [];
+    let newPosition;
+    let boardPosition;
+    let checkBoard;
 
     for (let piece in listObject.getKnightList) {
         newPosition = [];
@@ -373,148 +293,45 @@ function knightMovement() {
 
         if (piece.getPiece === "knight") {
             // One up, two left
-            let boardPosition = arraySubtraction(piece.getPiecePosition, [2, 1]);
-            let checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            if (checkBoard !== 99) {
-                if (checkBoard === 0) {
-                    newPosition.push(boardPosition);
-                }
-                if (piece.getColor === "white") {
-                    if (checkBoard <= -1) {
-                        newPosition.push(boardPosition);
-                    }
-                } else if (piece.getColor === "black") {
-                    if (checkBoard >= 1) {
-                        newPosition.push(boardPosition);
-                    }
-                }
-            }
+            boardPosition = arraySubtraction(piece.getPiecePosition, [2, 1]);
+            checkBoard = boardObject.pieceArrayPosition(boardPosition);
+            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
 
             // Two up, one left
             boardPosition = arraySubtraction(piece.getPiecePosition, [1, 2]);
             checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            if (checkBoard !== 99) {
-                if (checkBoard === 0) {
-                    newPosition.push(boardPosition);
-                }
-                if (piece.getColor === "white") {
-                    if (checkBoard <= -1) {
-                        newPosition.push(boardPosition);
-                    }
-                } else if (piece.getColor === "black") {
-                    if (checkBoard >= 1) {
-                        newPosition.push(boardPosition);
-                    }
-                }
-            }
+            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
 
             // Two up, one right
             boardPosition = arraySubtraction(piece.getPiecePosition, [-1, 2]);
             checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            if (checkBoard !== 99) {
-                if (checkBoard === 0) {
-                    newPosition.push(boardPosition);
-                }
-                if (piece.getColor === "white") {
-                    if (checkBoard <= -1) {
-                        newPosition.push(boardPosition);
-                    }
-                } else if (piece.getColor === "black") {
-                    if (checkBoard >= 1) {
-                        newPosition.push(boardPosition);
-                    }
-                }
-            }
+            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
 
             // One up, two right
             boardPosition = arraySubtraction(piece.getPiecePosition, [-2, 1]);
             checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            if (checkBoard !== 99) {
-                if (checkBoard === 0) {
-                    newPosition.push(boardPosition);
-                }
-                if (piece.getColor === "white") {
-                    if (checkBoard <= -1) {
-                        newPosition.push(boardPosition);
-                    }
-                } else if (piece.getColor === "black") {
-                    if (checkBoard >= 1) {
-                        newPosition.push(boardPosition);
-                    }
-                }
-            }
+            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
 
             // One down, two left
             boardPosition = arrayAddition(piece.getPiecePosition, [-2, 1]);
             checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            if (checkBoard !== 99) {
-                if (checkBoard === 0) {
-                    newPosition.push(boardPosition);
-                }
-                if (piece.getColor === "white") {
-                    if (checkBoard <= -1) {
-                        newPosition.push(boardPosition);
-                    }
-                } else if (piece.getColor === "black") {
-                    if (checkBoard >= 1) {
-                        newPosition.push(boardPosition);
-                    }
-                }
-            }
+            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
 
             // Two down, one left
             boardPosition = arrayAddition(piece.getPiecePosition, [-1, 2]);
             checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            if (checkBoard !== 99) {
-                if (checkBoard === 0) {
-                    newPosition.push(boardPosition);
-                }
-                if (piece.getColor === "white") {
-                    if (checkBoard <= -1) {
-                        newPosition.push(boardPosition);
-                    }
-                } else if (piece.getColor === "black") {
-                    if (checkBoard >= 1) {
-                        newPosition.push(boardPosition);
-                    }
-                }
-            }
+            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
 
             // Two down, one right
             boardPosition = arrayAddition(piece.getPiecePosition, [1, 2]);
             checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            if (checkBoard !== 99) {
-                if (checkBoard === 0) {
-                    newPosition.push(boardPosition);
-                }
-                if (piece.getColor === "white") {
-                    if (checkBoard <= -1) {
-                        newPosition.push(boardPosition);
-                    }
-                } else if (piece.getColor === "black") {
-                    if (checkBoard >= 1) {
-                        newPosition.push(boardPosition);
-                    }
-                }
-            }
+            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
 
             // One down, two right
             boardPosition = arrayAddition(piece.getPiecePosition, [2, 1]);
             checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            if (checkBoard !== 99) {
-                if (checkBoard === 0) {
-                    newPosition.push(boardPosition);
-                }
-                if (piece.getColor === "white") {
-                    if (checkBoard <= -1) {
-                        newPosition.push(boardPosition);
-                    }
-                } else if (piece.getColor === "black") {
-                    if (checkBoard >= 1) {
-                        newPosition.push(boardPosition);
-                    }
-                }
-            }
+            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+
             piece.updateAvailableMoves(newPosition);
         }
     }
@@ -558,7 +375,9 @@ function queenMovement() {
 
 // Movement for kings, using own movement
 function kingMovement() {
-    let newPosition = [];
+    let newPosition;
+    let boardPosition;
+    let checkBoard;
 
     for (let piece in listObject.getKingList) {
         newPosition = [];
@@ -567,143 +386,48 @@ function kingMovement() {
             // Line Movement
             // Y-axis
             // Up
-            let boardPosition = arraySubtraction(piece.getPiecePosition, [0, 1]);
-            let checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            if (checkBoard !== 99) {
-                if (checkBoard === 0) {
-                    newPosition.push(boardPosition);
-                }
-                if (piece.getColor === "white") {
-                    if (checkBoard <= -1) {
-                        newPosition.push(boardPosition);
-                    }
-                } else if (piece.getColor === "black") {
-                    if (checkBoard >= 1) {
-                        newPosition.push(boardPosition);
-                    }
-                }
-            }
+            boardPosition = arraySubtraction(piece.getPiecePosition, [0, 1]);
+            checkBoard = boardObject.pieceArrayPosition(boardPosition);
+            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+
             // Down
             boardPosition = arrayAddition(piece.getPiecePosition, [0, 1]);
             checkBoard = boardObject.pieceArrayPosition(boardPosition)
-            if (checkBoard !== 99) {
-                if (checkBoard === 0) {
-                    newPosition.push(boardPosition);
-                }
-                if (piece.getColor === "white") {
-                    if (checkBoard <= -1) {
-                        newPosition.push(boardPosition);
-                    }
-                } else if (piece.getColor === "black") {
-                    if (checkBoard >= 1) {
-                        newPosition.push(boardPosition);
-                    }
-                }
-            }
+            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+
             // X-axis
             // Left
             boardPosition = arraySubtraction(piece.getPiecePosition, [1, 0]);
             checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            if (checkBoard !== 99) {
-                if (checkBoard === 0) {
-                    newPosition.push(boardPosition);
-                }
-                if (piece.getColor === "white") {
-                    if (checkBoard <= -1) {
-                        newPosition.push(boardPosition);
-                    }
-                } else if (piece.getColor === "black") {
-                    if (checkBoard >= 1) {
-                        newPosition.push(boardPosition);
-                    }
-                }
-            }
+            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+
             // Right
             boardPosition = arrayAddition(piece.getPiecePosition, [1, 0]);
             checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            if (checkBoard !== 99) {
-                if (checkBoard === 0) {
-                    newPosition.push(boardPosition);
-                }
-                if (piece.getColor === "white") {
-                    if (checkBoard <= -1) {
-                        newPosition.push(boardPosition);
-                    }
-                } else if (piece.getColor === "black") {
-                    if (checkBoard >= 1) {
-                        newPosition.push(boardPosition);
-                    }
-                }
-            }
+            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+
             // Diagonal movement
+            // Up
             // Up-left
             boardPosition = arraySubtraction(piece.getPiecePosition, [1, 1]);
             checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            if (checkBoard !== 99) {
-                if (checkBoard === 0) {
-                    newPosition.push(boardPosition);
-                }
-                if (piece.getColor === "white") {
-                    if (checkBoard <= -1) {
-                        newPosition.push(boardPosition);
-                    }
-                } else if (piece.getColor === "black") {
-                    if (checkBoard >= 1) {
-                        newPosition.push(boardPosition);
-                    }
-                }
-            }
+            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+
             // Up-right
             boardPosition = arraySubtraction(piece.getPiecePosition, [-1, 1]);
             checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            if (checkBoard !== 99) {
-                if (checkBoard === 0) {
-                    newPosition.push(boardPosition);
-                }
-                if (piece.getColor === "white") {
-                    if (checkBoard <= -1) {
-                        newPosition.push(boardPosition);
-                    }
-                } else if (piece.getColor === "black") {
-                    if (checkBoard >= 1) {
-                        newPosition.push(boardPosition);
-                    }
-                }
-            }
+            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+
+            // Down
             // Down-left
             boardPosition = arrayAddition(piece.getPiecePosition, [-1, 1]);
             checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            if (checkBoard !== 99) {
-                if (checkBoard === 0) {
-                    newPosition.push(boardPosition);
-                }
-                if (piece.getColor === "white") {
-                    if (checkBoard <= -1) {
-                        newPosition.push(boardPosition);
-                    }
-                } else if (piece.getColor === "black") {
-                    if (checkBoard >= 1) {
-                        newPosition.push(boardPosition);
-                    }
-                }
-            }
+            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+
             // Down-right
             boardPosition = arrayAddition(piece.getPiecePosition, [1, 1]);
             checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            if (checkBoard !== 99) {
-                if (checkBoard === 0) {
-                    newPosition.push(boardPosition);
-                }
-                if (piece.getColor === "white") {
-                    if (checkBoard <= -1) {
-                        newPosition.push(boardPosition);
-                    }
-                } else if (piece.getColor === "black") {
-                    if (checkBoard >= 1) {
-                        newPosition.push(boardPosition);
-                    }
-                }
-            }
+            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
             piece.updateAvailableMoves(newPosition);
         }
     }
