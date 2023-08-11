@@ -15,19 +15,19 @@
         <div id="toppDiv" class="toppDiv">
           <div class="menu">
             <p>
-              <button id="startEnKnapp" class="knapp startEnKnapp" type="button" name="startEnKnapp">1 Player</button>
-              <button id="startToKnapp" class="knapp startToKnapp" type="button" name="startToKnapp">2 Player</button>
-              <button id="pauseKnapp" class="knapp hidden pauseKnapp" type="button" name="pauseKnapp">Pause</button>
-              <button id="undoKnapp" class="knapp hidden undoKnapp" type="button" name="button">Undo</button>
+              <button id="startEnKnapp" class="knapp startEnKnapp" type="button" name="startEnKnapp"><span class="buttonSpan">1 Player</span></button>
+              <button id="startToKnapp" class="knapp startToKnapp" type="button" name="startToKnapp"><span class="buttonSpan">2 Player</span></button>
+              <button id="pauseKnapp" class="knapp hidden pauseKnapp" type="button" name="pauseKnapp"><span id="pauseKnappSpan" class="buttonSpan">Pause</span></button>
+              <button id="undoKnapp" class="knapp hidden undoKnapp" type="button" name="button"><span class="buttonSpan">Undo</span></button>
             </p>
           </div>
           <div id="turnTimerDiv" class="turnTimerDiv">
             <table id="turnTimerTable" class="turnTimerTable">
               <tbody>
                 <tr class="tableRows">
-                  <td class="turnTimers timers">Black time</td>
-                  <td class="turnTimers turns">Turn</td>
-                  <td class="turnTimers timers">White time</td>
+                  <td class="turnTimers timers"><span>Black time</span></td>
+                  <td class="turnTimers turns"><span>Turn</span></td>
+                  <td class="turnTimers timers"><span>White time</span></td>
                 </tr>
                 <tr class="tableRows">
                   <td class="turnTimers"><span id="blackTime" class="blackTime">0</span></td>
@@ -39,27 +39,86 @@
           </div>
         </div>
         <div id="gameDiv" class="gameDiv">
+          <!-- Top lettering -->
+          <div id="topNumbering" class="topNumbering letterNumbering numbering">
+            <span class="topLetterNumberingSpan letterNumberingSpan">
+              <span class="topLetterNumberingSpanSpan letterNumberingSpanSpan">A</span><span 
+              class="topLetterNumberingSpanSpan letterNumberingSpanSpan">B</span><span 
+              class="topLetterNumberingSpanSpan letterNumberingSpanSpan">C</span><span 
+              class="topLetterNumberingSpanSpan letterNumberingSpanSpan">D</span><span 
+              class="topLetterNumberingSpanSpan letterNumberingSpanSpan">E</span><span 
+              class="topLetterNumberingSpanSpan letterNumberingSpanSpan">F</span><span 
+              class="topLetterNumberingSpanSpan letterNumberingSpanSpan">G</span><span 
+              class="topLetterNumberingSpanSpan letterNumberingSpanSpan">H</span>
+            </span>
+          </div>
           <div class="pieceHome floatLeft">
             <div class="blackHome">
-              <p class="testP">Black Taken</p>
+              <p class="testP"><span>Black Taken</span></p>
               <p id="blackTaken" class="blackTaken"></p>
             </div>
             <div class="whiteHome">
-              <p class="testP">White Taken</p>
+              <p class="testP"><span>White Taken</span></p>
               <p id="whiteTaken" class="whiteTaken"></p>
             </div>
           </div>
-          <div id="boardContainerDiv" class="floatLeft">
-            <div id="topNumbering" class="topNumbering letterNumbering"></div>
-            <div id="leftNumbering" class="leftNumbering numberNumbering"></div>
+          <div id="boardContainerDiv" class="floatLeft boardContainerDiv">
+            <!-- Left number -->
+            <div id="leftNumbering" class="leftNumbering numberNumbering numbering">
+              <span class="leftNumberNumberingSpan numberNumberingSpan">
+                <span class="leftNumberNumberingSpanSpan numberNumberingSpanSpan">1</span><span 
+                class="leftNumberNumberingSpanSpan numberNumberingSpanSpan">2</span><span 
+                class="leftNumberNumberingSpanSpan numberNumberingSpanSpan">3</span><span 
+                class="leftNumberNumberingSpanSpan numberNumberingSpanSpan">4</span><span 
+                class="leftNumberNumberingSpanSpan numberNumberingSpanSpan">5</span><span 
+                class="leftNumberNumberingSpanSpan numberNumberingSpanSpan">6</span><span 
+                class="leftNumberNumberingSpanSpan numberNumberingSpanSpan">7</span><span 
+                class="leftNumberNumberingSpanSpan numberNumberingSpanSpan">8</span>
+              </span>
+            </div>
+            <!-- Board -->
             <div id="boardDiv" class="boardDiv floatLeft">
               <canvas id="board" class="board" width="800" height="800"></canvas>
             </div>
-            <div id="rightNumbering" class="rightNumbering numberNumbering"></div>
-            <div id="bottomNumbering" class="bottomNumbering letterNumbering"></div>
+            <!-- Right number -->
+            <div id="rightNumbering" class="rightNumbering numberNumbering numbering">
+              <span class="rightNumberNumberingSpan numberNumberingSpan">
+                <span class="rightNumberNumberingSpanSpan numberNumberingSpanSpan">8</span><span 
+                class="rightNumberNumberingSpanSpan numberNumberingSpanSpan">7</span><span 
+                class="rightNumberNumberingSpanSpan numberNumberingSpanSpan">6</span><span 
+                class="rightNumberNumberingSpanSpan numberNumberingSpanSpan">5</span><span 
+                class="rightNumberNumberingSpanSpan numberNumberingSpanSpan">4</span><span 
+                class="rightNumberNumberingSpanSpan numberNumberingSpanSpan">3</span><span 
+                class="rightNumberNumberingSpanSpan numberNumberingSpanSpan">2</span><span 
+                class="rightNumberNumberingSpanSpan numberNumberingSpanSpan">1</span>
+              </span>
+            </div>
           </div>
           <div class="previousTurnsDiv floatLeft">
-            <p class="testP">Previous Turns</p>
+            <p class="testP"><span>Previous Turns</span></p>
+            <table id="previousTurnsTable" class="previousTurnsTable">
+              <thead>
+                <th><span>Turn</span></th>
+                <th><span>White</span></th>
+                <th><span>Black</span></th>
+              </thead>
+              <tbody id="previousTurnsTableBody" class="previousTurnsTableBody">
+
+              </tbody>
+            </table>
+          </div>
+          <!-- Bottom lettering -->
+          <div id="bottomNumbering" class="bottomNumbering letterNumbering numbering">
+            <span class="bottomLetterNumberingSpan letterNumberingSpan">
+              <span class="bottomLetterNumberingSpanSpan letterNumberingSpanSpan">A</span><span 
+              class="bottomLetterNumberingSpanSpan letterNumberingSpanSpan">B</span><span 
+              class="bottomLetterNumberingSpanSpan letterNumberingSpanSpan">C</span><span 
+              class="bottomLetterNumberingSpanSpan letterNumberingSpanSpan">D</span><span 
+              class="bottomLetterNumberingSpanSpan letterNumberingSpanSpan">E</span><span 
+              class="bottomLetterNumberingSpanSpan letterNumberingSpanSpan">F</span><span 
+              class="bottomLetterNumberingSpanSpan letterNumberingSpanSpan">G</span><span 
+              class="bottomLetterNumberingSpanSpan letterNumberingSpanSpan">H</span>
+            </span>
           </div>
         </div>
       </div>
