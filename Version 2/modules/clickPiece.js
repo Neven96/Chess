@@ -42,17 +42,24 @@ async function clickPiece(event) {
 
                 if (pieceObject.getSelected.getPiece === "pawn") {
                     if (y_true === 0 || y_true === 7) {
+                        // Sets up the buttons for promoting the pawn, and then waits until a choice is made
                         pawnChange();
-
-                        let promise = new Promise((resolve) => { _promote = resolve });
-                        await promise.then((result) => { pieceObject.getSelected.changePiece(result[0], result[1]) });
-
-                        console.log(listObject.getQueenList);
+ 
+                        let promise = new Promise((resolve) => { 
+                            _promote = resolve 
+                        });
+                        await promise.then((result) => { 
+                            pieceObject.getSelected.changePiece(result[0], result[1]) 
+                        });
 
                         document.getElementById("rookButton").style.display = "none";
                         document.getElementById("knightButton").style.display = "none";
                         document.getElementById("bishopButton").style.display = "none";
                         document.getElementById("queenButton").style.display = "none";
+                        document.getElementById("rookButton").disabled = true;
+                        document.getElementById("knightButton").disabled = true;
+                        document.getElementById("bishopButton").disabled = true;
+                        document.getElementById("queenButton").disabled = true;
                     }
                 }
 
@@ -102,6 +109,8 @@ async function clickPiece(event) {
 async function pawnChange() {
     let rookButtonPiece, knightButtonPiece, bishopButtonPiece, queenButtonPiece;
     let rookButtonValue, knightButtonValue, bishopButtonValue, queenButtonValue;
+
+    // Gives the pawn the correct new piece and color
     if (pieceObject.getSelected.getColor === "white") {
         rookButtonPiece = "\u{2656}"
         knightButtonPiece = "\u{2658}"
@@ -121,36 +130,41 @@ async function pawnChange() {
         bishopButtonValue = -4;
         queenButtonValue = -5;
     }
-    document.getElementById("rookButtonSpan").textContent = rookButtonPiece;
-    document.getElementById("knightButtonSpan").textContent = knightButtonPiece;
-    document.getElementById("bishopButtonSpan").textContent = bishopButtonPiece;
-    document.getElementById("queenButtonSpan").textContent = queenButtonPiece;
-    document.getElementById("rookButton").style.display = "initial";
-    document.getElementById("knightButton").style.display = "initial";
-    document.getElementById("bishopButton").style.display = "initial";
-    document.getElementById("queenButton").style.display = "initial";
-    document.getElementById("rookButton").value = rookButtonValue;
-    document.getElementById("knightButton").value = knightButtonValue;
-    document.getElementById("bishopButton").value = bishopButtonValue;
-    document.getElementById("queenButton").value = queenButtonValue;
-    document.getElementById("rookButton").disabled = false;
-    document.getElementById("knightButton").disabled = false;
-    document.getElementById("bishopButton").disabled = false;
-    document.getElementById("queenButton").disabled = false;
 
-    document.getElementById("rookButton").addEventListener("click", () => { 
-        _promote([rookButtonValue, rookButtonPiece]);
-    });
-    document.getElementById("knightButton").addEventListener("click", () => { 
-        _promote([knightButtonValue, knightButtonPiece]);
-    });
-    document.getElementById("bishopButton").addEventListener("click", () => { 
-        _promote([bishopButtonValue, bishopButtonPiece]);
-    });
-    document.getElementById("queenButton").addEventListener("click", () => { 
-        _promote([queenButtonValue, queenButtonPiece]);
-    });
+    let buttonList = {
+        "rook": { "piece": rookButtonPiece, "value": rookButtonValue }, 
+        "knight": { "piece": knightButtonPiece, "value": knightButtonValue }, 
+        "bishop": { "piece": bishopButtonPiece, "value": bishopButtonValue }, 
+        "queen": { "piece": queenButtonPiece, "value": queenButtonValue }
+    };
 
+    // Giving the buttons the values, and making them visible and clickable
+    for (let piece in buttonList) {
+        document.getElementById(piece+"ButtonSpan").textContent = buttonList[piece]["piece"];
+        document.getElementById(piece+"ButtonSpan").value = piece;
+        document.getElementById(piece+"Button").style.display = "initial";
+        document.getElementById(piece+"Button").value = piece;
+        document.getElementById(piece+"Button").disabled = false;
+    }
+
+    // To send the values
+    function clicked(event) {
+        handleClick(event.target.value);
+    }
+
+    function handleClick(piece) {
+        _promote([buttonList[piece]["value"], buttonList[piece]["piece"]]);
+
+        document.getElementById("rookButton").removeEventListener("click", clicked);
+        document.getElementById("knightButton").removeEventListener("click", clicked);
+        document.getElementById("bishopButton").removeEventListener("click", clicked);
+        document.getElementById("queenButton").removeEventListener("click", clicked);
+    }
+
+    document.getElementById("rookButton").addEventListener("click", clicked);
+    document.getElementById("knightButton").addEventListener("click", clicked);
+    document.getElementById("bishopButton").addEventListener("click", clicked);
+    document.getElementById("queenButton").addEventListener("click", clicked);
 }
 
 export { clickPiece };

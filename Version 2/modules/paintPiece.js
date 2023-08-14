@@ -1,13 +1,13 @@
 import { myHeaders } from "./helpers/header.js";
 import { boardObject } from "./objects.js";
 
-function paintPiece(col, row, piece, pieceSymbol = "") {
-    boardObject.getContent.font = "60px 'DejaVu Sans'"
+function paintPiece(col, row, pieceNumber, pieceSymbol = "") {
+    boardObject.getContent.font = "60px Arial"
 
-    if (piece >= 1) {
+    if (pieceNumber >= 1) {
         boardObject.getContent.strokeStyle = "#778899";
         boardObject.getContent.fillStyle = "#FFFFFF";
-    } else if (piece <= -1) {
+    } else if (pieceNumber <= -1) {
         boardObject.getContent.strokeStyle = "#778899"
         boardObject.getContent.fillStyle = "#000000"
     }
