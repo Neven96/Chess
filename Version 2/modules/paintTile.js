@@ -1,5 +1,5 @@
-import { myHeaders } from "./header.js";
-import { boardObject, pieceObject } from "./objects.js";
+import { myHeaders } from "./helpers/header.js";
+import { boardObject } from "./objects.js";
 
 function paintTile(col, row) {
     if (boardObject.getBoardArray[col][row] === 1) {

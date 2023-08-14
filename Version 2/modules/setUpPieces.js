@@ -1,4 +1,4 @@
-import { myHeaders } from "./header.js";
+import { myHeaders } from "./helpers/header.js";
 import { listObject } from "./objects.js";
 import { Pawn, Rook, Knight, Bishop, Queen, King } from "./classes.js";
 import { paintPiece } from "./paintPiece.js";

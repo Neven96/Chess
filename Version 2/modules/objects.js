@@ -1,4 +1,4 @@
-import { myHeaders } from "./header.js";
+import { myHeaders } from "./helpers/header.js";
 
 const typeObjects = {
     players: 1,

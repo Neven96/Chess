@@ -1,4 +1,4 @@
-import { myHeaders } from "./header.js";
+import { myHeaders } from "./helpers/header.js";
 import { mod } from "./helpers/modulo.js";
 import { zeroPad } from "./helpers/zeroPad.js";
 import { playGameObject } from "./playGame.js";
@@ -56,6 +56,7 @@ const timeObject = {
     },
 
     updateTime() {
+        // Updates the seconds, minutes and hours of each player
         if (mod(turnObject.getInternalTurn, 2) === 1) {
             this.whiteSeconds++;
             if (this.whiteSeconds === 60) {

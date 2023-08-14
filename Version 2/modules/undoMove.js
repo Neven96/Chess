@@ -1,10 +1,10 @@
-import { undoTurn } from "./endTurn.js";
-import { myHeaders } from "./header.js";
+import { myHeaders } from "./helpers/header.js";
 import { boardObject, listObject } from "./objects.js";
 import { paintPiece } from "./paintPiece.js";
 import { paintTile } from "./paintTile.js";
 import { turnObject } from "./turnKeeping.js";
 import { pawnMovement, rookMovement, knightMovement, bishopMovement, queenMovement, kingMovement } from "./movement.js";
+import { undoTurn } from "./endTurn.js";
 
 function undoMove() {
     let piece;

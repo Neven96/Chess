@@ -5,9 +5,9 @@ body {
         linear-gradient(45deg, transparent 75%, #B0B0B0 75%),
         linear-gradient(45deg, #B0B0B0 25%, #FFFFFF 25%);
     
-  background-size: 100px 100px;
+  background-size: 200px 200px;
     
-  background-position: 0 0, 0 0, -50px -50px, 50px 50px;
+  background-position: 0 0, 0 0, -100px -100px, 100px 100px;
 }
 
 h1 {
@@ -29,14 +29,14 @@ span {
   color: #FFFFFF;
   font-family: Helvetica, Arial, Sans-Serif;
   font-size: 20px;
-  text-shadow: 2px 0 #000000,
-    -2px 0 #000000,
-    0 2px #000000,
-    0 -2px #000000,
-    1px 1px #000000,
-    -1px -1px #000000,
-    1px -1px #000000,
-    -1px 1px #000000;
+  text-shadow: 2px 0 #303030,
+    -2px 0 #303030,
+    0 2px #303030,
+    0 -2px #303030,
+    1px 1px #303030,
+    -1px -1px #303030,
+    1px -1px #303030,
+    -1px 1px #303030;
 }
 
 .home {

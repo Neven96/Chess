@@ -1,4 +1,4 @@
-import { myHeaders } from "./header.js";
+import { myHeaders } from "./helpers/header.js";
 import { boardObject, listObject } from "./objects.js";
 import { turnObject } from "./turnKeeping.js";
 

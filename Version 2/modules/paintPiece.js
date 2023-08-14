@@ -1,4 +1,4 @@
-import { myHeaders } from "./header.js";
+import { myHeaders } from "./helpers/header.js";
 import { boardObject } from "./objects.js";
 
 function paintPiece(col, row, piece, pieceSymbol = "") {

@@ -1,4 +1,4 @@
-import { myHeaders } from "./header.js";
+import { myHeaders } from "./helpers/header.js";
 import { arrayAddition, arraySubtraction } from "./helpers/arrayManipulation.js";
 import { boardObject, listObject } from "./objects.js";
 
@@ -389,4 +389,13 @@ function kingMovement() {
     }
 }
 
-export { pawnMovement, rookMovement, knightMovement, bishopMovement, queenMovement, kingMovement };
+function updateMovement() {
+    pawnMovement();
+    rookMovement();
+    knightMovement();
+    bishopMovement();
+    queenMovement();
+    kingMovement();
+}
+
+export { pawnMovement, rookMovement, knightMovement, bishopMovement, queenMovement, kingMovement, updateMovement };

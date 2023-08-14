@@ -1,4 +1,4 @@
-import { myHeaders } from "./header.js";
+import { myHeaders } from "./helpers/header.js";
 import { pauseObject } from "./pauseGame.js";
 import { typeObjects } from "./objects.js";
 import { timeObject } from "./timeKeeping.js";

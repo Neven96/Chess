@@ -1,6 +1,6 @@
-import { myHeaders } from "./header.js";
+import { myHeaders } from "./helpers/header.js";
 import { boardObject, listObject, pieceObject, typeObjects } from "./objects.js";
-import { pawnMovement, rookMovement, knightMovement, bishopMovement, queenMovement, kingMovement } from "./movement.js";
+import { updateMovement } from "./movement.js";
 import { paintPiece } from "./paintPiece.js";
 import { paintTile } from "./paintTile.js";
 import { selectPiece } from "./selectPiece.js";
@@ -23,9 +23,12 @@ function clickPiece(event) {
         if (pieceObject.getSelected !== null) {
             // Checks if the clicked tile is a valid move for that piece
             if (pieceObject.getSelected.getValidMove([x_true, y_true])) {
+
+                // For capturing a piece
                 if ((pieceObject.getSelected.getColor === "white" && boardObject.pieceArrayPosition([x_true, y_true]) <= -1) || (pieceObject.getSelected.getColor === "black" && boardObject.pieceArrayPosition([x_true, y_true]) >= 1)) {
                     for (let name in listObject.getPieceList) {
                         if (listObject.getPieceList[name].getNameFromPosition([x_true, y_true])) {
+                            // Gets the taken piece and sets it to taken, moves it away from the board, and adds the piece to the taken pieces
                             let takenPiece = listObject.getPieceList[name];
                             takenPiece.setTaken = true;
                             takenPiece.setPiecePosition = [99, 99];
@@ -67,13 +70,8 @@ function clickPiece(event) {
                 
 
                 // Updates the moves of all pieces
-                pawnMovement();
-                rookMovement();
-                knightMovement();
-                bishopMovement();
-                queenMovement();
-                kingMovement();
-                // console.log(boardObject.getPieceArray);
+                updateMovement();
+                
                 endTurn();
                 return;
             }

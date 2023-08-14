@@ -1,4 +1,4 @@
-import { myHeaders } from "./header.js";
+import { myHeaders } from "./helpers/header.js";
 import { mod } from "./helpers/modulo.js";
 import { boardObject, listObject, pieceObject, typeObjects } from "./objects.js";
 import { paintPiece } from "./paintPiece.js";
@@ -51,7 +51,6 @@ function selectPiece() {
                             pieceObject.getY_selected * (boardObject.getBoard.height / 8),
                             boardObject.getBoard.width / 8,
                             boardObject.getBoard.height / 8);
-                        
                         break;
                     }
                 }
@@ -60,6 +59,7 @@ function selectPiece() {
         } else if (mod(turnObject.getInternalTurn, 2) === 0) {
             for (let name in listObject.getPieceList) {
                 if (listObject.getPieceList[name].getColor == "black") {
+                    // Returns the name of the piece from its position
                     if (listObject.getPieceList[name].getNameFromPosition([pieceObject.getX_selected, pieceObject.getY_selected])) {
                         pieceObject.setSelected = listObject.getPieceList[name];
                         pieceObject.setPieceSymbol = pieceObject.getSelected.getPieceSymbol;

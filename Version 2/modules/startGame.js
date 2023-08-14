@@ -1,11 +1,11 @@
-import { myHeaders } from "./header.js";
+import { myHeaders } from "./helpers/header.js";
 import { boardObject, listObject, pieceObject, typeObjects } from "./objects.js";
 import { paintLevel } from "./paintLevel.js";
 import { pauseObject } from "./pauseGame.js";
 import { playGameObject } from "./playGame.js";
 import { timeObject } from "./timeKeeping.js";
 import { setUpPieces } from "./setUpPieces.js";
-import { pawnMovement, rookMovement, knightMovement, bishopMovement, queenMovement, kingMovement } from "./movement.js";
+import { updateMovement } from "./movement.js";
 import { turnObject } from "./turnKeeping.js";
 
 
@@ -36,6 +36,7 @@ function startGame(players) {
 
     clearTimeout(playGameObject.getTime);
 
+    // Readies the time and turn for the players
     timeObject.setUpTime();
 
     turnObject.incrementTurn();
@@ -44,12 +45,8 @@ function startGame(players) {
     document.getElementById("turnDivider").style.display = "initial";
     document.getElementById("playerTurnColor").textContent = turnObject.getTurnColor;
 
-    pawnMovement();
-    rookMovement();
-    knightMovement();
-    bishopMovement();
-    queenMovement();
-    kingMovement();
+    // Creates the first movement for the pieces
+    updateMovement();
 
     typeObjects.setStarted = true;
     // Unpause the game to start the timer

@@ -1,4 +1,4 @@
-import { myHeaders } from "./modules/header.js";
+import { myHeaders } from "./modules/helpers/header.js";
 import { boardObject } from "./modules/objects.js";
 import { pauseObject } from "./modules/pauseGame.js";
 import { timeObject } from "./modules/timeKeeping.js";
@@ -11,12 +11,20 @@ import { startGame } from "./modules/startGame.js";
 const board = boardObject.setBoard = document.getElementById("board");
 boardObject.setContent = board.getContext("2d");
 
-document.getElementById("startEnKnapp").onclick = function () { startGame(1) };
-document.getElementById("startToKnapp").onclick = function () { startGame(2) };
-document.getElementById("pauseKnapp").onclick = function () { pauseObject.pauseGame() };
-
 timeObject.setUpTime();
 paintLevel();
+
+// Start a game against the computer, NOT WORKING
+document.getElementById("startEnKnapp").onclick = function () { 
+    startGame(1) 
+};
+// Start a game against another player, WORKING
+document.getElementById("startToKnapp").onclick = function () { 
+    startGame(2) 
+};
+document.getElementById("pauseKnapp").onclick = function () { 
+    pauseObject.pauseGame() 
+};
 
 board.addEventListener('click', clickPiece);
 

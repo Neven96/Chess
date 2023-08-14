@@ -1,4 +1,4 @@
-import { myHeaders } from "./header.js";
+import { myHeaders } from "./helpers/header.js";
 import { mod } from "./helpers/modulo.js";
 
 const turnObject = {

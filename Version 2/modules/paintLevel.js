@@ -1,7 +1,7 @@
-import { myHeaders } from "./header.js";
+import { myHeaders } from "./helpers/header.js";
 import { boardObject } from "./objects.js";
 
-
+// Paints the board, in black and white
 function paintLevel() {
     let boardRowLength = boardObject.getBoardArray.length;
     for (var i = 0; i < boardRowLength; i++) {
