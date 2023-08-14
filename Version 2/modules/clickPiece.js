@@ -7,8 +7,9 @@ import { selectPiece } from "./selectPiece.js";
 import { endTurn } from "./endTurn.js";
 import { pauseObject } from "./pauseGame.js";
 
+let _promote;
 
-function clickPiece(event) {
+async function clickPiece(event) {
     if (typeObjects.getStarted && !pauseObject.getPause) {
         const rect = boardObject.getBoard.getBoundingClientRect();
         const x = event.clientX - rect.left;
@@ -39,6 +40,22 @@ function clickPiece(event) {
                     }
                 }
 
+                if (pieceObject.getSelected.getPiece === "pawn") {
+                    if (y_true === 0 || y_true === 7) {
+                        pawnChange();
+
+                        let promise = new Promise((resolve) => { _promote = resolve });
+                        await promise.then((result) => { pieceObject.getSelected.changePiece(result[0], result[1]) });
+
+                        console.log(listObject.getQueenList);
+
+                        document.getElementById("rookButton").style.display = "none";
+                        document.getElementById("knightButton").style.display = "none";
+                        document.getElementById("bishopButton").style.display = "none";
+                        document.getElementById("queenButton").style.display = "none";
+                    }
+                }
+
                 // Moves the piece and then updates the board
                 pieceObject.getSelected.movePiece([x_true, y_true]);
 
@@ -51,7 +68,7 @@ function clickPiece(event) {
                 paintPiece(pieceObject.getY_selected,
                            pieceObject.getX_selected,
                            pieceObject.getSelected.getNumber,
-                           pieceObject.getPieceSymbol);
+                           pieceObject.getSelected.getPieceSymbol);
 
                 // Makes the previous position of the piece blank
                 paintTile(pieceObject.getY_previous, pieceObject.getX_previous);
@@ -80,6 +97,60 @@ function clickPiece(event) {
             selectPiece()
         }
     }
+}
+
+async function pawnChange() {
+    let rookButtonPiece, knightButtonPiece, bishopButtonPiece, queenButtonPiece;
+    let rookButtonValue, knightButtonValue, bishopButtonValue, queenButtonValue;
+    if (pieceObject.getSelected.getColor === "white") {
+        rookButtonPiece = "\u{2656}"
+        knightButtonPiece = "\u{2658}"
+        bishopButtonPiece = "\u{2657}"
+        queenButtonPiece = "\u{2655}"
+        rookButtonValue = 2;
+        knightButtonValue = 3;
+        bishopButtonValue = 4;
+        queenButtonValue = 5;
+    } else if (pieceObject.getSelected.getColor === "black") {
+        rookButtonPiece = "\u{265C}"
+        knightButtonPiece = "\u{265E}"
+        bishopButtonPiece = "\u{265D}"
+        queenButtonPiece = "\u{265B}"
+        rookButtonValue = -2;
+        knightButtonValue = -3;
+        bishopButtonValue = -4;
+        queenButtonValue = -5;
+    }
+    document.getElementById("rookButtonSpan").textContent = rookButtonPiece;
+    document.getElementById("knightButtonSpan").textContent = knightButtonPiece;
+    document.getElementById("bishopButtonSpan").textContent = bishopButtonPiece;
+    document.getElementById("queenButtonSpan").textContent = queenButtonPiece;
+    document.getElementById("rookButton").style.display = "initial";
+    document.getElementById("knightButton").style.display = "initial";
+    document.getElementById("bishopButton").style.display = "initial";
+    document.getElementById("queenButton").style.display = "initial";
+    document.getElementById("rookButton").value = rookButtonValue;
+    document.getElementById("knightButton").value = knightButtonValue;
+    document.getElementById("bishopButton").value = bishopButtonValue;
+    document.getElementById("queenButton").value = queenButtonValue;
+    document.getElementById("rookButton").disabled = false;
+    document.getElementById("knightButton").disabled = false;
+    document.getElementById("bishopButton").disabled = false;
+    document.getElementById("queenButton").disabled = false;
+
+    document.getElementById("rookButton").addEventListener("click", () => { 
+        _promote([rookButtonValue, rookButtonPiece]);
+    });
+    document.getElementById("knightButton").addEventListener("click", () => { 
+        _promote([knightButtonValue, knightButtonPiece]);
+    });
+    document.getElementById("bishopButton").addEventListener("click", () => { 
+        _promote([bishopButtonValue, bishopButtonPiece]);
+    });
+    document.getElementById("queenButton").addEventListener("click", () => { 
+        _promote([queenButtonValue, queenButtonPiece]);
+    });
+
 }
 
 export { clickPiece };

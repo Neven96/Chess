@@ -24,6 +24,8 @@ function startGame(players) {
     pieceObject.setX_selected = pieceObject.setY_selected = pieceObject.setX_previous = pieceObject.setY_previous = 0;
     pieceObject.setPieceSymbol = pieceObject.setPrevPieceSymbol = "";
     pauseObject.setPause = true;
+    turnObject.setInternalTurn = 0;
+    turnObject.setExternalTurn = 0;
 
     paintLevel();
     let pieceArrayLength = boardObject.getPieceArray.length;

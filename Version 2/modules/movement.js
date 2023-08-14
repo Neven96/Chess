@@ -166,6 +166,10 @@ function pawnMovement() {
     for (let piece in listObject.getPawnList) {
         newPosition = [];
         piece = listObject.getPawnList[piece];
+
+        // Removes all moves before creating new
+        piece.removeAvailableMoves();
+
         if (!piece.getTaken) {
             if (piece.getPiece === "pawn") {
                 if (piece.getColor === "white") {
@@ -230,6 +234,9 @@ function rookMovement() {
         newPosition = [];
         piece = listObject.getRookList[piece];
 
+        // Removes all moves before creating new
+        piece.removeAvailableMoves();
+
         if (piece.getPiece === "rook") {
             newPosition = lineMovement(piece, newPosition);
             piece.updateAvailableMoves(newPosition);
@@ -246,6 +253,9 @@ function knightMovement() {
     for (let piece in listObject.getKnightList) {
         newPosition = [];
         piece = listObject.getKnightList[piece];
+
+        // Removes all moves before creating new
+        piece.removeAvailableMoves();
 
         if (piece.getPiece === "knight") {
             // One up, two left
@@ -302,6 +312,9 @@ function bishopMovement() {
         newPosition = [];
         piece = listObject.getBishopList[piece];
 
+        // Removes all moves before creating new
+        piece.removeAvailableMoves();
+
         if (!piece.getTaken) {
             if (piece.getPiece === "bishop") {
                 newPosition = diagonalMovement(piece, newPosition);
@@ -318,6 +331,9 @@ function queenMovement() {
     for (let piece in listObject.getQueenList) {
         newPosition = [];
         piece = listObject.getQueenList[piece];
+
+        // Removes all moves before creating new
+        piece.removeAvailableMoves();
 
         if (!piece.getTaken) {
             if (piece.getPiece === "queen") {
@@ -338,6 +354,10 @@ function kingMovement() {
     for (let piece in listObject.getKingList) {
         newPosition = [];
         piece = listObject.getPieceList[piece];
+
+        // Removes all moves before creating new
+        piece.removeAvailableMoves();
+        
         if (piece.getPiece === "king") {
             // Line Movement
             // Y-axis

@@ -22,6 +22,13 @@ class Piece {
         return this.name;
     }
 
+    /**
+     * @param {number} number
+     */
+    set setNumber(number) {
+        this.number = number;
+    }
+
     get getNumber() {
         return this.number;
     }
@@ -158,28 +165,29 @@ class Pawn extends Piece {
         super(name, number, color, piece, position, piecePosition);
     }
 
-    changePiece(selected, newNumber) {
+    async changePiece(newNumber, newPieceSymbol) {
         this.number = newNumber;
+        this.pieceSymbol = newPieceSymbol;
         switch (this.number) {
             case -2:
             case 2:
                 this.piece = "rook";
-                listObject.addToRookList(selected);
+                listObject.addToRookList(this);
                 break;
             case -3:
             case 3:
                 this.piece = "knight";
-                listObject.addToKnightList(selected);
+                listObject.addToKnightList(this);
                 break;
             case -4:
             case 4:
                 this.piece = "bishop";
-                listObject.addToBishopList(selected);
+                listObject.addToBishopList(this);
                 break;
             case -5:
             case 5:
                 this.piece = "queen";
-                listObject.addToQueenList(selected);
+                listObject.addToQueenList(this);
                 break;
             default:
                 this.piece = "pawn";

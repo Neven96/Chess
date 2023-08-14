@@ -26,7 +26,9 @@ document.getElementById("pauseKnapp").onclick = function () {
     pauseObject.pauseGame() 
 };
 
-board.addEventListener('click', clickPiece);
+board.addEventListener('click', async (event) => {
+    await clickPiece(event);
+});
 
 document.getElementById("undoKnapp").onclick = function () { 
     if (turnObject.getInternalTurn > 1) { 

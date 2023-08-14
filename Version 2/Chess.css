@@ -128,6 +128,8 @@ span {
   margin: 0;
 }
 
+/* The board */
+
 .boardDiv {
   width: fit-content;
   border-style: solid;
@@ -136,11 +138,37 @@ span {
   margin-bottom: 0;
   display: block;
   width: 800px;
+  position: relative;
 }
 
 .board {
   display: block;
 }
+
+/* Pawn change pieces */
+
+.pieceButtonDiv {
+  margin-left: -3px;
+  position: absolute;
+  top: 324.8px;
+  left: 101.5px;
+  width: 603px;
+  font-size: 0;
+}
+
+.pieceButton {
+  height: 78.2px;
+  width: 298.5px;
+}
+
+.pieceButtonSpan {
+  font-size: 50px;
+  z-index: 999;
+}
+
+/*                           */
+/* Board letters and numbers */
+/*                           */
 
 .letterNumbering {
   float: left;
@@ -228,7 +256,7 @@ button {
   letter-spacing: 0.1rem;
   font-size: 1rem;
   transition: 0.2s;
-  width: 201.5px;
+  width: 198.5px;
   height: 52px;
 }
 

@@ -1,5 +1,6 @@
 import { myHeaders } from "./helpers/header.js";
 
+// Stuff
 const typeObjects = {
     players: 1,
     started: false,
@@ -39,6 +40,7 @@ const typeObjects = {
     }
 }
 
+// The board and layout
 const boardObject = {
     board: "",
     content: "",
@@ -123,6 +125,7 @@ const boardObject = {
     }
 }
 
+// The selected piece
 const pieceObject = {
     selected: null,
     prevSelected: null,
@@ -225,6 +228,7 @@ const pieceObject = {
     },
 }
 
+// Various list of stuff
 const listObject = {
     pieceList: {},
     pawnList: {},
