@@ -52,6 +52,9 @@ async function clickPiece(event) {
                             pieceObject.getSelected.changePiece(result[0], result[1]) 
                         });
 
+                        console.log(listObject.getPawnList);
+                        console.log(listObject.getQueenList);
+
                         document.getElementById("rookButton").style.display = "none";
                         document.getElementById("knightButton").style.display = "none";
                         document.getElementById("bishopButton").style.display = "none";

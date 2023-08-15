@@ -315,32 +315,68 @@ const listObject = {
         return this.kingList;
     },
 
+    // List Manipulation
+    // PieceList
     addToPieceList(newObject) {
         this.pieceList[newObject.name] = newObject;
     },
 
+    removeFromPieceList(removeObject) {
+        delete this.pieceList[removeObject.name];
+    },
+
+    // PawnList
     addToPawnList(newObject) {
         this.pawnList[newObject.name] = newObject;
     },
 
+    removeFromPawnList(removeObject) {
+        delete this.pawnList[removeObject.name];
+    },
+
+    // RookList
     addToRookList(newObject) {
         this.rookList[newObject.name] = newObject;
     },
 
+    removeFromRookList(removeObject) {
+        delete this.rookList[removeObject.name];
+    },
+
+    // KnightList
     addToKnightList(newObject) {
         this.knightList[newObject.name] = newObject;
     },
 
+    removeFromKnightList(removeObject) {
+        delete this.knightList[removeObject.name];
+    },
+
+    // BishopList
     addToBishopList(newObject) {
         this.bishopList[newObject.name] = newObject;
     },
 
+    removeFromBishopList(removeObject) {
+        delete this.bishopList[removeObject.name];
+    },
+
+    // QueenList
     addToQueenList(newObject) {
         this.queenList[newObject.name] = newObject;
     },
 
+    removeFromQueenList(removeObject) {
+        delete this.queenList[removeObject.name];
+    },
+
+    // KingList
     addToKingList(newObject) {
         this.kingList[newObject.name] = newObject;
+    },
+
+    removeFromKingList(removeObject) {
+        delete this.kingList[removeObject.name];
     },
 }
 

@@ -357,7 +357,7 @@ function kingMovement() {
 
         // Removes all moves before creating new
         piece.removeAvailableMoves();
-        
+
         if (piece.getPiece === "king") {
             // Line Movement
             // Y-axis
@@ -405,6 +405,11 @@ function kingMovement() {
             checkBoard = boardObject.pieceArrayPosition(boardPosition);
             newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
             piece.updateAvailableMoves(newPosition);
+
+            // Rokade
+            if (!piece.getMoved) {
+                
+            }
         }
     }
 }

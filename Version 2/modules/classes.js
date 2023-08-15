@@ -1,5 +1,5 @@
 import { myHeaders } from "./helpers/header.js";
-import { boardObject, listObject } from "./objects.js";
+import { listObject } from "./objects.js";
 import { turnObject } from "./turnKeeping.js";
 
 // The class for all pieces
@@ -168,6 +168,8 @@ class Pawn extends Piece {
     async changePiece(newNumber, newPieceSymbol) {
         this.number = newNumber;
         this.pieceSymbol = newPieceSymbol;
+
+        listObject.removeFromPawnList(this);
         switch (this.number) {
             case -2:
             case 2:
