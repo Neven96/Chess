@@ -9,7 +9,7 @@
     <link rel="icon" href="./favicon.ico">
   </head>
   <body>
-    <div class="home">
+    <div id="home" class="home">
       <div class="chessContent">
         <h1>Chess</h1>
         <div id="toppDiv" class="toppDiv">
@@ -78,8 +78,9 @@
             </div>
             <!-- Board -->
             <div id="boardDiv" class="boardDiv floatLeft">
+              <div id="lightBox" class="lightBox hidden"></div>
               <canvas id="board" class="board" width="800" height="800"></canvas>
-              <div class="pieceButtonDiv">
+              <div id="pieceButtonDiv" class="pieceButtonDiv">
                 <button id="rookButton" class="hidden pieceButton" disabled><span id="rookButtonSpan"
                     class="buttonSpan pieceButtonSpan"></span></button>
                 <button id="knightButton" class="hidden pieceButton" disabled><span id="knightButtonSpan"

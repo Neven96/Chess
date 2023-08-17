@@ -43,10 +43,11 @@ function diagonalMovement(piece, newPosition) {
 }
 
 // Helper-function for line and diagonal movement
+// Uses only arraySubtraction, so if you want to go down or right use negative x and y respectively
 function helperMovement(piece, newPosition, x, y) {
     let moves = 1;
     let movement = arraySubtraction(piece.getPiecePosition, [moves * x, moves * y]);
-    // Runs until it meets the edge of the board, or it meets another piece
+    // Runs until it meets the edge of the board, or until it hits a piece
     while (boardObject.pieceArrayPosition(movement) !== 99) {
         // Hitting a white piece
         if (boardObject.pieceArrayPosition(movement) >= 1) {
@@ -81,80 +82,15 @@ function helperMovement2(piece, boardPosition, checkBoard, newPosition) {
         if (checkBoard === 0) {
             newPosition.push(boardPosition);
         }
-        if (piece.getColor === "white") {
-            if (checkBoard <= -1) {
-                newPosition.push(boardPosition);
-            }
-        } else if (piece.getColor === "black") {
-            if (checkBoard >= 1) {
-                newPosition.push(boardPosition);
-            }
+        if (piece.getColor === "white" && checkBoard <= -1) {
+            newPosition.push(boardPosition);
+
+        } else if (piece.getColor === "black" && checkBoard >= 1) {
+            newPosition.push(boardPosition);
         }
     }
 
     return newPosition;
-}
-
-// NEED FIX
-function rokadeMove(piece, newPosition) {
-    if (!piece.getMoved) {
-        if (piece.getColor === "white") {
-            if (piece.getPiece === "rook") {
-                for (let otherPiece in listObject.getKingList) {
-                    otherPiece = listObject.getKingList[otherPiece];
-                    if (otherPiece.getColor === "white") {
-                        if (!otherPiece.getMoved) {
-                            if (piece.getPiecePosition === [0, 7]) {
-                                for (let i = 1; i < 4; i++) {
-                                    if (boardObject.pieceArrayPosition([i, 7]) > 0) {
-                                        return;
-                                    }
-                                }
-                                newPosition.push([3, 7])
-                            } else if (piece.getPiecePosition === [7, 7]) {
-                                for (let i = 5; i < 7; i++) {
-                                    if (boardObject.pieceArrayPosition([i, 7]) > 0) {
-                                        return;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            if (piece.getPiece === "king") {
-                for (let otherPiece in listObject.getRookList) {
-                    otherPiece = listObject.getRookList[otherPiece];
-                    if (otherPiece.getColor === "white") {
-                        if (!otherPiece.getMoved) {
-
-                        }
-                    }
-                }
-            }
-        } else if (piece.getColor === "black") {
-            if (piece.getPiece === "rook") {
-                for (let otherPiece in listObject.getKingList) {
-                    otherPiece = listObject.getKingList[otherPiece];
-                    if (otherPiece.getColor === "black") {
-                        if (!otherPiece.getMoved) {
-
-                        }
-                    }
-                }
-            }
-            if (piece.getPiece === "king") {
-                for (let otherPiece in listObject.getRookList) {
-                    otherPiece = listObject.getRookList[otherPiece];
-                    if (otherPiece.getColor === "black") {
-                        if (!otherPiece.getMoved) {
-
-                        }
-                    }
-                }
-            }
-        }
-    }
 }
 
 // Movement for the pieces
@@ -164,11 +100,12 @@ function pawnMovement() {
     let newPosition = [];
 
     for (let piece in listObject.getPawnList) {
-        newPosition = [];
-        piece = listObject.getPawnList[piece];
+        piece = listObject.getPieceList[piece];
 
         // Removes all moves before creating new
         piece.removeAvailableMoves();
+
+        newPosition = piece.getAvailableMoves;
 
         if (!piece.getTaken) {
             if (piece.getPiece === "pawn") {
@@ -231,15 +168,17 @@ function rookMovement() {
     let newPosition;
 
     for (let piece in listObject.getRookList) {
-        newPosition = [];
-        piece = listObject.getRookList[piece];
+        piece = listObject.getPieceList[piece];
 
         // Removes all moves before creating new
         piece.removeAvailableMoves();
 
-        if (piece.getPiece === "rook") {
-            newPosition = lineMovement(piece, newPosition);
-            piece.updateAvailableMoves(newPosition);
+        newPosition = piece.getAvailableMoves;
+        if (!piece.getTaken) {
+            if (piece.getPiece === "rook") {
+                newPosition = lineMovement(piece, newPosition);
+                piece.updateAvailableMoves(newPosition);
+            }
         }
     }
 }
@@ -251,11 +190,12 @@ function knightMovement() {
     let checkBoard;
 
     for (let piece in listObject.getKnightList) {
-        newPosition = [];
-        piece = listObject.getKnightList[piece];
+        piece = listObject.getPieceList[piece];
 
         // Removes all moves before creating new
         piece.removeAvailableMoves();
+
+        newPosition = piece.getAvailableMoves;
 
         if (piece.getPiece === "knight") {
             // One up, two left
@@ -309,11 +249,12 @@ function bishopMovement() {
     let newPosition;
 
     for (let piece in listObject.getBishopList) {
-        newPosition = [];
-        piece = listObject.getBishopList[piece];
+        piece = listObject.getPieceList[piece];
 
         // Removes all moves before creating new
         piece.removeAvailableMoves();
+
+        newPosition = piece.getAvailableMoves;
 
         if (!piece.getTaken) {
             if (piece.getPiece === "bishop") {
@@ -329,11 +270,12 @@ function queenMovement() {
     let newPosition;
 
     for (let piece in listObject.getQueenList) {
-        newPosition = [];
-        piece = listObject.getQueenList[piece];
+        piece = listObject.getPieceList[piece];
 
         // Removes all moves before creating new
         piece.removeAvailableMoves();
+
+        newPosition = piece.getAvailableMoves;
 
         if (!piece.getTaken) {
             if (piece.getPiece === "queen") {
@@ -352,11 +294,12 @@ function kingMovement() {
     let checkBoard;
 
     for (let piece in listObject.getKingList) {
-        newPosition = [];
         piece = listObject.getPieceList[piece];
 
         // Removes all moves before creating new
         piece.removeAvailableMoves();
+
+        newPosition = piece.getAvailableMoves;
 
         if (piece.getPiece === "king") {
             // Line Movement
@@ -406,9 +349,53 @@ function kingMovement() {
             newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
             piece.updateAvailableMoves(newPosition);
 
-            // Rokade
+            // Castling
+            // Move to either C-square of G-square, 2 moves
+            // Rook moves to other side of king, either D-square or F-square, either 3 or 2 moves respectively
             if (!piece.getMoved) {
-                
+                if (piece.getColor === "white") {
+                    for (let rookPiece in listObject.getRookList) {
+                        rookPiece = listObject.getRookList[rookPiece];
+                        let rookBoardPosition, rookCheckBoard;
+                        let rookNewPosition = rookPiece.getAvailableMoves;
+
+                        if (!rookPiece.getMoved && rookPiece.getColor === "white") {
+                            if (rookPiece.getPiecePosition.toString() === [0, 7].toString()) {
+                                if (boardObject.pieceArrayPosition([1, 7]) === 0 && boardObject.pieceArrayPosition([2, 7]) === 0 && boardObject.pieceArrayPosition([3, 7]) === 0) {
+                                    // Position for the king
+                                    boardPosition = arraySubtraction(piece.getPiecePosition, [2, 0]);
+                                    checkBoard = boardObject.pieceArrayPosition(boardPosition);
+                                    newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+
+                                    // Position for the A-rook, moving 3 spaces right
+                                    rookBoardPosition = arrayAddition(rookPiece.getPiecePosition, [3, 0]);
+                                    rookCheckBoard = boardObject.pieceArrayPosition(rookBoardPosition);
+                                    rookNewPosition = helperMovement2(rookPiece, rookBoardPosition, rookCheckBoard, rookNewPosition);
+
+                                    rookPiece.updateAvailableMoves(rookNewPosition);
+                                }
+                            } else if (rookPiece.getPiecePosition.toString() === [7, 7].toString()) {
+                                if (boardObject.pieceArrayPosition([6, 7]) === 0 && boardObject.pieceArrayPosition([5, 7]) === 0) {
+                                    // Position for the king
+                                    boardPosition = arrayAddition(piece.getPiecePosition, [2, 0]);
+                                    checkBoard = boardObject.pieceArrayPosition(boardPosition);
+                                    newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+
+                                    // Position for the H-rook, moving 2 spaces left
+                                    rookBoardPosition = arraySubtraction(rookPiece.getPiecePosition, [2, 0]);
+                                    rookCheckBoard = boardObject.pieceArrayPosition(rookBoardPosition);
+                                    rookNewPosition = helperMovement2(rookPiece, rookBoardPosition, rookCheckBoard, rookNewPosition);
+
+                                    rookPiece.updateAvailableMoves(rookNewPosition);
+                                }
+                            }
+
+                            piece.updateAvailableMoves(newPosition);
+                        }
+                    }
+                } else if (piece.getColor === "black") {
+                    
+                }
             }
         }
     }
