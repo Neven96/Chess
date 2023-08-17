@@ -76,7 +76,7 @@ const timeObject = {
             }
             if (this.blackMinutes === 60) {
                 this.blackHours++;
-                this.blackSeconds = 0;
+                this.blackMinutes = 0;
             }
             document.getElementById("blackTime").textContent = zeroPad(2, this.blackHours) + ":" + zeroPad(2, this.blackMinutes) + ":" + zeroPad(2, this.blackSeconds);
         }
