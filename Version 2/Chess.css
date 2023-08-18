@@ -124,8 +124,12 @@ span {
   height: 403px;
 }
 
-.testP {
+.takenPieceHeadline {
   margin: 0;
+}
+
+.takenPieces {
+  font-size: 40px;
 }
 
 /* The board */

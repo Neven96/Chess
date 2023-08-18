@@ -33,6 +33,13 @@ class Piece {
         return this.number;
     }
 
+    /**
+     * @param {any} color
+     */
+    set setColor(color) {
+        this.color = color;
+    }
+
     get getColor() {
         return this.color;
     }

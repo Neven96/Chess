@@ -40,6 +40,11 @@ async function clickPiece(event) {
                     }
                 }
 
+                for (let moves in pieceObject.getSelected.getAvailableMoves) {
+                    paintTile(pieceObject.getSelected.getAvailableMoves[moves][1],
+                              pieceObject.getSelected.getAvailableMoves[moves][0]);
+                }
+
                 if (pieceObject.getSelected.getPiece === "pawn") {
                     if (y_true === 0 || y_true === 7) {
                         // Sets up the buttons for promoting the pawn, and then waits until a choice is made
