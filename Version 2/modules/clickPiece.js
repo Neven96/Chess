@@ -52,9 +52,6 @@ async function clickPiece(event) {
                             pieceObject.getSelected.changePiece(result[0], result[1]) 
                         });
 
-                        console.log(listObject.getPawnList);
-                        console.log(listObject.getQueenList);
-
                         document.getElementById("rookButton").style.display = "none";
                         document.getElementById("knightButton").style.display = "none";
                         document.getElementById("bishopButton").style.display = "none";
@@ -63,22 +60,69 @@ async function clickPiece(event) {
                         document.getElementById("knightButton").disabled = true;
                         document.getElementById("bishopButton").disabled = true;
                         document.getElementById("queenButton").disabled = true;
+
+                        document.getElementById("lightBox").style.display = "none";
                     }
                 }
 
-                // Moves the piece and then updates the board
-                pieceObject.getSelected.movePiece([x_true, y_true]);
+                // For castling
+                if (pieceObject.getSelected.getPiece === "king") {
+                    console.log(pieceObject.getSelected);
+                    let rookSelected = "";
+                    if (pieceObject.getSelected.getColor === "white") {
+                        // Castling with A-rook
+                        if (x_true === 2) {
+                            // Finds the correct rook from the position
+                            rookSelected = boardObject.getNameFromNameArray([0, 7]);
+                            pieceObject.setRookSelected = listObject.getRookList[rookSelected];
+                            pieceObject.setRook_x = 3;
+                            pieceObject.setRook_y = 7;
+                            
+                            moveRook();
+                        // Castling with H-rook
+                        } else if (x_true === 6) {
+                            // Finds the correct rook from the position
+                            rookSelected = boardObject.getNameFromNameArray([7, 7]);
+                            pieceObject.setRookSelected = listObject.getRookList[rookSelected];
+                            pieceObject.setRook_x = 5;
+                            pieceObject.setRook_y = 7;
+
+                            moveRook();
+                        }
+                    } else if (pieceObject.getSelected.getColor === "black") {
+                        // Castling with A-rook
+                        if (x_true === 2) {
+                            // Finds the correct rook from the position
+                            rookSelected = boardObject.getNameFromNameArray([0, 0]);
+                            pieceObject.setRookSelected = listObject.getRookList[rookSelected];
+                            pieceObject.setRook_x = 3;
+                            pieceObject.setRook_y = 0;
+
+                            moveRook();
+                        // Castling with H-rook
+                        } else if (x_true === 6) {
+                            // Finds the correct rook from the position
+                            rookSelected = boardObject.getNameFromNameArray([7, 0]);
+                            pieceObject.setRookSelected = listObject.getRookList[rookSelected];
+                            pieceObject.setRook_x = 5;
+                            pieceObject.setRook_y = 0;
+
+                            moveRook();
+                        }
+                    }
+                }
+                
+                pieceObject.getSelected.movePiece([pieceObject.getX_selected, pieceObject.getY_selected]);
 
                 boardObject.movePiece([pieceObject.getY_previous, pieceObject.getX_previous], 
                                       [pieceObject.getY_selected, pieceObject.getX_selected], 
-                                      pieceObject.getSelected.getNumber);
+                                      pieceObject.getSelected.getNumber,
+                                      pieceObject.getSelected.getName);
 
                 // Draws the new piece on its new position
                 paintTile(pieceObject.getY_selected, pieceObject.getX_selected)
-                paintPiece(pieceObject.getY_selected,
-                           pieceObject.getX_selected,
-                           pieceObject.getSelected.getNumber,
-                           pieceObject.getSelected.getPieceSymbol);
+                paintPiece(pieceObject.getY_selected, pieceObject.getX_selected,
+                           pieceObject.getSelected.getNumber, pieceObject.getSelected.getPieceSymbol);
 
                 // Makes the previous position of the piece blank
                 paintTile(pieceObject.getY_previous, pieceObject.getX_previous);
@@ -109,6 +153,33 @@ async function clickPiece(event) {
     }
 }
 
+// For moving the rook after the king in castling
+function moveRook() {
+    let x_previous = pieceObject.getRookSelected.getPiecePosition[0];
+    let y_previous = pieceObject.getRookSelected.getPiecePosition[1];
+
+    pieceObject.getRookSelected.movePiece([pieceObject.getRook_x, pieceObject.getRook_y]);
+
+    boardObject.movePiece([y_previous, x_previous], 
+                          [pieceObject.getRook_y, pieceObject.getRook_x], 
+                          pieceObject.getRookSelected.getNumber,
+                          pieceObject.getRookSelected.getName);
+
+    // Draws the new piece on its new position
+    paintTile(pieceObject.getRook_y, pieceObject.getRook_x)
+    paintPiece(pieceObject.getRook_y, pieceObject.getRook_x,
+               pieceObject.getRookSelected.getNumber, pieceObject.getRookSelected.getPieceSymbol);
+
+    // Makes the previous position of the piece blank
+    paintTile(y_previous, x_previous);
+
+
+    pieceObject.setRookSelected = null;
+    pieceObject.setRook_x = 0;
+    pieceObject.setRook_y = 0;
+}
+
+// Function for showing the pawn change menu
 async function pawnChange() {
     let rookButtonPiece, knightButtonPiece, bishopButtonPiece, queenButtonPiece;
     let rookButtonValue, knightButtonValue, bishopButtonValue, queenButtonValue;
@@ -141,6 +212,8 @@ async function pawnChange() {
         "queen": { "piece": queenButtonPiece, "value": queenButtonValue }
     };
 
+    document.getElementById("lightBox").style.display = "initial";
+
     // Giving the buttons the values, and making them visible and clickable
     for (let piece in buttonList) {
         document.getElementById(piece+"ButtonSpan").textContent = buttonList[piece]["piece"];
@@ -155,8 +228,8 @@ async function pawnChange() {
         handleClick(event.target.value);
     }
 
-    function handleClick(piece) {
-        _promote([buttonList[piece]["value"], buttonList[piece]["piece"]]);
+    function handleClick(pieceNumber) {
+        _promote([buttonList[pieceNumber]["value"], buttonList[pieceNumber]["piece"]]);
 
         document.getElementById("rookButton").removeEventListener("click", clicked);
         document.getElementById("knightButton").removeEventListener("click", clicked);

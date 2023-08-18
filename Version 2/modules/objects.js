@@ -60,6 +60,14 @@ const boardObject = {
                  [ 0,  0,  0,  0,  0,  0,  0,  0],
                  [ 1,  1,  1,  1,  1,  1,  1,  1],
                  [ 2,  3,  4,  5,  6,  4,  3,  2]],
+    pieceNameArray : [[0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0]],
     pieceTypes: {"pawn": [-1, 1], "rook": [-2, 2], "knight": [-3, 3], "bishop": [-4, 4], "queen": [-5, 5], "king": [-6, 6]},
 
     get getBoard() {
@@ -99,6 +107,25 @@ const boardObject = {
         return this.pieceArray;
     },
 
+    /**
+     * @param {any[][]} pieceNameArray
+     */
+    set setPieceNameArray(pieceNameArray) {
+        this.pieceNameArray = pieceNameArray;
+    },
+
+    get getPieceNameArray() {
+        return this.pieceNameArray;
+    },
+
+    addToNameArrayPosition(newPos, pieceName) {
+        this.pieceNameArray[newPos[0]][newPos[1]] = pieceName;
+    },
+
+    getNameFromNameArray(position) {
+        return this.pieceNameArray[position[1]][position[0]]
+    },
+
     // Position is an array of length 2
     pieceArrayPosition(position) {
         if (position[0] < 0 || position[0] > 7 || position[1] < 0 || position[1] > 7) {
@@ -108,9 +135,12 @@ const boardObject = {
     },
 
     // Updates the position of the piece on the board
-    movePiece(oldPos, newPos, pieceNumber) {
+    movePiece(oldPos, newPos, pieceNumber, pieceName) {
         this.pieceArray[oldPos[0]][oldPos[1]] = 0;
         this.pieceArray[newPos[0]][newPos[1]] = pieceNumber;
+
+        this.pieceNameArray[oldPos[0]][oldPos[1]] = 0;
+        this.pieceNameArray[newPos[0]][newPos[1]] = pieceName;
     },
 
     resetPieces() {
@@ -129,13 +159,15 @@ const boardObject = {
 const pieceObject = {
     selected: null,
     prevSelected: null,
+    rookSelected: null,
     pieceSymbol: "",
     prevPieceSymbol: "",
     x_selected: 0,
     y_selected: 0,
     x_previous: 0,
     y_previous: 0,
-
+    rook_x: 0,
+    rook_y: 0,
 
     /**
      * @param {any} selected
@@ -159,6 +191,16 @@ const pieceObject = {
         return this.prevSelected;
     },
 
+    /**
+     * @param {null} rookSelected
+     */
+    set setRookSelected(rookSelected) {
+        this.rookSelected = rookSelected;
+    },
+
+    get getRookSelected() {
+        return this.rookSelected;
+    },
 
     /**
      * @param {string} pieceSymbol
@@ -170,7 +212,6 @@ const pieceObject = {
     get getPieceSymbol() {
         return this.pieceSymbol;
     },
-
 
     /**
      * @param {string} prevPieceSymbol
@@ -225,6 +266,28 @@ const pieceObject = {
 
     get getY_previous() {
         return this.y_previous;
+    },
+
+    /**
+     * @param {number} rook_x
+     */
+    set setRook_x(rook_x) {
+        this.rook_x = rook_x;
+    },
+
+    get getRook_x() {
+        return this.rook_x;
+    },
+
+    /**
+     * @param {number} rook_y
+     */
+    set setRook_y(rook_y) {
+        this.rook_y = rook_y;
+    },
+
+    get getRook_y() {
+        return this.rook_y;
     },
 }
 

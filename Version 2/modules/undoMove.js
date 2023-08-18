@@ -35,7 +35,8 @@ function undoMove() {
 
         boardObject.movePiece([currentPosition[1], currentPosition[0]],
                               [prevPosition[1], prevPosition[0]],
-                              piece.getNumber);
+                              piece.getNumber,
+                              piece.getName);
 
         paintTile(currentPosition[1], currentPosition[0]);
         paintPiece(prevPosition[1],

@@ -356,37 +356,20 @@ function kingMovement() {
                 if (piece.getColor === "white") {
                     for (let rookPiece in listObject.getRookList) {
                         rookPiece = listObject.getRookList[rookPiece];
-                        let rookBoardPosition, rookCheckBoard;
+                        // let rookBoardPosition, rookCheckBoard;
                         let rookNewPosition = rookPiece.getAvailableMoves;
 
                         if (!rookPiece.getMoved && rookPiece.getColor === "white") {
                             if (rookPiece.getPiecePosition.toString() === [0, 7].toString()) {
+                                // king: 2, rook: -3
                                 if (boardObject.pieceArrayPosition([1, 7]) === 0 && boardObject.pieceArrayPosition([2, 7]) === 0 && boardObject.pieceArrayPosition([3, 7]) === 0) {
-                                    // Position for the king
-                                    boardPosition = arraySubtraction(piece.getPiecePosition, [2, 0]);
-                                    checkBoard = boardObject.pieceArrayPosition(boardPosition);
-                                    newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
 
-                                    // Position for the A-rook, moving 3 spaces right
-                                    rookBoardPosition = arrayAddition(rookPiece.getPiecePosition, [3, 0]);
-                                    rookCheckBoard = boardObject.pieceArrayPosition(rookBoardPosition);
-                                    rookNewPosition = helperMovement2(rookPiece, rookBoardPosition, rookCheckBoard, rookNewPosition);
-
-                                    rookPiece.updateAvailableMoves(rookNewPosition);
+                                    kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, 2, -3);
                                 }
                             } else if (rookPiece.getPiecePosition.toString() === [7, 7].toString()) {
+                                // King: -2, rook: 2
                                 if (boardObject.pieceArrayPosition([6, 7]) === 0 && boardObject.pieceArrayPosition([5, 7]) === 0) {
-                                    // Position for the king
-                                    boardPosition = arrayAddition(piece.getPiecePosition, [2, 0]);
-                                    checkBoard = boardObject.pieceArrayPosition(boardPosition);
-                                    newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
-
-                                    // Position for the H-rook, moving 2 spaces left
-                                    rookBoardPosition = arraySubtraction(rookPiece.getPiecePosition, [2, 0]);
-                                    rookCheckBoard = boardObject.pieceArrayPosition(rookBoardPosition);
-                                    rookNewPosition = helperMovement2(rookPiece, rookBoardPosition, rookCheckBoard, rookNewPosition);
-
-                                    rookPiece.updateAvailableMoves(rookNewPosition);
+                                    kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, -2, 2);
                                 }
                             }
 
@@ -394,11 +377,51 @@ function kingMovement() {
                         }
                     }
                 } else if (piece.getColor === "black") {
-                    
+                    for (let rookPiece in listObject.getRookList) {
+                        rookPiece = listObject.getRookList[rookPiece];
+                        // let rookBoardPosition, rookCheckBoard;
+                        let rookNewPosition = rookPiece.getAvailableMoves;
+
+                        if (!rookPiece.getMoved && rookPiece.getColor === "black") {
+                            if (rookPiece.getPiecePosition.toString() === [0, 0].toString()) {
+                                // king: 2, rook: -3
+                                if (boardObject.pieceArrayPosition([1, 0]) === 0 && boardObject.pieceArrayPosition([2, 0]) === 0 && boardObject.pieceArrayPosition([3, 0]) === 0) {
+                                    kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, 2, -3);
+                                }
+                            } else if (rookPiece.getPiecePosition.toString() === [7, 0].toString()) {
+                                // King: -2, rook: 2
+                                if (boardObject.pieceArrayPosition([6, 0]) === 0 && boardObject.pieceArrayPosition([5, 0]) === 0) {
+                                    kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, -2, 2);
+                                }
+                            }
+
+                            piece.updateAvailableMoves(newPosition);
+                        }
+                    }
                 }
             }
         }
     }
+}
+
+// Helper function for the castling process
+function kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, kingMove, rookMove) {
+    let boardPosition, checkBoard;
+    let rookBoardPosition, rookCheckBoard;
+
+    // Position for the king
+    boardPosition = arraySubtraction(piece.getPiecePosition, [kingMove, 0]);
+    checkBoard = boardObject.pieceArrayPosition(boardPosition);
+    newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+
+    // Position for the A-rook, moving 3 spaces right
+    rookBoardPosition = arraySubtraction(rookPiece.getPiecePosition, [rookMove, 0]);
+    rookCheckBoard = boardObject.pieceArrayPosition(rookBoardPosition);
+    rookNewPosition = helperMovement2(rookPiece, rookBoardPosition, rookCheckBoard, rookNewPosition);
+
+    rookPiece.updateAvailableMoves(rookNewPosition);
+
+    return newPosition;
 }
 
 function updateMovement() {
