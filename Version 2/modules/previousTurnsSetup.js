@@ -22,6 +22,7 @@ function previousTurnsSetup(castling = "", promotion = "", attack = false, attac
         document.getElementById("previousTurnsTableBody").appendChild(tableRow);
     }
 
+    // TODO: Fix undoing turn
     if (document.getElementById("tableRowTurn" + turnObject.getExternalTurn) !== null) {
         let tableCellTurnColor = document.createElement("td");
         tableCellTurnColor.id = "tableCellTurn" + turnObject.getExternalTurn + turnObject.getTurnColor;

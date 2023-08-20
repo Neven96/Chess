@@ -140,8 +140,8 @@ class Piece {
         this.availableMoves = [];
     }
 
-    updatePreviousPosition(move) {
-        this.previousPositions[turnObject.getInternalTurn] = [this.piecePosition, move];
+    updatePreviousPosition(moved, taken) {
+        this.previousPositions[turnObject.getInternalTurn] = [this.piecePosition, moved, taken];
     }
 
     // Checks if newPos array is in the availableMoves 2d array

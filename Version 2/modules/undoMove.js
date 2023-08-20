@@ -11,7 +11,7 @@ function undoMove() {
     let currentPosition;
     let previousPositions;
     let prevPosition;
-    let prevMoved;
+    let prevMoved, prevTaken, prevPrevTaken;
     let currentTurn = turnObject.getInternalTurn;
 
     for (let name in listObject.getPieceList) {
@@ -22,12 +22,20 @@ function undoMove() {
 
         
         // Gets the immediate previous position of the piece
-        prevPosition = previousPositions[currentTurn - 2][0]
-        prevMoved = previousPositions[currentTurn - 2][1]
+        prevPosition = previousPositions[currentTurn - 2][0];
+        prevMoved = previousPositions[currentTurn - 2][1];
+        prevTaken = previousPositions[currentTurn - 1][2];
+        prevPrevTaken = previousPositions[currentTurn - 2][2];
 
         if (piece.getMoved) {
             if (!prevMoved) {
                 piece.setMoved = false;
+            }
+        }
+
+        if (piece.getTaken) {
+            if (!prevPrevTaken) {
+                piece.setTaken = false;
             }
         }
         
@@ -35,10 +43,17 @@ function undoMove() {
 
         boardObject.movePiece([currentPosition[1], currentPosition[0]],
                               [prevPosition[1], prevPosition[0]],
-                              piece.getNumber,
-                              piece.getName);
-
-        paintTile(currentPosition[1], currentPosition[0]);
+                              piece, prevTaken);
+        
+        if (currentPosition.toString() !== [99, 99].toString()) {
+            if (boardObject.getPieceArray[currentPosition[1]][currentPosition[0]] === piece.getNumber) {
+                paintTile(currentPosition[1], currentPosition[0]);
+            }
+            
+        }
+        if (piece.getName === "blackPawnE") {
+            console.log(piece);
+        }
         paintPiece(prevPosition[1],
                    prevPosition[0],
                    piece.getNumber,

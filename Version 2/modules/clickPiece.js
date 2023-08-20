@@ -49,6 +49,7 @@ async function clickPiece(event) {
                     }
                 }
 
+                // TO DO: Fix pieces not showing on valid move spaces after movement
                 for (let moves in pieceObject.getSelected.getAvailableMoves) {
                     paintTile(pieceObject.getSelected.getAvailableMoves[moves][1],
                               pieceObject.getSelected.getAvailableMoves[moves][0]);
@@ -162,8 +163,6 @@ async function clickPiece(event) {
                 pieceObject.setSelected = pieceObject.setPrevSelected = null;
                 pieceObject.setX_selected = pieceObject.setY_selected = pieceObject.setX_previous = pieceObject.setY_previous = 0;
                 pieceObject.setPieceSymbol = pieceObject.setPrevPieceSymbol = "";
-
-                
 
                 // Updates the moves of all pieces
                 updateMovement();

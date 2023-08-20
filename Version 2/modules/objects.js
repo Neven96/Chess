@@ -135,12 +135,24 @@ const boardObject = {
     },
 
     // Updates the position of the piece on the board
-    movePiece(oldPos, newPos, pieceNumber, pieceName) {
-        this.pieceArray[oldPos[0]][oldPos[1]] = 0;
-        this.pieceArray[newPos[0]][newPos[1]] = pieceNumber;
+    movePiece(oldPos, newPos, piece, prevTaken = false) {
+        if (!piece.getTaken) {
+            if (prevTaken) {
+                this.pieceArray[newPos[0]][newPos[1]] = piece.getNumber;
 
-        this.pieceNameArray[oldPos[0]][oldPos[1]] = 0;
-        this.pieceNameArray[newPos[0]][newPos[1]] = pieceName;
+                this.pieceNameArray[newPos[0]][newPos[1]] = piece.getName;
+            } else if (!prevTaken) {
+                if (this.pieceArray[oldPos[0]][oldPos[1]] === piece.getNumber) {
+                    this.pieceArray[oldPos[0]][oldPos[1]] = 0;
+                }
+                this.pieceArray[newPos[0]][newPos[1]] = piece.getNumber;
+
+                if (this.pieceNameArray[oldPos[0]][oldPos[1]] === piece.getName) {
+                    this.pieceNameArray[oldPos[0]][oldPos[1]] = 0;
+                }
+                this.pieceNameArray[newPos[0]][newPos[1]] = piece.getName;
+            }
+        }
     },
 
     resetPieces() {
