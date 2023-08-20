@@ -1,6 +1,5 @@
 import { myHeaders } from "./helpers/header.js";
 import { boardObject, listObject, pieceObject, typeObjects } from "./objects.js";
-import { paintLevel } from "./paintLevel.js";
 import { pauseObject } from "./pauseGame.js";
 import { playGameObject } from "./playGame.js";
 import { timeObject } from "./timeKeeping.js";
@@ -21,13 +20,14 @@ function startGame(players) {
 
     typeObjects.setPlayers = players;
     pieceObject.setSelected = pieceObject.setPrevSelected = null;
+    pieceObject.rookSelected = null;
     pieceObject.setX_selected = pieceObject.setY_selected = pieceObject.setX_previous = pieceObject.setY_previous = 0;
+    pieceObject.rook_x = pieceObject.rook_y = 0;
     pieceObject.setPieceSymbol = pieceObject.setPrevPieceSymbol = "";
     pauseObject.setPause = true;
     turnObject.setInternalTurn = 0;
     turnObject.setExternalTurn = 0;
 
-    paintLevel();
     let pieceArrayLength = boardObject.getPieceArray.length;
     for (var i = 0; i < pieceArrayLength; i++) {
         let pieceArrayILength = boardObject.getPieceArray[i].length;

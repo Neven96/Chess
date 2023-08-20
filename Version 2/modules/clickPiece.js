@@ -4,6 +4,7 @@ import { updateMovement } from "./movement.js";
 import { paintPiece } from "./paintPiece.js";
 import { paintTile } from "./paintTile.js";
 import { selectPiece } from "./selectPiece.js";
+import { previousTurnsSetup } from "./previousTurnsSetup.js";
 import { endTurn } from "./endTurn.js";
 import { pauseObject } from "./pauseGame.js";
 
@@ -16,6 +17,10 @@ async function clickPiece(event) {
         const y = event.clientY - rect.top;
         let x_true = Math.floor(x / (boardObject.getBoard.height / 8));
         let y_true = Math.floor(y / (boardObject.getBoard.width / 8));
+        let castling = "";
+        let promotion = "";
+        let attack = false;
+        let attackPawn = false;
         // console.log("x: " + x_true + ", y: " + y_true);
 
         pieceObject.setX_selected = x_true;
@@ -35,6 +40,10 @@ async function clickPiece(event) {
                             takenPiece.setPiecePosition = [99, 99];
                             takenPiece.removeAvailableMoves();
                             document.getElementById(pieceObject.getSelected.getColor+"Taken").textContent += takenPiece.getPieceSymbol;
+                            attack = true;
+                            if (pieceObject.getSelected.getPiece === "pawn") {
+                                attackPawn = true;
+                            }
                             break;
                         }
                     }
@@ -54,7 +63,8 @@ async function clickPiece(event) {
                             _promote = resolve 
                         });
                         await promise.then((result) => { 
-                            pieceObject.getSelected.changePiece(result[0], result[1]) 
+                            promotion = result[0];
+                            pieceObject.getSelected.changePiece(result[0], result[1]);
                         });
 
                         document.getElementById("rookButton").style.display = "none";
@@ -84,6 +94,8 @@ async function clickPiece(event) {
                             pieceObject.setRook_y = 7;
                             
                             moveRook();
+
+                            castling = "long";
                         // Castling with H-rook
                         } else if (x_true === 6) {
                             // Finds the correct rook from the position
@@ -93,6 +105,8 @@ async function clickPiece(event) {
                             pieceObject.setRook_y = 7;
 
                             moveRook();
+
+                            castling = "short";
                         }
                     } else if (pieceObject.getSelected.getColor === "black") {
                         // Castling with A-rook
@@ -104,6 +118,8 @@ async function clickPiece(event) {
                             pieceObject.setRook_y = 0;
 
                             moveRook();
+
+                            castling = "long";
                         // Castling with H-rook
                         } else if (x_true === 6) {
                             // Finds the correct rook from the position
@@ -113,6 +129,8 @@ async function clickPiece(event) {
                             pieceObject.setRook_y = 0;
 
                             moveRook();
+
+                            castling = "short";
                         }
                     }
                 }
@@ -121,8 +139,7 @@ async function clickPiece(event) {
 
                 boardObject.movePiece([pieceObject.getY_previous, pieceObject.getX_previous], 
                                       [pieceObject.getY_selected, pieceObject.getX_selected], 
-                                      pieceObject.getSelected.getNumber,
-                                      pieceObject.getSelected.getName);
+                                      pieceObject.getSelected);
 
                 // Draws the new piece on its new position
                 paintTile(pieceObject.getY_selected, pieceObject.getX_selected)
@@ -135,8 +152,11 @@ async function clickPiece(event) {
 
                 // Updates the previous positions of all pieces
                 for (let name in listObject.getPieceList) {
-                    listObject.getPieceList[name].updatePreviousPosition(listObject.getPieceList[name].getMoved);
+                    listObject.getPieceList[name].updatePreviousPosition(listObject.getPieceList[name].getMoved, listObject.getPieceList[name].getTaken);
                 }
+
+                // Updates the previous turns list
+                previousTurnsSetup(castling, promotion, attack, attackPawn);
 
                 // Resets the selected piece
                 pieceObject.setSelected = pieceObject.setPrevSelected = null;
@@ -167,8 +187,7 @@ function moveRook() {
 
     boardObject.movePiece([y_previous, x_previous], 
                           [pieceObject.getRook_y, pieceObject.getRook_x], 
-                          pieceObject.getRookSelected.getNumber,
-                          pieceObject.getRookSelected.getName);
+                          pieceObject.getRookSelected);
 
     // Draws the new piece on its new position
     paintTile(pieceObject.getRook_y, pieceObject.getRook_x)
