@@ -6,6 +6,7 @@ import { timeObject } from "./timeKeeping.js";
 import { setUpPieces } from "./setUpPieces.js";
 import { updateMovement } from "./movement.js";
 import { turnObject } from "./turnKeeping.js";
+import { previousTurnsSetup } from "./previousTurnsSetup.js";
 
 
 function startGame(players) {
@@ -46,6 +47,9 @@ function startGame(players) {
     document.getElementById("playerTurn").textContent = turnObject.getExternalTurn;
     document.getElementById("turnDivider").style.display = "initial";
     document.getElementById("playerTurnColor").textContent = turnObject.getTurnColor;
+
+    // Shows the first turn number(1) in the previous turns list
+    previousTurnsSetup();
 
     // Creates the first movement for the pieces
     updateMovement();

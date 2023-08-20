@@ -1,13 +1,21 @@
 import { myHeaders } from "./helpers/header.js";
-import { pieceObject } from "./objects.js";
+import { pieceObject, typeObjects } from "./objects.js";
 import { turnObject } from "./turnKeeping.js";
 
-function previousTurnsSetup(castling = "", promotion = "", attack = false, attackPawn = false) { 
+// Function for showing the previous moves in the game
+/**
+* @param {string} [castling=""] "Is either 'short' or 'long' depending on the castling played"
+* @param {number} [promotion=0] "Is the number for the piece the pawn promotes into"
+* @param {boolean} [attack=false] "Is wheter a piece has attack that turn or not"
+* @param {boolean} [attackPawn=false] "Is wheter a pawn has attacked, must be accompanied by the 'attack' variable"
+*/
+function previousTurnsSetup(castling = "", promotion = 0, attack = false, attackPawn = false) { 
     let movedPiece = "";
     let letter = "a";
     let number = 1;
     let outString = "";
 
+    // Checks wheter the current turns table row exists, if it doesn't, creates a new one and adds the turn number cell
     if (document.getElementById("tableRowTurn" + turnObject.getExternalTurn) === null) {
         let tableRow = document.createElement("tr");
         tableRow.id = "tableRowTurn" + turnObject.getExternalTurn;
@@ -15,19 +23,31 @@ function previousTurnsSetup(castling = "", promotion = "", attack = false, attac
         tableCellTurnNumber.id = "tableCellTurn" + turnObject.getExternalTurn;
         let tableCellTurnNumberSpan = document.createElement("span");
         tableCellTurnNumberSpan.id = "tableCellTurn" + turnObject.getExternalTurn + "span";
-        tableCellTurnNumberSpan.textContent = turnObject.getExternalTurn;
-
+        
         tableCellTurnNumber.appendChild(tableCellTurnNumberSpan)
         tableRow.appendChild(tableCellTurnNumber);
         document.getElementById("previousTurnsTableBody").appendChild(tableRow);
+
+        document.getElementById("tableCellTurn" + turnObject.getExternalTurn + "span").textContent = turnObject.getExternalTurn;
     }
 
-    // TODO: Fix undoing turn
-    if (document.getElementById("tableRowTurn" + turnObject.getExternalTurn) !== null) {
-        let tableCellTurnColor = document.createElement("td");
-        tableCellTurnColor.id = "tableCellTurn" + turnObject.getExternalTurn + turnObject.getTurnColor;
-        let tableCellTurnColorSpan = document.createElement("span");
-        tableCellTurnColorSpan.id = "tableCellTurn" + turnObject.getExternalTurn + turnObject.getTurnColor + "span";
+    // Creates the table cells for the move used by each player
+    if (document.getElementById("tableRowTurn" + turnObject.getExternalTurn) !== null && typeObjects.getStarted) {
+        // This one is for adding back the number if the turn was undoed
+        document.getElementById("tableCellTurn" + turnObject.getExternalTurn + "span").textContent = turnObject.getExternalTurn;
+
+        let tableCellTurnColor, tableCellTurnColorSpan;
+        if (document.getElementById("tableCellTurn" + turnObject.getExternalTurn + turnObject.getTurnColor) === null) {
+            
+
+            tableCellTurnColor = document.createElement("td");
+            tableCellTurnColor.id = "tableCellTurn" + turnObject.getExternalTurn + turnObject.getTurnColor;
+            tableCellTurnColorSpan = document.createElement("span");
+            tableCellTurnColorSpan.id = "tableCellTurn" + turnObject.getExternalTurn + turnObject.getTurnColor + "span";
+
+            tableCellTurnColor.appendChild(tableCellTurnColorSpan);
+            document.getElementById("tableRowTurn" + turnObject.getExternalTurn).appendChild(tableCellTurnColor);
+        }
 
         switch (pieceObject.getSelected.getPiece) {
             case "pawn":
@@ -201,10 +221,8 @@ function previousTurnsSetup(castling = "", promotion = "", attack = false, attac
             outString = movedPiece+letter+number;
         }
 
-        tableCellTurnColorSpan.textContent = outString;
 
-        tableCellTurnColor.appendChild(tableCellTurnColorSpan);
-        document.getElementById("tableRowTurn" + turnObject.getExternalTurn).appendChild(tableCellTurnColor);
+        document.getElementById("tableCellTurn" + turnObject.getExternalTurn + turnObject.getTurnColor + "span").textContent = outString;
     }
 }
 

@@ -12,7 +12,8 @@ function undoMove() {
     let previousPositions;
     let prevPosition;
     let prevMoved, prevTaken, prevPrevTaken;
-    let currentTurn = turnObject.getInternalTurn;
+    let currentInternalTurn = turnObject.getInternalTurn;
+    let currentExternalTurn = turnObject.getExternalTurn;
 
     for (let name in listObject.getPieceList) {
         // Gets the current position of the piece, and all the previous positions
@@ -22,10 +23,10 @@ function undoMove() {
 
         
         // Gets the immediate previous position of the piece
-        prevPosition = previousPositions[currentTurn - 2][0];
-        prevMoved = previousPositions[currentTurn - 2][1];
-        prevTaken = previousPositions[currentTurn - 1][2];
-        prevPrevTaken = previousPositions[currentTurn - 2][2];
+        prevPosition = previousPositions[currentInternalTurn - 2][0];
+        prevMoved = previousPositions[currentInternalTurn - 2][1];
+        prevTaken = previousPositions[currentInternalTurn - 1][2];
+        prevPrevTaken = previousPositions[currentInternalTurn - 2][2];
 
         if (piece.getMoved) {
             if (!prevMoved) {
@@ -41,19 +42,16 @@ function undoMove() {
         
         piece.setPiecePosition = prevPosition;
 
-        boardObject.movePiece([currentPosition[1], currentPosition[0]],
-                              [prevPosition[1], prevPosition[0]],
-                              piece, prevTaken);
-        
         if (currentPosition.toString() !== [99, 99].toString()) {
             if (boardObject.getPieceArray[currentPosition[1]][currentPosition[0]] === piece.getNumber) {
                 paintTile(currentPosition[1], currentPosition[0]);
             }
-            
         }
-        if (piece.getName === "blackPawnE") {
-            console.log(piece);
-        }
+
+        boardObject.movePiece([currentPosition[1], currentPosition[0]],
+                              [prevPosition[1], prevPosition[0]],
+                              piece, prevTaken);
+
         paintPiece(prevPosition[1],
                    prevPosition[0],
                    piece.getNumber,
@@ -61,6 +59,7 @@ function undoMove() {
 
         
     }
+
     // Updates the moves of all pieces
     pawnMovement();
     rookMovement();
@@ -69,6 +68,12 @@ function undoMove() {
     queenMovement();
     kingMovement();
     undoTurn();
+
+    document.getElementById("tableCellTurn" + turnObject.getExternalTurn + turnObject.getTurnColor + "span").textContent = "";
+
+    if (currentExternalTurn > turnObject.getExternalTurn && document.getElementById("tableCellTurn" + currentExternalTurn + "span") !== null) {
+        document.getElementById("tableCellTurn" + currentExternalTurn + "span").textContent = "";
+    }
 }
 
 export { undoMove };
