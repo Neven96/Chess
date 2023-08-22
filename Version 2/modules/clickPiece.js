@@ -7,6 +7,7 @@ import { selectPiece } from "./selectPiece.js";
 import { previousTurnsSetup } from "./previousTurnsSetup.js";
 import { endTurn } from "./endTurn.js";
 import { pauseObject } from "./pauseGame.js";
+import { takenPieces } from "./takenPieces.js";
 
 let _promote;
 
@@ -39,11 +40,12 @@ async function clickPiece(event) {
                             takenPiece.setTaken = true;
                             takenPiece.setPiecePosition = [99, 99];
                             takenPiece.removeAvailableMoves();
-                            document.getElementById(pieceObject.getSelected.getColor+"Taken").textContent += takenPiece.getPieceSymbol;
                             attack = true;
                             if (pieceObject.getSelected.getPiece === "pawn") {
                                 attackPawn = true;
                             }
+
+                            takenPieces(takenPiece);
                             break;
                         }
                     }

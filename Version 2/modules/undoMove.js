@@ -5,6 +5,7 @@ import { paintTile } from "./paintTile.js";
 import { turnObject } from "./turnKeeping.js";
 import { pawnMovement, rookMovement, knightMovement, bishopMovement, queenMovement, kingMovement } from "./movement.js";
 import { undoTurn } from "./endTurn.js";
+import { takenPieces } from "./takenPieces.js";
 
 function undoMove() {
     let piece;
@@ -63,8 +64,10 @@ function undoMove() {
                    piece.getNumber,
                    piece.getPieceSymbol)
 
-        
     }
+
+    // Updates the taken pieces
+    takenPieces();
 
     // Updates the moves of all pieces
     pawnMovement();
