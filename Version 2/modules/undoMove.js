@@ -9,10 +9,9 @@ import { takenPieces } from "./takenPieces.js";
 
 function undoMove() {
     let piece;
-    let currentPosition;
-    let previousPositions;
+    let currentPosition, previousPositions;
     let prevPosition;
-    let prevMoved, prevTaken, prevPrevTaken;
+    let prevMoved, prevTaken, prevPrevTaken, prevPromoted;
     let currentInternalTurn = turnObject.getInternalTurn;
     let currentExternalTurn = turnObject.getExternalTurn;
 
@@ -28,6 +27,32 @@ function undoMove() {
         prevMoved = previousPositions[currentInternalTurn - 2][1];
         prevTaken = previousPositions[currentInternalTurn - 1][2];
         prevPrevTaken = previousPositions[currentInternalTurn - 2][2];
+
+        // If the piece is a pawn and has been promoted, unpromotes it
+        if (name in listObject.getPawnList) {
+            prevPromoted = previousPositions[currentInternalTurn - 2][3];
+            if (!prevPromoted) {
+                // Changes the piece back to a pawn
+                if (piece.getColor === "white") {
+                    piece.changePiece(1, "\u{2659}");
+                } else if (piece.getColor === "black") {
+                    piece.changePiece(-1, "\u{265F}");
+                }
+
+                piece.setPromoted = false;
+
+                // Removes it from the promoted pieces lists
+                if (name in listObject.getRookList) {
+                    listObject.removeFromRookList(piece);
+                } else if (name in listObject.getKnightList) {
+                    listObject.removeFromKnightList(piece);
+                } else if (name in listObject.getBishopList) {
+                    listObject.removeFromBishopList(piece);
+                } else if (name in listObject.getQueenList) {
+                    listObject.removeFromQueenList(piece);
+                }
+            }
+        }
 
         if (piece.getMoved) {
             if (!prevMoved) {

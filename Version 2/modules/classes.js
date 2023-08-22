@@ -140,7 +140,7 @@ class Piece {
         this.availableMoves = [];
     }
 
-    updatePreviousPosition(moved, taken = this.taken) {
+    updatePreviousPosition(moved = this.moved, taken = this.taken) {
         this.previousPositions[turnObject.getInternalTurn] = [this.piecePosition, moved, taken];
     }
 
@@ -173,11 +173,26 @@ class Pawn extends Piece {
         this.promoted = false;
     }
 
+    /**
+     * @param {boolean} promoted
+     */
+    set setPromoted(promoted) {
+        this.promoted = promoted
+    }
+
+    get getPromoted() {
+        return this.promoted;
+    }
+
+    updatePreviousPosition(moved = this.moved, taken = this.taken, promoted = this.promoted) {
+        this.previousPositions[turnObject.getInternalTurn] = [this.piecePosition, moved, taken, promoted];
+    }
+
     async changePiece(newNumber, newPieceSymbol) {
         this.number = newNumber;
         this.pieceSymbol = newPieceSymbol;
+        this.promoted = true;
 
-        listObject.removeFromPawnList(this);
         switch (this.number) {
             case -2:
             case 2:

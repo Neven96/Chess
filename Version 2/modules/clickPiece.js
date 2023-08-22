@@ -168,6 +168,10 @@ async function clickPiece(event) {
                     listObject.getPieceList[name].updatePreviousPosition(listObject.getPieceList[name].getMoved, listObject.getPieceList[name].getTaken);
                 }
 
+                for (let name in listObject.getPawnList) {
+                    listObject.getPawnList[name].updatePreviousPosition(listObject.getPawnList[name].getMoved, listObject.getPawnList[name].getTaken, listObject.getPawnList[name].getPromoted);
+                }
+
                 // Updates the previous turns list
                 previousTurnsSetup(castling, promotion, attack, attackPawn);
 

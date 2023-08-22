@@ -8,7 +8,7 @@ import { paintPiece } from "./paintPiece.js";
 function setUpPieces(col, row, piece, pieceSymbol = "") {
     switch (piece) {
         case 1:
-            pieceSymbol = "\u{2659}"
+            pieceSymbol = "\u{2659}";
             // White pawn
             switch (row) {
                 case 0:
