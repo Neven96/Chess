@@ -356,7 +356,6 @@ function kingMovement() {
                 if (piece.getColor === "white") {
                     for (let rookPiece in listObject.getRookList) {
                         rookPiece = listObject.getRookList[rookPiece];
-                        // let rookBoardPosition, rookCheckBoard;
                         let rookNewPosition = rookPiece.getAvailableMoves;
 
                         if (!rookPiece.getMoved && rookPiece.getColor === "white") {

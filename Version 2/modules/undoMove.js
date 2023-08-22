@@ -21,7 +21,7 @@ function undoMove() {
         currentPosition = piece.getPiecePosition;
         previousPositions = piece.getPreviousPositions;
 
-        
+        // TO DO: Fix promotion not being undoed
         // Gets the immediate previous position of the piece
         prevPosition = previousPositions[currentInternalTurn - 2][0];
         prevMoved = previousPositions[currentInternalTurn - 2][1];
@@ -42,9 +42,15 @@ function undoMove() {
         
         piece.setPiecePosition = prevPosition;
 
+        // Cleans the tile before moving back
         if (currentPosition.toString() !== [99, 99].toString()) {
             if (boardObject.getPieceArray[currentPosition[1]][currentPosition[0]] === piece.getNumber) {
                 paintTile(currentPosition[1], currentPosition[0]);
+            }
+            
+        } else if (currentPosition.toString() === [99, 99].toString()) {
+            if (prevPosition.toString() !== [99, 99].toString()) {
+                paintTile(prevPosition[1], prevPosition[0]);
             }
         }
 

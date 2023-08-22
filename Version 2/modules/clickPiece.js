@@ -49,10 +49,20 @@ async function clickPiece(event) {
                     }
                 }
 
-                // TO DO: Fix pieces not showing on valid move spaces after movement
+                // Repaints the board and the pieces lit up as valid moves, after movement
                 for (let moves in pieceObject.getSelected.getAvailableMoves) {
+                    let validMovesHighlightedPiece = boardObject.getNameFromNameArray(pieceObject.getSelected.getAvailableMoves[moves]);
+
                     paintTile(pieceObject.getSelected.getAvailableMoves[moves][1],
                               pieceObject.getSelected.getAvailableMoves[moves][0]);
+
+                    // Checks if there is a piece in need of beign redrawn
+                    if (validMovesHighlightedPiece !== 0) {
+                        paintPiece(pieceObject.getSelected.getAvailableMoves[moves][1], 
+                                   pieceObject.getSelected.getAvailableMoves[moves][0],
+                                   listObject.getPieceList[validMovesHighlightedPiece].getNumber, 
+                                   listObject.getPieceList[validMovesHighlightedPiece].getPieceSymbol);
+                    }
                 }
 
                 if (pieceObject.getSelected.getPiece === "pawn") {

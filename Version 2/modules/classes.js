@@ -140,7 +140,7 @@ class Piece {
         this.availableMoves = [];
     }
 
-    updatePreviousPosition(moved, taken) {
+    updatePreviousPosition(moved, taken = this.taken) {
         this.previousPositions[turnObject.getInternalTurn] = [this.piecePosition, moved, taken];
     }
 
@@ -170,6 +170,7 @@ class Piece {
 class Pawn extends Piece {
     constructor(name, number, color, piece, position, piecePosition) {
         super(name, number, color, piece, position, piecePosition);
+        this.promoted = false;
     }
 
     async changePiece(newNumber, newPieceSymbol) {
