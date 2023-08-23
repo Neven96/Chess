@@ -3,6 +3,20 @@ import { listObject } from "./objects.js";
 import { turnObject } from "./turnKeeping.js";
 
 // The class for all pieces
+/**
+* @param {string} name 
+* "The name of the piece when it is created, can and will never be changed"
+* @param {number} number 
+* "The number of the piece, 1=pawn, 2=rook, 3=knight, 4=bishop, 5=queen, 6=queen. Negative numbers for black pieces"
+* @param {string} color 
+* "The color of the piece in a string, either 'black' or 'white'"
+* @param {string} piece 
+* "The type of piece in a string, either 'pawn', 'rook', 'knight', 'bishop', 'queen', or 'king'"
+* @param {string} pieceSymbol
+* "The UTF-8 symbol for the respective piece"
+* @param {number[]} piecePosition
+* "An array of length 2 of the current position of the piece"
+*/
 class Piece {
     constructor(name, number, color, piece, pieceSymbol, piecePosition) {
         this.name = name;
@@ -140,6 +154,7 @@ class Piece {
         this.availableMoves = [];
     }
 
+    // Updates the previous positions of the piece and if it has been moved and/or taken
     updatePreviousPosition(moved = this.moved, taken = this.taken) {
         this.previousPositions[turnObject.getInternalTurn] = [this.piecePosition, moved, taken];
     }
@@ -184,10 +199,12 @@ class Pawn extends Piece {
         return this.promoted;
     }
 
+    // Same as above class, but also checks for promotion
     updatePreviousPosition(moved = this.moved, taken = this.taken, promoted = this.promoted) {
         this.previousPositions[turnObject.getInternalTurn] = [this.piecePosition, moved, taken, promoted];
     }
 
+    // For promoting the pawn to an officer piece
     async changePiece(newNumber, newPieceSymbol) {
         this.number = newNumber;
         this.pieceSymbol = newPieceSymbol;
@@ -220,6 +237,7 @@ class Pawn extends Piece {
     }
 }
 
+// Non of these classes are really useful, but it is nice to seperate the pieces atleast
 class Rook extends Piece {
     constructor(name, number, color, piece, position, piecePosition) {
         super(name, number, color, piece, position, piecePosition);

@@ -7,8 +7,9 @@ import { setUpPieces } from "./setUpPieces.js";
 import { updateMovement } from "./movement.js";
 import { turnObject } from "./turnKeeping.js";
 import { previousTurnsSetup } from "./previousTurnsSetup.js";
+import { paintLevel } from "./paintLevel.js";
 
-
+// Starts the game and resets all the stuff to the correct position
 function startGame(players) {
     boardObject.resetPieces();
     listObject.setPieceList = {};
@@ -19,6 +20,8 @@ function startGame(players) {
     listObject.setQueenList = {};
     listObject.setKingList = {};
 
+    // Resets all values when clicking a new game
+    typeObjects.setStarted = false;
     typeObjects.setPlayers = players;
     pieceObject.setSelected = pieceObject.setPrevSelected = null;
     pieceObject.rookSelected = null;
@@ -28,6 +31,12 @@ function startGame(players) {
     pauseObject.setPause = true;
     turnObject.setInternalTurn = 0;
     turnObject.setExternalTurn = 0;
+    paintLevel();
+    
+    // Resets the values of previous turns and taken pieces
+    document.getElementById("previousTurnsTableBody").textContent = "";
+    document.getElementById("whiteTaken").textContent = "";
+    document.getElementById("blackTaken").textContent = "";
 
     let pieceArrayLength = boardObject.getPieceArray.length;
     for (var i = 0; i < pieceArrayLength; i++) {
@@ -58,7 +67,7 @@ function startGame(players) {
     // Unpause the game to start the timer
     pauseObject.pauseGame();
 
-    console.log(listObject.getPieceList);
+    // console.log(listObject.getPieceList);
     document.getElementById("pauseKnapp").style.display = "initial";
     document.getElementById("undoKnapp").style.display = "initial";
     document.getElementById("undoKnapp").disabled = true;

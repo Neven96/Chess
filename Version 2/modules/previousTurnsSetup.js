@@ -49,6 +49,7 @@ function previousTurnsSetup(castling = "", promotion = 0, attack = false, attack
             document.getElementById("tableRowTurn" + turnObject.getExternalTurn).appendChild(tableCellTurnColor);
         }
 
+        // Gives the correct symbols, and positioning with letters and numbers
         switch (pieceObject.getSelected.getPiece) {
             case "pawn":
                 movedPiece = "";

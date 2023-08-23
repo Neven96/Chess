@@ -11,6 +11,7 @@ import { takenPieces } from "./takenPieces.js";
 
 let _promote;
 
+// When clicking on the board, either to select, deselect or attack pieces
 async function clickPiece(event) {
     if (typeObjects.getStarted && !pauseObject.getPause) {
         const rect = boardObject.getBoard.getBoundingClientRect();
@@ -22,11 +23,11 @@ async function clickPiece(event) {
         let promotion = "";
         let attack = false;
         let attackPawn = false;
-        // console.log("x: " + x_true + ", y: " + y_true);
 
         pieceObject.setX_selected = x_true;
         pieceObject.setY_selected = y_true;
 
+        // If there is a selected piece
         if (pieceObject.getSelected !== null) {
             // Checks if the clicked tile is a valid move for that piece
             if (pieceObject.getSelected.getValidMove([x_true, y_true])) {
@@ -51,7 +52,7 @@ async function clickPiece(event) {
                     }
                 }
 
-                // Repaints the board and the pieces lit up as valid moves, after movement
+                // Repaints the board tiles and the pieces lit up as valid moves, after movement
                 for (let moves in pieceObject.getSelected.getAvailableMoves) {
                     let validMovesHighlightedPiece = boardObject.getNameFromNameArray(pieceObject.getSelected.getAvailableMoves[moves]);
 
@@ -67,11 +68,13 @@ async function clickPiece(event) {
                     }
                 }
 
+                // For promoting
                 if (pieceObject.getSelected.getPiece === "pawn") {
                     if (y_true === 0 || y_true === 7) {
                         // Sets up the buttons for promoting the pawn, and then waits until a choice is made
                         pawnChange();
- 
+                        
+                        // Returns a promise for stopping the board when the pawn change menu appears
                         let promise = new Promise((resolve) => { 
                             _promote = resolve 
                         });
@@ -148,8 +151,10 @@ async function clickPiece(event) {
                     }
                 }
                 
+                // Moves the piece in the piece
                 pieceObject.getSelected.movePiece([pieceObject.getX_selected, pieceObject.getY_selected]);
 
+                // Moves the piece in the board
                 boardObject.movePiece([pieceObject.getY_previous, pieceObject.getX_previous], 
                                       [pieceObject.getY_selected, pieceObject.getX_selected], 
                                       pieceObject.getSelected);
@@ -168,6 +173,7 @@ async function clickPiece(event) {
                     listObject.getPieceList[name].updatePreviousPosition(listObject.getPieceList[name].getMoved, listObject.getPieceList[name].getTaken);
                 }
 
+                // Updates the previous positions of pawns, but also includes promotion
                 for (let name in listObject.getPawnList) {
                     listObject.getPawnList[name].updatePreviousPosition(listObject.getPawnList[name].getMoved, listObject.getPawnList[name].getTaken, listObject.getPawnList[name].getPromoted);
                 }
@@ -187,6 +193,7 @@ async function clickPiece(event) {
                 return;
             }
         } 
+        // When clicking on a piece, either when previously selected or when it is not a valid attack move
         if (boardObject.pieceArrayPosition([x_true, y_true]) !== 0) {
             selectPiece()
         }

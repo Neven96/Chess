@@ -1,6 +1,6 @@
 import { myHeaders } from "./helpers/header.js";
 
-// Stuff
+// Flags for game state
 const typeObjects = {
     players: 1,
     started: false,
@@ -311,7 +311,7 @@ const pieceObject = {
     },
 }
 
-// Various list of stuff
+// The list of the pieces
 const listObject = {
     pieceList: {},
     pawnList: {},

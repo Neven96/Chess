@@ -3,7 +3,7 @@ import { boardObject, listObject } from "./objects.js";
 import { paintPiece } from "./paintPiece.js";
 import { paintTile } from "./paintTile.js";
 import { turnObject } from "./turnKeeping.js";
-import { pawnMovement, rookMovement, knightMovement, bishopMovement, queenMovement, kingMovement } from "./movement.js";
+import { updateMovement } from "./movement.js";
 import { undoTurn } from "./endTurn.js";
 import { takenPieces } from "./takenPieces.js";
 
@@ -21,8 +21,8 @@ function undoMove() {
         currentPosition = piece.getPiecePosition;
         previousPositions = piece.getPreviousPositions;
 
-        // TO DO: Fix promotion not being undoed
-        // Gets the immediate previous position of the piece
+
+        // Gets the immediate previous position of the piece, if it has been moved and/or if it has been taken
         prevPosition = previousPositions[currentInternalTurn - 2][0];
         prevMoved = previousPositions[currentInternalTurn - 2][1];
         prevTaken = previousPositions[currentInternalTurn - 1][2];
@@ -41,7 +41,7 @@ function undoMove() {
 
                 piece.setPromoted = false;
 
-                // Removes it from the promoted pieces lists
+                // Removes the pawn from the promoted pieces lists
                 if (name in listObject.getRookList) {
                     listObject.removeFromRookList(piece);
                 } else if (name in listObject.getKnightList) {
@@ -54,6 +54,7 @@ function undoMove() {
             }
         }
 
+        // Resets the moved and taken values of the piece when undoing, if approriate
         if (piece.getMoved) {
             if (!prevMoved) {
                 piece.setMoved = false;
@@ -91,18 +92,14 @@ function undoMove() {
 
     }
 
-    // Updates the taken pieces
+    // Updates the taken pieces list showing
     takenPieces();
 
     // Updates the moves of all pieces
-    pawnMovement();
-    rookMovement();
-    knightMovement();
-    bishopMovement();
-    queenMovement();
-    kingMovement();
+    updateMovement();
     undoTurn();
 
+    // Removes the previous moves and/or turns when undoing
     document.getElementById("tableCellTurn" + turnObject.getExternalTurn + turnObject.getTurnColor + "span").textContent = "";
 
     if (currentExternalTurn > turnObject.getExternalTurn && document.getElementById("tableCellTurn" + currentExternalTurn + "span") !== null) {

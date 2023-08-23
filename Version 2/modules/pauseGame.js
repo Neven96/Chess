@@ -20,13 +20,11 @@ const pauseObject = {
     //Pauses/unpauses the game
     pauseGame() {
         if (!this.pause) {
-
             this.pause = true;
 
             document.getElementById("pauseKnappSpan").textContent = "Play";
 
         } else if (this.pause) {
-            
             this.pause = false;
 
             document.getElementById("pauseKnappSpan").textContent = "Pause";

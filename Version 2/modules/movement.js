@@ -432,4 +432,4 @@ function updateMovement() {
     kingMovement();
 }
 
-export { pawnMovement, rookMovement, knightMovement, bishopMovement, queenMovement, kingMovement, updateMovement };
+export { updateMovement };

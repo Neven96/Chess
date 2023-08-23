@@ -1,6 +1,8 @@
 import { myHeaders } from "./helpers/header.js";
 import { mod } from "./helpers/modulo.js";
 
+// Controls the turns and how it is shown
+// The internal turn and external turn will be different, because chess turns have both white and black in one turn, then next turn
 const turnObject = {
     internalTurn: 0,
     externalTurn: 0,

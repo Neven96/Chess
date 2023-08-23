@@ -4,6 +4,7 @@ import { zeroPad } from "./helpers/zeroPad.js";
 import { playGameObject } from "./playGame.js";
 import { turnObject } from "./turnKeeping.js";
 
+// Controls the time and how it is shown
 const timeObject = {
     whiteHours: 0,
     whiteMinutes: 0,
