@@ -8,6 +8,7 @@ import { previousTurnsSetup } from "./previousTurnsSetup.js";
 import { endTurn } from "./endTurn.js";
 import { pauseObject } from "./pauseGame.js";
 import { takenPieces } from "./takenPieces.js";
+import { drawCheckedKing } from "./kingCheckChecker.js";
 
 let _promote;
 
@@ -188,7 +189,10 @@ async function clickPiece(event) {
 
                 // Updates the moves of all pieces
                 updateMovement();
-                
+
+                // Checks if the kings are in check, and if they are, marks their tile in red
+                drawCheckedKing();
+
                 endTurn();
                 return;
             }
