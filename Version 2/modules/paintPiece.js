@@ -1,5 +1,5 @@
 import { myHeaders } from "./helpers/header.js";
-import { boardObject } from "./objects.js";
+import { boardObject, listObject, pieceObject } from "./objects.js";
 
 // Paints the piece on the board
 function paintPiece(col, row, pieceNumber, pieceSymbol = "") {
@@ -25,4 +25,23 @@ function paintPiece(col, row, pieceNumber, pieceSymbol = "") {
                                     col * (boardObject.getBoard.height / 8) + (6 * (boardObject.getBoard.height / 64)));
 }
 
-export { paintPiece };
+// For drawing the piece if marked as valid move
+function paintValidPieces(moves) {
+    let validMoveNumber, validMoveSymbol;
+    let validMovePiece = boardObject.getNameFromNameArray([pieceObject.getSelected.getAvailableMoves[moves][0],
+    pieceObject.getSelected.getAvailableMoves[moves][1]]);
+
+    if (validMovePiece === 0) {
+        validMoveNumber = 0;
+        validMoveSymbol = "";
+    } else {
+        validMoveNumber = listObject.getPieceList[validMovePiece].getNumber;
+        validMoveSymbol = listObject.getPieceList[validMovePiece].getPieceSymbol;
+    }
+    
+    paintPiece(pieceObject.getSelected.getAvailableMoves[moves][1],
+               pieceObject.getSelected.getAvailableMoves[moves][0],
+               validMoveNumber, validMoveSymbol);
+}
+
+export { paintPiece, paintValidPieces };

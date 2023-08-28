@@ -67,7 +67,6 @@ function startGame(players) {
     // Unpause the game to start the timer
     pauseObject.pauseGame();
 
-    // console.log(listObject.getPieceList);
     document.getElementById("pauseKnapp").style.display = "initial";
     document.getElementById("undoKnapp").style.display = "initial";
     document.getElementById("undoKnapp").disabled = true;

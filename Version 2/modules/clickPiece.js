@@ -1,7 +1,7 @@
 import { myHeaders } from "./helpers/header.js";
 import { boardObject, listObject, pieceObject, typeObjects } from "./objects.js";
 import { updateMovement } from "./movement.js";
-import { paintPiece } from "./paintPiece.js";
+import { paintPiece, paintValidPieces } from "./paintPiece.js";
 import { paintTile } from "./paintTile.js";
 import { selectPiece } from "./selectPiece.js";
 import { previousTurnsSetup } from "./previousTurnsSetup.js";
@@ -13,6 +13,7 @@ import { drawCheckedKing } from "./kingCheckChecker.js";
 let _promote;
 
 // When clicking on the board, either to select, deselect or attack pieces
+// Just general selection and movement of pieces, should probably be split into another function
 async function clickPiece(event) {
     if (typeObjects.getStarted && !pauseObject.getPause) {
         const rect = boardObject.getBoard.getBoundingClientRect();
@@ -55,18 +56,10 @@ async function clickPiece(event) {
 
                 // Repaints the board tiles and the pieces lit up as valid moves, after movement
                 for (let moves in pieceObject.getSelected.getAvailableMoves) {
-                    let validMovesHighlightedPiece = boardObject.getNameFromNameArray(pieceObject.getSelected.getAvailableMoves[moves]);
-
                     paintTile(pieceObject.getSelected.getAvailableMoves[moves][1],
                               pieceObject.getSelected.getAvailableMoves[moves][0]);
 
-                    // Checks if there is a piece in need of beign redrawn
-                    if (validMovesHighlightedPiece !== 0) {
-                        paintPiece(pieceObject.getSelected.getAvailableMoves[moves][1], 
-                                   pieceObject.getSelected.getAvailableMoves[moves][0],
-                                   listObject.getPieceList[validMovesHighlightedPiece].getNumber, 
-                                   listObject.getPieceList[validMovesHighlightedPiece].getPieceSymbol);
-                    }
+                    paintValidPieces(moves);
                 }
 
                 // For promoting
@@ -99,7 +92,6 @@ async function clickPiece(event) {
 
                 // For castling
                 if (pieceObject.getSelected.getPiece === "king") {
-                    console.log(pieceObject.getSelected);
                     let rookSelected = "";
                     if (pieceObject.getSelected.getColor === "white") {
                         // Castling with A-rook

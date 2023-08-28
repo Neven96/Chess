@@ -2,7 +2,7 @@ import { myHeaders } from "./helpers/header.js";
 import { mod } from "./helpers/modulo.js";
 import { drawCheckedKing } from "./kingCheckChecker.js";
 import { boardObject, listObject, pieceObject, typeObjects } from "./objects.js";
-import { paintPiece } from "./paintPiece.js";
+import { paintPiece, paintValidPieces } from "./paintPiece.js";
 import { paintTile } from "./paintTile.js";
 import { turnObject } from "./turnKeeping.js";
 
@@ -27,22 +27,8 @@ function selectPiece() {
             for (let moves in pieceObject.getSelected.getAvailableMoves) {
                 paintTile(pieceObject.getSelected.getAvailableMoves[moves][1],
                           pieceObject.getSelected.getAvailableMoves[moves][0]);
-                // For drawing the piece if an attack is a valid move
-                let validMoveNumber, validMoveSymbol;
-                let validMovePiece = boardObject.getNameFromNameArray([pieceObject.getSelected.getAvailableMoves[moves][0],
-                pieceObject.getSelected.getAvailableMoves[moves][1]]);
-
-                if (validMovePiece === 0) {
-                    validMoveNumber = 0;
-                    validMoveSymbol = "";
-                } else {
-                    validMoveNumber = listObject.getPieceList[validMovePiece].getNumber;
-                    validMoveSymbol = listObject.getPieceList[validMovePiece].getPieceSymbol;
-                }
-
-                paintPiece(pieceObject.getSelected.getAvailableMoves[moves][1],
-                           pieceObject.getSelected.getAvailableMoves[moves][0],
-                           validMoveNumber, validMoveSymbol);
+                
+                paintValidPieces(moves);
             }
 
             drawCheckedKing();
@@ -78,26 +64,10 @@ function selectPiece() {
         for (let moves in pieceObject.getSelected.getAvailableMoves) {
             paintTile(pieceObject.getSelected.getAvailableMoves[moves][1], pieceObject.getSelected.getAvailableMoves[moves][0], "#FFFF00");
             
-            // For drawing the pieces on the valid move tiles
-            let validMoveNumber, validMoveSymbol;
-            let validMovePiece = boardObject.getNameFromNameArray([pieceObject.getSelected.getAvailableMoves[moves][0], 
-                                                                      pieceObject.getSelected.getAvailableMoves[moves][1]]);
-            
-            if (validMovePiece === 0) {
-                validMoveNumber = 0;
-                validMoveSymbol = "";
-            } else {
-                validMoveNumber = listObject.getPieceList[validMovePiece].getNumber;
-                validMoveSymbol = listObject.getPieceList[validMovePiece].getPieceSymbol;
-            }
-
-            paintPiece(pieceObject.getSelected.getAvailableMoves[moves][1],
-                       pieceObject.getSelected.getAvailableMoves[moves][0],
-                       validMoveNumber, validMoveSymbol);
+            paintValidPieces(moves);
         }
 
         // Updates the values so that it works for next selection
-        // console.log(pieceObject.getSelected);
         pieceObject.setX_previous = pieceObject.getX_selected;
         pieceObject.setY_previous = pieceObject.getY_selected;
         pieceObject.setPrevSelected = pieceObject.getSelected;
