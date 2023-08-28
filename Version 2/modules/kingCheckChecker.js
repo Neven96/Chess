@@ -7,10 +7,6 @@ import { paintTile } from "./paintTile.js";
 function kingCheckChecker() {
     let king, piece;
     let check_list = {"white_checked" : [null, false], "black_checked" : [null, false]};
-    let white_king_name = null;
-    let black_king_name = null;
-    let white_checked = false;
-    let black_checked = false;
     for (let name in listObject.getKingList) {
         king = listObject.getKingList[name];
         

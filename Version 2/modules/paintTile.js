@@ -3,6 +3,9 @@ import { boardObject } from "./objects.js";
 
 // Paints one tile on the board, used when moving and selecting
 // The col and row is used both ways, with either first, so I'm not sure what is what any more...
+// The "col" is the second coordinate and the "row" is the first coordinate in the PiecePosition and AvailableMoves for a piece
+// This corresponds the Y and X position of a piece
+// This also corresponds to the array and position in the array for a 2D array
 function paintTile(col, row, color = null) {
     if (!color) {
         if (boardObject.getBoardArray[col][row] === 1) {
