@@ -5,22 +5,25 @@ import { paintTile } from "./paintTile.js";
 
 // For checking if the king is in check
 function kingCheckChecker() {
-    let king, piece;
+    let king;
     let check_list = {"white_checked" : [null, false], "black_checked" : [null, false]};
     for (let name in listObject.getKingList) {
         king = listObject.getKingList[name];
         
         if (king.getColor === "white") {
-            helper("black", "white");
+            check_list["white_checked"][0] = name;
+            check_list = helper("black", "white", king, check_list);
             
         } else if (king.getColor === "black") {
-            helper("white", "black");
+            check_list["black_checked"][0] = name;
+            check_list = helper("white", "black", king, check_list);
         }
     }
 
     // Takes the colors of the king and the opposite color, (many alternatives...) and checks if any piece of opposite color has any
     // available moves that overlaps with the kings current position
-    function helper(opposite_color, own_color) {
+    function helper(opposite_color, own_color, king, check_list) {
+        let piece;
         outer_loop:
         for (let name in listObject.getPieceList) {
             piece = listObject.getPieceList[name];
@@ -34,7 +37,9 @@ function kingCheckChecker() {
                 }
             }
         }
+        return check_list;
     }
+    
     return check_list;
 }
 
@@ -61,7 +66,14 @@ function drawCheckedKing() {
                        listObject.getKingList[king_check[check][0]].getPiecePosition[0],
                        listObject.getKingList[king_check[check][0]].getNumber,
                        listObject.getKingList[king_check[check][0]].getPieceSymbol);
-        };
+        } else {
+            paintTile(listObject.getKingList[king_check[check][0]].getPiecePosition[1],
+                      listObject.getKingList[king_check[check][0]].getPiecePosition[0]);
+            paintPiece(listObject.getKingList[king_check[check][0]].getPiecePosition[1],
+                       listObject.getKingList[king_check[check][0]].getPiecePosition[0],
+                       listObject.getKingList[king_check[check][0]].getNumber,
+                       listObject.getKingList[king_check[check][0]].getPieceSymbol);
+        }
     }
 }
 

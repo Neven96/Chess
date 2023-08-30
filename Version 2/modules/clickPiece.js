@@ -8,7 +8,7 @@ import { previousTurnsSetup } from "./previousTurnsSetup.js";
 import { endTurn } from "./endTurn.js";
 import { pauseObject } from "./pauseGame.js";
 import { takenPieces } from "./takenPieces.js";
-import { drawCheckedKing } from "./kingCheckChecker.js";
+import { drawCheckedKing, kingCheckChecker } from "./kingCheckChecker.js";
 
 let _promote;
 
@@ -25,6 +25,8 @@ async function clickPiece(event) {
         let promotion = "";
         let attack = false;
         let attackPawn = false;
+        let whiteCheck = false;
+        let blackCheck = false;
 
         pieceObject.setX_selected = x_true;
         pieceObject.setY_selected = y_true;
@@ -171,19 +173,30 @@ async function clickPiece(event) {
                     listObject.getPawnList[name].updatePreviousPosition(listObject.getPawnList[name].getMoved, listObject.getPawnList[name].getTaken, listObject.getPawnList[name].getPromoted);
                 }
 
+
+                // Updates the moves of all pieces
+                updateMovement();
+
+                // Gets if the king is check for the previous turns setup
+                let checkChecker = kingCheckChecker();
+
+                if (checkChecker["white_checked"][1]) {
+                    whiteCheck = true;
+                }
+                if (checkChecker["black_checked"][1]) {
+                    blackCheck = true;
+                }
+
                 // Updates the previous turns list
-                previousTurnsSetup(castling, promotion, attack, attackPawn);
+                previousTurnsSetup(castling, promotion, attack, attackPawn, whiteCheck, blackCheck);
+
+                // Checks if the kings are in check, and if they are, marks their tile in red
+                drawCheckedKing();
 
                 // Resets the selected piece
                 pieceObject.setSelected = pieceObject.setPrevSelected = null;
                 pieceObject.setX_selected = pieceObject.setY_selected = pieceObject.setX_previous = pieceObject.setY_previous = 0;
                 pieceObject.setPieceSymbol = pieceObject.setPrevPieceSymbol = "";
-
-                // Updates the moves of all pieces
-                updateMovement();
-
-                // Checks if the kings are in check, and if they are, marks their tile in red
-                drawCheckedKing();
 
                 endTurn();
                 return;

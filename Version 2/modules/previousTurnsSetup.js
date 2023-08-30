@@ -1,4 +1,5 @@
 import { myHeaders } from "./helpers/header.js";
+import { mod } from "./helpers/modulo.js";
 import { pieceObject, typeObjects } from "./objects.js";
 import { turnObject } from "./turnKeeping.js";
 
@@ -7,9 +8,11 @@ import { turnObject } from "./turnKeeping.js";
 * @param {string} [castling=""] "Is either 'short' or 'long' depending on the castling played"
 * @param {number} [promotion=0] "Is the number for the piece the pawn promotes into"
 * @param {boolean} [attack=false] "Is wheter a piece has attack that turn or not"
-* @param {boolean} [attackPawn=false] "Is wheter a pawn has attacked, must be accompanied by the 'attack' variable"
+* @param {boolean} [attackPawn=false] "Is when a pawn has attacked, must be accompanied by the 'attack' variable"
+* @param {boolean} [whiteCheck=false] "Is wheter or not the white king has been set in check this turn"
+* @param {boolean} [blackCheck=false] "Is wheter or not the black king has been set in check this turn"
 */
-function previousTurnsSetup(castling = "", promotion = 0, attack = false, attackPawn = false) { 
+function previousTurnsSetup(castling = "", promotion = 0, attack = false, attackPawn = false, whiteCheck = false, blackCheck = false) { 
     let movedPiece = "";
     let letter = "a";
     let number = 1;
@@ -221,7 +224,12 @@ function previousTurnsSetup(castling = "", promotion = 0, attack = false, attack
         if (!attack && !castling && !promotion) {
             outString = movedPiece+letter+number;
         }
-
+        if (mod(turnObject.getInternalTurn, 2) === 0 && whiteCheck) {
+            outString += "+";
+        }
+        if (mod(turnObject.getInternalTurn, 2) === 1 && blackCheck) {
+            outString += "+";
+        }
 
         document.getElementById("tableCellTurn" + turnObject.getExternalTurn + turnObject.getTurnColor + "span").textContent = outString;
     }
