@@ -32,12 +32,20 @@ function previousTurnsSetup(castling = "", promotion = 0, attack = false, attack
         document.getElementById("previousTurnsTableBody").appendChild(tableRow);
 
         document.getElementById("tableCellTurn" + turnObject.getExternalTurn + "span").textContent = turnObject.getExternalTurn;
+
+        // For creating a list to store the previous turns
+        turnObject.makePreviousTurns(turnObject.getExternalTurn);
     }
 
     // Creates the table cells for the move used by each player
     if (document.getElementById("tableRowTurn" + turnObject.getExternalTurn) !== null && typeObjects.getStarted) {
         // This one is for adding back the number if the turn was undoed
         document.getElementById("tableCellTurn" + turnObject.getExternalTurn + "span").textContent = turnObject.getExternalTurn;
+
+        // This one is if the previous turns array for current turn is deleted
+        if (!(turnObject.getExternalTurn in turnObject.getPreviousTurns)) {
+            turnObject.makePreviousTurns(turnObject.getExternalTurn);
+        }
 
         let tableCellTurnColor, tableCellTurnColorSpan;
         if (document.getElementById("tableCellTurn" + turnObject.getExternalTurn + turnObject.getTurnColor) === null) {
@@ -232,6 +240,10 @@ function previousTurnsSetup(castling = "", promotion = 0, attack = false, attack
         }
 
         document.getElementById("tableCellTurn" + turnObject.getExternalTurn + turnObject.getTurnColor + "span").textContent = outString;
+
+        turnObject.addToPreviousTurns(turnObject.getExternalTurn, outString);
+
+        console.log(turnObject.getPreviousTurns);
     }
 }
 

@@ -7,6 +7,7 @@ const turnObject = {
     internalTurn: 0,
     externalTurn: 0,
     turnColor: "WHITE",
+    previousTurns: {},
 
     /**
      * @param {number} internalTurn
@@ -39,6 +40,34 @@ const turnObject = {
 
     get getTurnColor() {
         return this.turnColor;
+    },
+
+    /**
+     * @param {{}} previousTurns
+     */
+    set setPreviousTurns(previousTurns) {
+        this.previousTurns = previousTurns;
+    },
+
+    get getPreviousTurns() {
+        return this.previousTurns;
+    },
+
+    makePreviousTurns(turn) {
+        this.previousTurns[turn] = [];
+    },
+
+    addToPreviousTurns(turn, outString) {
+        if (this.turnColor === "WHITE" && this.previousTurns[turn].length !== 0) {
+            this.previousTurns[turn] = [];
+            this.previousTurns[turn].push(outString);
+            return;
+        }
+        if (this.turnColor === "BLACK" && this.previousTurns[turn].length === 2) {
+            this.previousTurns[turn][1] = outString;
+            return
+        }
+        this.previousTurns[turn].push(outString);
     },
 
     // Increases the turn count
