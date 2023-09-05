@@ -7,7 +7,7 @@ import { setUpPieces } from "./setUpPieces.js";
 import { updateMovement } from "./movement.js";
 import { turnObject } from "./turnKeeping.js";
 import { previousTurnsSetup } from "./previousTurnsSetup.js";
-import { paintLevel } from "./paintLevel.js";
+import { paintTile } from "./paintTile.js";
 
 // Starts the game and resets all the stuff to the correct position
 function startGame(players) {
@@ -31,7 +31,14 @@ function startGame(players) {
     pauseObject.setPause = true;
     turnObject.setInternalTurn = 0;
     turnObject.setExternalTurn = 0;
-    paintLevel();
+    // Paints the board
+    let boardRowLength = boardObject.getBoardArray.length;
+    for (var i = 0; i < boardRowLength; i++) {
+        let boardColLength = boardObject.getBoardArray[i].length;
+        for (var j = 0; j < boardColLength; j++) {
+            paintTile(j, i)
+        }
+    }
     
     // Resets the values of previous turns and taken pieces
     document.getElementById("previousTurnsTableBody").textContent = "";
