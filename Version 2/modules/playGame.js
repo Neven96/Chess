@@ -26,6 +26,4 @@ const playGameObject = {
     }
 }
 
-
-
 export { playGameObject };

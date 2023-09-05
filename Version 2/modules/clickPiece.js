@@ -94,54 +94,21 @@ async function clickPiece(event) {
 
                 // For castling
                 if (pieceObject.getSelected.getPiece === "king") {
-                    let rookSelected = "";
                     if (pieceObject.getSelected.getColor === "white") {
                         // Castling with A-rook
                         if (x_true === 2) {
-                            // Finds the correct rook from the position
-                            rookSelected = boardObject.getNameFromNameArray([0, 7]);
-                            pieceObject.setRookSelected = listObject.getRookList[rookSelected];
-                            pieceObject.setRook_x = 3;
-                            pieceObject.setRook_y = 7;
-                            
-                            moveRook();
-
-                            castling = "long";
+                            castling = moveRook(0, 3, 7, "long");
                         // Castling with H-rook
                         } else if (x_true === 6) {
-                            // Finds the correct rook from the position
-                            rookSelected = boardObject.getNameFromNameArray([7, 7]);
-                            pieceObject.setRookSelected = listObject.getRookList[rookSelected];
-                            pieceObject.setRook_x = 5;
-                            pieceObject.setRook_y = 7;
-
-                            moveRook();
-
-                            castling = "short";
+                            castling = moveRook(7, 5, 7, "short");
                         }
                     } else if (pieceObject.getSelected.getColor === "black") {
                         // Castling with A-rook
                         if (x_true === 2) {
-                            // Finds the correct rook from the position
-                            rookSelected = boardObject.getNameFromNameArray([0, 0]);
-                            pieceObject.setRookSelected = listObject.getRookList[rookSelected];
-                            pieceObject.setRook_x = 3;
-                            pieceObject.setRook_y = 0;
-
-                            moveRook();
-
-                            castling = "long";
+                            castling = moveRook(0, 3, 0, "long");
                         // Castling with H-rook
                         } else if (x_true === 6) {
-                            // Finds the correct rook from the position
-                            rookSelected = boardObject.getNameFromNameArray([7, 0]);
-                            pieceObject.setRookSelected = listObject.getRookList[rookSelected];
-                            pieceObject.setRook_x = 5;
-                            pieceObject.setRook_y = 0;
-
-                            moveRook();
-
-                            castling = "short";
+                            castling = moveRook(7, 5, 0, "short");
                         }
                     }
                 }
@@ -162,7 +129,6 @@ async function clickPiece(event) {
                 // Makes the previous position of the piece blank
                 paintTile(pieceObject.getY_previous, pieceObject.getX_previous);
 
-
                 // Updates the previous positions of all pieces
                 for (let name in listObject.getPieceList) {
                     listObject.getPieceList[name].updatePreviousPosition(listObject.getPieceList[name].getMoved, listObject.getPieceList[name].getTaken);
@@ -172,7 +138,6 @@ async function clickPiece(event) {
                 for (let name in listObject.getPawnList) {
                     listObject.getPawnList[name].updatePreviousPosition(listObject.getPawnList[name].getMoved, listObject.getPawnList[name].getTaken, listObject.getPawnList[name].getPromoted);
                 }
-
 
                 // Updates the moves of all pieces
                 updateMovement();
@@ -210,7 +175,13 @@ async function clickPiece(event) {
 }
 
 // For moving the rook after the king in castling
-function moveRook() {
+function moveRook(prev_x, new_x, y, castling) {
+    // Finds the correct rook from the position
+    let rookSelected = boardObject.getNameFromNameArray([prev_x, y]);
+    pieceObject.setRookSelected = listObject.getRookList[rookSelected];
+    pieceObject.setRook_x = new_x;
+    pieceObject.setRook_y = y;
+
     let x_previous = pieceObject.getRookSelected.getPiecePosition[0];
     let y_previous = pieceObject.getRookSelected.getPiecePosition[1];
 
@@ -232,6 +203,8 @@ function moveRook() {
     pieceObject.setRookSelected = null;
     pieceObject.setRook_x = 0;
     pieceObject.setRook_y = 0;
+
+    return castling;
 }
 
 // Function for showing the pawn change menu
