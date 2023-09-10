@@ -161,12 +161,12 @@ span {
   z-index: 10;
 }
 
-.pieceButton {
+.changePieceButton {
   height: 78.2px;
   width: 298.5px;
 }
 
-.pieceButtonSpan {
+.changePieceButtonSpan {
   font-size: 50px;
 }
 

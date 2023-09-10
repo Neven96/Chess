@@ -242,8 +242,6 @@ function previousTurnsSetup(castling = "", promotion = 0, attack = false, attack
         document.getElementById("tableCellTurn" + turnObject.getExternalTurn + turnObject.getTurnColor + "span").textContent = outString;
 
         turnObject.addToPreviousTurns(turnObject.getExternalTurn, outString);
-
-        console.log(turnObject.getPreviousTurns);
     }
 }
 

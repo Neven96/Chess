@@ -79,14 +79,11 @@ async function clickPiece(event) {
                             pieceObject.getSelected.changePiece(result[0], result[1]);
                         });
 
-                        document.getElementById("rookButton").style.display = "none";
-                        document.getElementById("knightButton").style.display = "none";
-                        document.getElementById("bishopButton").style.display = "none";
-                        document.getElementById("queenButton").style.display = "none";
-                        document.getElementById("rookButton").disabled = true;
-                        document.getElementById("knightButton").disabled = true;
-                        document.getElementById("bishopButton").disabled = true;
-                        document.getElementById("queenButton").disabled = true;
+                        // Removes the promotion buttons and disables them
+                        for (let i = 0; i < document.getElementsByClassName("changePieceButton").length; i++) {
+                            document.getElementsByClassName("changePieceButton")[i].style.display = "none";
+                            document.getElementsByClassName("changePieceButton")[i].disabled = true;
+                        }
 
                         document.getElementById("lightBox").style.display = "none";
                     }
@@ -259,16 +256,14 @@ async function pawnChange() {
     function handleClick(pieceNumber) {
         _promote([buttonList[pieceNumber]["value"], buttonList[pieceNumber]["piece"]]);
 
-        document.getElementById("rookButton").removeEventListener("click", clicked);
-        document.getElementById("knightButton").removeEventListener("click", clicked);
-        document.getElementById("bishopButton").removeEventListener("click", clicked);
-        document.getElementById("queenButton").removeEventListener("click", clicked);
+        for (let i = 0; i < document.getElementsByClassName("changePieceButton").length; i++) {
+            document.getElementsByClassName("changePieceButton")[i].removeEventListener("click", clicked);
+        }
     }
 
-    document.getElementById("rookButton").addEventListener("click", clicked);
-    document.getElementById("knightButton").addEventListener("click", clicked);
-    document.getElementById("bishopButton").addEventListener("click", clicked);
-    document.getElementById("queenButton").addEventListener("click", clicked);
+    for (let i = 0; i < document.getElementsByClassName("changePieceButton").length; i++) {
+        document.getElementsByClassName("changePieceButton")[i].addEventListener("click", clicked);
+    }
 }
 
 export { clickPiece };
