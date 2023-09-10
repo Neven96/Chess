@@ -253,6 +253,7 @@ async function pawnChange() {
         handleClick(event.target.value);
     }
 
+    // Removes the events for the promotion buttons and sends the values to the await/promise
     function handleClick(pieceNumber) {
         _promote([buttonList[pieceNumber]["value"], buttonList[pieceNumber]["piece"]]);
 
@@ -261,6 +262,7 @@ async function pawnChange() {
         }
     }
 
+    // Adds the events for the promotion buttons
     for (let i = 0; i < document.getElementsByClassName("changePieceButton").length; i++) {
         document.getElementsByClassName("changePieceButton")[i].addEventListener("click", clicked);
     }
