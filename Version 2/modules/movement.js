@@ -77,7 +77,10 @@ function helperMovement(piece, newPosition, x, y) {
 }
 
 // Helper-function for knight and king
-function helperMovement2(piece, boardPosition, checkBoard, newPosition) {
+function helperMovement2(piece, newPosition, x, y) {
+    let boardPosition = arraySubtraction(piece.getPiecePosition, [x, y]);
+    let checkBoard = boardObject.pieceArrayPosition(boardPosition);
+
     if (checkBoard !== 99) {
         if (checkBoard === 0) {
             newPosition.push(boardPosition);
@@ -96,8 +99,9 @@ function helperMovement2(piece, boardPosition, checkBoard, newPosition) {
 // Movement for the pieces
 
 // Movement for pawns
+// TODO: En passant, if I could be arsed
 function pawnMovement() {
-    let newPosition = [];
+    let newPosition;
 
     for (let piece in listObject.getPawnList) {
         piece = listObject.getPieceList[piece];
@@ -112,55 +116,53 @@ function pawnMovement() {
                 if (piece.getColor === "white") {
                     // Move 1
                     // This will give the x and y coordinate for the new movement, not the position in the pieceArray
-                    if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [0, 1])) === 0 &&
-                        boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [0, 1])) !== 99) {
-                        newPosition.push(arraySubtraction(piece.getPiecePosition, [0, 1]));
-                    }
+                    newPosition = pawnMove(piece, newPosition, 0, -1)
                     // Move 2
                     if (!piece.getMoved) {
-                        if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [0, 2])) === 0 &&
-                            boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [0, 2])) !== 99) {
-                            newPosition.push(arraySubtraction(piece.getPiecePosition, [0, 2]));
-                        }
+                        newPosition = pawnMove(piece, newPosition, 0, -2);
                     }
                     // Attack
-                    if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [1, 1])) <= -1 &&
-                        boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [1, 1])) !== 99) {
-                        newPosition.push(arraySubtraction(piece.getPiecePosition, [1, 1]));
-                    }
-                    if (boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [-1, 1])) <= -1 &&
-                        boardObject.pieceArrayPosition(arraySubtraction(piece.getPiecePosition, [-1, 1])) !== 99) {
-                        newPosition.push(arraySubtraction(piece.getPiecePosition, [-1, 1]));
-                    }
+                    newPosition = pawnAttack(piece, newPosition, -1, -1);
+                    newPosition = pawnAttack(piece, newPosition, 1, -1);
 
                 } else if (piece.getColor === "black") {
                     // Move 1
-                    if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, 1])) === 0 &&
-                        boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, 1])) !== 99) {
-                        newPosition.push(arrayAddition(piece.getPiecePosition, [0, 1]));
-                    }
+                    newPosition = pawnMove(piece, newPosition, 0, 1)
                     // Move 2
                     if (!piece.getMoved) {
-                        if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, 2])) === 0 &&
-                            boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, 2])) !== 99) {
-                            newPosition.push(arrayAddition(piece.getPiecePosition, [0, 2]));
-                        }
+                        newPosition = pawnMove(piece, newPosition, 0, 2);
                     }
                     // Attack
-                    if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [1, 1])) >= 1 &&
-                        boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [1, 1])) !== 99) {
-                        newPosition.push(arrayAddition(piece.getPiecePosition, [1, 1]));
-                    }
-                    if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [-1, 1])) >= 1 &&
-                        boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [-1, 1])) !== 99) {
-                        newPosition.push(arrayAddition(piece.getPiecePosition, [-1, 1]));
-                    }
+                    newPosition = pawnAttack(piece, newPosition, 1, 1);
+                    newPosition = pawnAttack(piece, newPosition, -1, 1);
                 }
 
                 piece.updateAvailableMoves(newPosition);
             }
         }   
-    } 
+    }
+    // Helper functions for moving pawns
+    function pawnMove(piece, newPosition, x, y) {
+        if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [x, y])) === 0 &&
+            boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [x, y])) !== 99) {
+            newPosition.push(arrayAddition(piece.getPiecePosition, [x, y]));
+        } 
+        return newPosition;
+    }
+
+    // Helper function for attacking with pawns
+    function pawnAttack(piece, newPosition, x, y) {
+        if (boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [x, y])) !== 99) {
+            if (piece.getColor === "black" && boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [x, y])) >= 1) {
+                newPosition.push(arrayAddition(piece.getPiecePosition, [x, y]));
+            } 
+            if (piece.getColor === "white" && boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [x, y])) <= -1) {
+                newPosition.push(arrayAddition(piece.getPiecePosition, [x, y]));
+            }
+        }
+
+        return newPosition;
+    }
 }
 
 // Movements for rook, using lineMovement
@@ -186,8 +188,6 @@ function rookMovement() {
 // Movement for knights, using own movement
 function knightMovement() {
     let newPosition;
-    let boardPosition;
-    let checkBoard;
 
     for (let piece in listObject.getKnightList) {
         piece = listObject.getPieceList[piece];
@@ -199,44 +199,28 @@ function knightMovement() {
 
         if (piece.getPiece === "knight") {
             // One up, two left
-            boardPosition = arraySubtraction(piece.getPiecePosition, [2, 1]);
-            checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+            newPosition = helperMovement2(piece, newPosition, 2, 1);
 
             // Two up, one left
-            boardPosition = arraySubtraction(piece.getPiecePosition, [1, 2]);
-            checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+            newPosition = helperMovement2(piece, newPosition, 1, 2);
 
             // Two up, one right
-            boardPosition = arraySubtraction(piece.getPiecePosition, [-1, 2]);
-            checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+            newPosition = helperMovement2(piece, newPosition, -1, 2);
 
             // One up, two right
-            boardPosition = arraySubtraction(piece.getPiecePosition, [-2, 1]);
-            checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+            newPosition = helperMovement2(piece, newPosition, -2, 1);
 
             // One down, two left
-            boardPosition = arrayAddition(piece.getPiecePosition, [-2, 1]);
-            checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+            newPosition = helperMovement2(piece, newPosition, 2, -1);
 
             // Two down, one left
-            boardPosition = arrayAddition(piece.getPiecePosition, [-1, 2]);
-            checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+            newPosition = helperMovement2(piece, newPosition, 1, -2);
 
             // Two down, one right
-            boardPosition = arrayAddition(piece.getPiecePosition, [1, 2]);
-            checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+            newPosition = helperMovement2(piece, newPosition, -1, -2);
 
             // One down, two right
-            boardPosition = arrayAddition(piece.getPiecePosition, [2, 1]);
-            checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+            newPosition = helperMovement2(piece, newPosition, -2, -1);
 
             piece.updateAvailableMoves(newPosition);
         }
@@ -290,8 +274,6 @@ function queenMovement() {
 // Movement for kings, using own movement
 function kingMovement() {
     let newPosition;
-    let boardPosition;
-    let checkBoard;
 
     for (let piece in listObject.getKingList) {
         piece = listObject.getPieceList[piece];
@@ -305,48 +287,33 @@ function kingMovement() {
             // Line Movement
             // Y-axis
             // Up
-            boardPosition = arraySubtraction(piece.getPiecePosition, [0, 1]);
-            checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+            newPosition = helperMovement2(piece, newPosition, 0, 1);
 
             // Down
-            boardPosition = arrayAddition(piece.getPiecePosition, [0, 1]);
-            checkBoard = boardObject.pieceArrayPosition(boardPosition)
-            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+            newPosition = helperMovement2(piece, newPosition, 0, -1);
 
             // X-axis
             // Left
-            boardPosition = arraySubtraction(piece.getPiecePosition, [1, 0]);
-            checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+            newPosition = helperMovement2(piece, newPosition, 1, 0);
 
             // Right
-            boardPosition = arrayAddition(piece.getPiecePosition, [1, 0]);
-            checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+            newPosition = helperMovement2(piece, newPosition, -1, 0);
 
             // Diagonal movement
             // Up
             // Up-left
-            boardPosition = arraySubtraction(piece.getPiecePosition, [1, 1]);
-            checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+            newPosition = helperMovement2(piece, newPosition, 1, 1);
 
             // Up-right
-            boardPosition = arraySubtraction(piece.getPiecePosition, [-1, 1]);
-            checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+            newPosition = helperMovement2(piece, newPosition, -1, 1);
 
             // Down
             // Down-left
-            boardPosition = arrayAddition(piece.getPiecePosition, [-1, 1]);
-            checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+            newPosition = helperMovement2(piece, newPosition, 1, -1);
 
             // Down-right
-            boardPosition = arrayAddition(piece.getPiecePosition, [1, 1]);
-            checkBoard = boardObject.pieceArrayPosition(boardPosition);
-            newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+            newPosition = helperMovement2(piece, newPosition, -1, -1);
+
             piece.updateAvailableMoves(newPosition);
 
             // Castling
@@ -405,18 +372,11 @@ function kingMovement() {
 
 // Helper function for the castling process
 function kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, kingMove, rookMove) {
-    let boardPosition, checkBoard;
-    let rookBoardPosition, rookCheckBoard;
-
     // Position for the king
-    boardPosition = arraySubtraction(piece.getPiecePosition, [kingMove, 0]);
-    checkBoard = boardObject.pieceArrayPosition(boardPosition);
-    newPosition = helperMovement2(piece, boardPosition, checkBoard, newPosition);
+    newPosition = helperMovement2(piece, newPosition, kingMove, 0);
 
-    // Position for the A-rook, moving 3 spaces right
-    rookBoardPosition = arraySubtraction(rookPiece.getPiecePosition, [rookMove, 0]);
-    rookCheckBoard = boardObject.pieceArrayPosition(rookBoardPosition);
-    rookNewPosition = helperMovement2(rookPiece, rookBoardPosition, rookCheckBoard, rookNewPosition);
+    // Position for the rook
+    rookNewPosition = helperMovement2(rookPiece, rookNewPosition, rookMove, 0);
 
     rookPiece.updateAvailableMoves(rookNewPosition);
 
