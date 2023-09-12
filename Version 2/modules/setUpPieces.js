@@ -4,7 +4,7 @@ import { Pawn, Rook, Knight, Bishop, Queen, King } from "./classes.js";
 import { paintPiece } from "./paintPiece.js";
 
 // Creates the piece objects and adds them to the correct position
-// Row and col are all kinds of messed up, I'm not sure which are correct and which aren't
+// Row and col are all kinds of messed up, I'm not sure which are correct and which isn't
 function setUpPieces(col, row, piece, pieceSymbol = "") {
     switch (piece) {
         case 1:
