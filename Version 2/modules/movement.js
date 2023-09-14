@@ -99,7 +99,7 @@ function helperMovement2(piece, newPosition, x, y) {
 // Movement for the pieces
 
 // Movement for pawns
-// TODO: En passant, if I could be arsed
+// TODO: En passant, if I can be bothered
 function pawnMovement() {
     let newPosition;
 
@@ -118,7 +118,7 @@ function pawnMovement() {
                     // This will give the x and y coordinate for the new movement, not the position in the pieceArray
                     newPosition = pawnMove(piece, newPosition, 0, -1)
                     // Move 2
-                    if (!piece.getMoved) {
+                    if (!piece.getMoved && boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, -1])) === 0) {
                         newPosition = pawnMove(piece, newPosition, 0, -2);
                     }
                     // Attack
@@ -129,7 +129,7 @@ function pawnMovement() {
                     // Move 1
                     newPosition = pawnMove(piece, newPosition, 0, 1)
                     // Move 2
-                    if (!piece.getMoved) {
+                    if (!piece.getMoved && boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, 1])) === 0) {
                         newPosition = pawnMove(piece, newPosition, 0, 2);
                     }
                     // Attack
