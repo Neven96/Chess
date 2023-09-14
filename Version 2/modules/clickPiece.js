@@ -214,19 +214,19 @@ async function pawnChange() {
 
     // Gives the pawn the correct new piece and color
     if (pieceObject.getSelected.getColor === "white") {
-        rookButtonPiece = "\u{2656}"
-        knightButtonPiece = "\u{2658}"
-        bishopButtonPiece = "\u{2657}"
-        queenButtonPiece = "\u{2655}"
+        rookButtonPiece = "\u{2656}";
+        knightButtonPiece = "\u{2658}";
+        bishopButtonPiece = "\u{2657}";
+        queenButtonPiece = "\u{2655}";
         rookButtonValue = 2;
         knightButtonValue = 3;
         bishopButtonValue = 4;
         queenButtonValue = 5;
     } else if (pieceObject.getSelected.getColor === "black") {
-        rookButtonPiece = "\u{265C}"
-        knightButtonPiece = "\u{265E}"
-        bishopButtonPiece = "\u{265D}"
-        queenButtonPiece = "\u{265B}"
+        rookButtonPiece = "\u{265C}";
+        knightButtonPiece = "\u{265E}";
+        bishopButtonPiece = "\u{265D}";
+        queenButtonPiece = "\u{265B}";
         rookButtonValue = -2;
         knightButtonValue = -3;
         bishopButtonValue = -4;

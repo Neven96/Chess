@@ -118,6 +118,7 @@ function pawnMovement() {
                     // This will give the x and y coordinate for the new movement, not the position in the pieceArray
                     newPosition = pawnMove(piece, newPosition, 0, -1)
                     // Move 2
+                    // Needs to check if the space in front is available too, since pawns can't jump
                     if (!piece.getMoved && boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, -1])) === 0) {
                         newPosition = pawnMove(piece, newPosition, 0, -2);
                     }
@@ -160,7 +161,6 @@ function pawnMovement() {
                 newPosition.push(arrayAddition(piece.getPiecePosition, [x, y]));
             }
         }
-
         return newPosition;
     }
 }
@@ -314,6 +314,7 @@ function kingMovement() {
             // Down-right
             newPosition = helperMovement2(piece, newPosition, -1, -1);
 
+            // Puts the new moves into the piece
             piece.updateAvailableMoves(newPosition);
 
             // Castling
