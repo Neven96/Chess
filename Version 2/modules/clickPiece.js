@@ -145,13 +145,15 @@ async function clickPiece(event) {
                 // Gets if the king is check for the previous turns setup
                 let checkChecker = kingCheckChecker();
 
-                if (checkChecker["white_checked"][1]) {
-                    whiteCheck = true;
+                if (checkChecker) {
+                    if (checkChecker["white_checked"][1]) {
+                        whiteCheck = true;
+                    }
+                    if (checkChecker["black_checked"][1]) {
+                        blackCheck = true;
+                    }
                 }
-                if (checkChecker["black_checked"][1]) {
-                    blackCheck = true;
-                }
-
+                
                 // Updates the previous turns list
                 previousTurnsSetup(castling, promotion, attack, attackPawn, whiteCheck, blackCheck);
 
@@ -209,42 +211,32 @@ function moveRook(prev_x, new_x, y, castling) {
 
 // Function for showing the pawn change menu
 async function pawnChange() {
-    let rookButtonPiece, knightButtonPiece, bishopButtonPiece, queenButtonPiece;
-    let rookButtonValue, knightButtonValue, bishopButtonValue, queenButtonValue;
+    let buttonPieceValueList = {"rook": [], "knight": [], "bishop": [], "queen": []}
 
     // Gives the pawn the correct new piece and color
     if (pieceObject.getSelected.getColor === "white") {
-        rookButtonPiece = "\u{2656}";
-        knightButtonPiece = "\u{2658}";
-        bishopButtonPiece = "\u{2657}";
-        queenButtonPiece = "\u{2655}";
-        rookButtonValue = 2;
-        knightButtonValue = 3;
-        bishopButtonValue = 4;
-        queenButtonValue = 5;
+        buttonPieceValueList["rook"] = ["\u{2656}", 2];
+        buttonPieceValueList["knight"] = ["\u{2658}", 3];
+        buttonPieceValueList["bishop"] = ["\u{2657}", 4];
+        buttonPieceValueList["queen"] = ["\u{2655}", 5];
     } else if (pieceObject.getSelected.getColor === "black") {
-        rookButtonPiece = "\u{265C}";
-        knightButtonPiece = "\u{265E}";
-        bishopButtonPiece = "\u{265D}";
-        queenButtonPiece = "\u{265B}";
-        rookButtonValue = -2;
-        knightButtonValue = -3;
-        bishopButtonValue = -4;
-        queenButtonValue = -5;
+        buttonPieceValueList["rook"] = ["\u{265C}", -2];
+        buttonPieceValueList["knight"] = ["\u{265E}", -3];
+        buttonPieceValueList["bishop"] = ["\u{265D}", -4];
+        buttonPieceValueList["queen"] = ["\u{265B}", -5];
     }
 
-    let buttonList = {
-        "rook": { "piece": rookButtonPiece, "value": rookButtonValue }, 
-        "knight": { "piece": knightButtonPiece, "value": knightButtonValue }, 
-        "bishop": { "piece": bishopButtonPiece, "value": bishopButtonValue }, 
-        "queen": { "piece": queenButtonPiece, "value": queenButtonValue }
-    };
+    console.log(buttonPieceValueList);
+
+    for (let piece in buttonPieceValueList) {
+        console.log(piece);
+    }
 
     document.getElementById("lightBox").style.display = "initial";
 
     // Giving the buttons the values, and making them visible and clickable
-    for (let piece in buttonList) {
-        document.getElementById(piece+"ButtonSpan").textContent = buttonList[piece]["piece"];
+    for (let piece in buttonPieceValueList) {
+        document.getElementById(piece+"ButtonSpan").textContent = buttonPieceValueList[piece][0];
         document.getElementById(piece+"ButtonSpan").value = piece;
         document.getElementById(piece+"Button").style.display = "initial";
         document.getElementById(piece+"Button").value = piece;
@@ -257,8 +249,8 @@ async function pawnChange() {
     }
 
     // Removes the events for the promotion buttons and sends the values to the await/promise
-    function handleClick(pieceNumber) {
-        _promote([buttonList[pieceNumber]["value"], buttonList[pieceNumber]["piece"]]);
+    function handleClick(piece) {
+        _promote([buttonPieceValueList[piece][1], buttonPieceValueList[piece][0]]);
 
         for (let i = 0; i < document.getElementsByClassName("changePieceButton").length; i++) {
             document.getElementsByClassName("changePieceButton")[i].removeEventListener("click", clicked);

@@ -9,11 +9,13 @@ function kingCheckChecker() {
     let check_list = {"white_checked" : [null, false], "black_checked" : [null, false]};
     for (let name in listObject.getKingList) {
         king = listObject.getKingList[name];
-        
+        if (king.getTaken) {
+            return false;
+        } 
         if (king.getColor === "white") {
             check_list["white_checked"][0] = name;
             check_list = helper("black", "white", king, check_list);
-            
+
         } else if (king.getColor === "black") {
             check_list["black_checked"][0] = name;
             check_list = helper("white", "black", king, check_list);
@@ -57,22 +59,23 @@ function kingMateChecker() {
 function drawCheckedKing() {
     let king_check = kingCheckChecker();
 
-    for (let check in king_check) {
-        if (king_check[check][1]) {
-            paintTile(listObject.getKingList[king_check[check][0]].getPiecePosition[1],
-                      listObject.getKingList[king_check[check][0]].getPiecePosition[0],
-                      "#FF0000");
-            paintPiece(listObject.getKingList[king_check[check][0]].getPiecePosition[1],
-                       listObject.getKingList[king_check[check][0]].getPiecePosition[0],
-                       listObject.getKingList[king_check[check][0]].getNumber,
-                       listObject.getKingList[king_check[check][0]].getPieceSymbol);
-        } else {
-            paintTile(listObject.getKingList[king_check[check][0]].getPiecePosition[1],
-                      listObject.getKingList[king_check[check][0]].getPiecePosition[0]);
-            paintPiece(listObject.getKingList[king_check[check][0]].getPiecePosition[1],
-                       listObject.getKingList[king_check[check][0]].getPiecePosition[0],
-                       listObject.getKingList[king_check[check][0]].getNumber,
-                       listObject.getKingList[king_check[check][0]].getPieceSymbol);
+    if (king_check) {
+        for (let check in king_check) {
+            if (king_check[check][1]) {
+                paintTile(listObject.getKingList[king_check[check][0]].getPiecePosition[1],
+                          listObject.getKingList[king_check[check][0]].getPiecePosition[0], "#FF0000");
+                paintPiece(listObject.getKingList[king_check[check][0]].getPiecePosition[1],
+                          listObject.getKingList[king_check[check][0]].getPiecePosition[0],
+                          listObject.getKingList[king_check[check][0]].getNumber,
+                          listObject.getKingList[king_check[check][0]].getPieceSymbol);
+            } else {
+                paintTile(listObject.getKingList[king_check[check][0]].getPiecePosition[1],
+                          listObject.getKingList[king_check[check][0]].getPiecePosition[0]);
+                paintPiece(listObject.getKingList[king_check[check][0]].getPiecePosition[1],
+                          listObject.getKingList[king_check[check][0]].getPiecePosition[0],
+                          listObject.getKingList[king_check[check][0]].getNumber,
+                          listObject.getKingList[king_check[check][0]].getPieceSymbol);
+            }
         }
     }
 }
