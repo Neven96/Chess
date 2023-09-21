@@ -90,25 +90,23 @@ async function clickPiece(event) {
                 }
 
                 // For castling
-                if (pieceObject.getSelected.getPiece === "king") {
-                    // Need this check because I'm stupid and did castling in two different ways...
-                    if (!pieceObject.getSelected.getMoved) {
-                        if (pieceObject.getSelected.getColor === "white") {
-                            // Castling with A-rook
-                            if (x_true === 2) {
-                                castling = moveRook(0, 3, 7, "long");
-                                // Castling with H-rook
-                            } else if (x_true === 6) {
-                                castling = moveRook(7, 5, 7, "short");
-                            }
-                        } else if (pieceObject.getSelected.getColor === "black") {
-                            // Castling with A-rook
-                            if (x_true === 2) {
-                                castling = moveRook(0, 3, 0, "long");
-                                // Castling with H-rook
-                            } else if (x_true === 6) {
-                                castling = moveRook(7, 5, 0, "short");
-                            }
+                // Need to check for movedd piece because I'm stupid and did castling in two different ways...
+                if (pieceObject.getSelected.getPiece === "king" && !pieceObject.getSelected.getMoved) {
+                    if (pieceObject.getSelected.getColor === "white") {
+                        // Castling with A-rook
+                        if (x_true === 2) {
+                            castling = moveRook(0, 3, 7, "long");
+                        // Castling with H-rook
+                        } else if (x_true === 6) {
+                            castling = moveRook(7, 5, 7, "short");
+                        }
+                    } else if (pieceObject.getSelected.getColor === "black") {
+                        // Castling with A-rook
+                        if (x_true === 2) {
+                            castling = moveRook(0, 3, 0, "long");
+                        // Castling with H-rook
+                        } else if (x_true === 6) {
+                            castling = moveRook(7, 5, 0, "short");
                         }
                     }
                 }
