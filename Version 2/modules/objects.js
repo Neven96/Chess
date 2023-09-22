@@ -1,8 +1,10 @@
 import { myHeaders } from "./helpers/header.js";
 
 // Flags for game state
+// TimeType: 1 is for counting up from 0, 2 is for counting down from specified time
 const typeObjects = {
     players: 1,
+    timeType: 1,
     started: false,
     finish: false,
 
@@ -15,6 +17,17 @@ const typeObjects = {
 
     get getPlayers() {
         return this.players;
+    },
+
+    /**
+     * @param {number} timeType
+     */
+    set setTimeType(timeType) {
+        this.timeType = timeType;
+    },
+
+    get getTimeType() {
+        return this.timeType;
     },
 
     /**

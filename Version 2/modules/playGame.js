@@ -21,7 +21,11 @@ const playGameObject = {
     // Used to fix pauses not pausing the game until the next tick
     playGame() {
         if (!pauseObject.getPause) {
-            timeObject.updateTime();
+            if (typeObjects.getTimeType === 1) {
+                timeObject.countUpTime();
+            } else if (typeObjects.getTimeType === 2) {
+                timeObject.countDownTime();
+            }
         }
     }
 }
