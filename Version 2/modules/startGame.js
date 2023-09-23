@@ -45,11 +45,13 @@ function startGame(players) {
     document.getElementById("whiteTaken").textContent = "";
     document.getElementById("blackTaken").textContent = "";
 
+    let pawnPiecesList = { "1": { "0": { "whitePawnA": null }, "1": { "whitePawnB": null }, "2": { "whitePawnC": null }, "3": { "whitePawnD": null }, "4": { "whitePawnE": null }, "5": { "whitePawnF": null }, "6": { "whitePawnG": null }, "7": { "whitePawnH": null } },
+                          "-1": { "0": { "blackPawnA": null }, "1": { "blackPawnB": null }, "2": { "blackPawnC": null }, "3": { "blackPawnD": null }, "4": { "blackPawnE": null }, "5": { "blackPawnF": null }, "6": { "blackPawnG": null }, "7": { "blackPawnH": null } } } 
     let pieceArrayLength = boardObject.getPieceArray.length;
     for (var i = 0; i < pieceArrayLength; i++) {
         let pieceArrayILength = boardObject.getPieceArray[i].length;
         for (var j = 0; j < pieceArrayILength; j++) {
-            setUpPieces(i, j, boardObject.getPieceArray[i][j]);
+            pawnPiecesList = setUpPieces(i, j, boardObject.getPieceArray[i][j], pawnPiecesList);
         }
     }
 

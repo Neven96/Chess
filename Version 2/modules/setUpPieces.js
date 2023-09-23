@@ -4,70 +4,19 @@ import { Pawn, Rook, Knight, Bishop, Queen, King } from "./classes.js";
 import { paintPiece } from "./paintPiece.js";
 
 // Creates the piece objects and adds them to the correct position
-// Row and col are all kinds of messed up, I'm not sure which are correct and which isn't
-function setUpPieces(col, row, piece, pieceSymbol = "") {
+// Row and col are all kinds of messed up, the problem is that 2d arrays and the canvas uses different for each
+function setUpPieces(col, row, piece, pawnPiecesList, pieceSymbol = "") {
     switch (piece) {
         case 1:
             pieceSymbol = "\u{2659}";
             // White pawn
-            switch (row) {
-                case 0:
-                    let whitePawnA = new Pawn("whitePawnA", piece, "white", "pawn", pieceSymbol, [row, col]);
-                    listObject.addToPieceList(whitePawnA);
-                    listObject.addToPawnList(whitePawnA);
-                    whitePawnA.updatePreviousPosition(false, false);
-                    boardObject.addToNameArrayPosition([col, row], "whitePawnA");
-                    break;
-                case 1:
-                    let whitePawnB = new Pawn("whitePawnB", piece, "white", "pawn", pieceSymbol, [row, col]);
-                    listObject.addToPieceList(whitePawnB);
-                    listObject.addToPawnList(whitePawnB);
-                    whitePawnB.updatePreviousPosition(false, false);
-                    boardObject.addToNameArrayPosition([col, row], "whitePawnB");
-                    break;
-                case 2:
-                    let whitePawnC = new Pawn("whitePawnC", piece, "white", "pawn", pieceSymbol, [row, col]);
-                    listObject.addToPieceList(whitePawnC);
-                    listObject.addToPawnList(whitePawnC);
-                    whitePawnC.updatePreviousPosition(false, false);
-                    boardObject.addToNameArrayPosition([col, row], "whitePawnC");
-                    break;
-                case 3:
-                    let whitePawnD = new Pawn("whitePawnD", piece, "white", "pawn", pieceSymbol, [row, col]);
-                    listObject.addToPieceList(whitePawnD);
-                    listObject.addToPawnList(whitePawnD);
-                    whitePawnD.updatePreviousPosition(false, false);
-                    boardObject.addToNameArrayPosition([col, row], "whitePawnD");
-                    break;
-                case 4:
-                    let whitePawnE = new Pawn("whitePawnE", piece, "white", "pawn", pieceSymbol, [row, col]);
-                    listObject.addToPieceList(whitePawnE);
-                    listObject.addToPawnList(whitePawnE);
-                    whitePawnE.updatePreviousPosition(false, false);
-                    boardObject.addToNameArrayPosition([col, row], "whitePawnE");
-                    break;
-                case 5:
-                    let whitePawnF = new Pawn("whitePawnF", piece, "white", "pawn", pieceSymbol, [row, col]);
-                    listObject.addToPieceList(whitePawnF);
-                    listObject.addToPawnList(whitePawnF);
-                    whitePawnF.updatePreviousPosition(false, false);
-                    boardObject.addToNameArrayPosition([col, row], "whitePawnF");
-                    break;
-                case 6:
-                    let whitePawnG = new Pawn("whitePawnG", piece, "white", "pawn", pieceSymbol, [row, col]);
-                    listObject.addToPieceList(whitePawnG);
-                    listObject.addToPawnList(whitePawnG);
-                    whitePawnG.updatePreviousPosition(false, false);
-                    boardObject.addToNameArrayPosition([col, row], "whitePawnG");
-                    break;
-                case 7:
-                    let whitePawnH = new Pawn("whitePawnH", piece, "white", "pawn", pieceSymbol, [row, col]);
-                    listObject.addToPieceList(whitePawnH);
-                    listObject.addToPawnList(whitePawnH);
-                    whitePawnH.updatePreviousPosition(false, false);
-                    boardObject.addToNameArrayPosition([col, row], "whitePawnH");
-                    break;
-            }
+            // Takes the name from the object list key in startGame module and saves the object in the list
+            // Then adds that object to piece and pawn lists
+            pawnPiecesList[piece][row][Object.keys(pawnPiecesList[piece][row])[0]] = new Pawn(Object.keys(pawnPiecesList[piece][row])[0], piece, "white", "pawn", pieceSymbol, [row, col]);
+            listObject.addToPieceList(pawnPiecesList[piece][row][Object.keys(pawnPiecesList[piece][row])[0]]);
+            listObject.addToPawnList(pawnPiecesList[piece][row][Object.keys(pawnPiecesList[piece][row])[0]]);
+            pawnPiecesList[piece][row][Object.keys(pawnPiecesList[piece][row])[0]].updatePreviousPosition(false, false);
+            boardObject.addToNameArrayPosition([col, row], pawnPiecesList[piece][row][Object.keys(pawnPiecesList[piece][row])[0]].name);
             break;
         case 2:
             pieceSymbol = "\u{2656}";
@@ -147,67 +96,17 @@ function setUpPieces(col, row, piece, pieceSymbol = "") {
             whiteKing.updatePreviousPosition(false, false);
             boardObject.addToNameArrayPosition([col, row], "whiteKing");
             break;
+
+        // BLACK PIECES
         case -1:
             pieceSymbol = "\u{265F}";
             // Black pawn
-            switch (row) {
-                case 0:
-                    let blackPawnA = new Pawn("blackPawnA", piece, "black", "pawn", pieceSymbol, [row, col]);
-                    listObject.addToPieceList(blackPawnA);
-                    listObject.addToPawnList(blackPawnA);
-                    blackPawnA.updatePreviousPosition(false, false);
-                    boardObject.addToNameArrayPosition([col, row], "blackPawnA");
-                    break;
-                case 1:
-                    let blackPawnB = new Pawn("blackPawnB", piece, "black", "pawn", pieceSymbol, [row, col]);
-                    listObject.addToPieceList(blackPawnB);
-                    listObject.addToPawnList(blackPawnB);
-                    blackPawnB.updatePreviousPosition(false, false);
-                    boardObject.addToNameArrayPosition([col, row], "blackPawnB");
-                    break;
-                case 2:
-                    let blackPawnC = new Pawn("blackPawnC", piece, "black", "pawn", pieceSymbol, [row, col]);
-                    listObject.addToPieceList(blackPawnC);
-                    listObject.addToPawnList(blackPawnC);
-                    blackPawnC.updatePreviousPosition(false, false);
-                    boardObject.addToNameArrayPosition([col, row], "blackPawnC");
-                    break;
-                case 3:
-                    let blackPawnD = new Pawn("blackPawnD", piece, "black", "pawn", pieceSymbol, [row, col]);
-                    listObject.addToPieceList(blackPawnD);
-                    listObject.addToPawnList(blackPawnD);
-                    blackPawnD.updatePreviousPosition(false, false);
-                    boardObject.addToNameArrayPosition([col, row], "blackPawnD");
-                    break;
-                case 4:
-                    let blackPawnE = new Pawn("blackPawnE", piece, "black", "pawn", pieceSymbol, [row, col]);
-                    listObject.addToPieceList(blackPawnE);
-                    listObject.addToPawnList(blackPawnE);
-                    blackPawnE.updatePreviousPosition(false, false);
-                    boardObject.addToNameArrayPosition([col, row], "blackPawnE");
-                    break;
-                case 5:
-                    let blackPawnF = new Pawn("blackPawnF", piece, "black", "pawn", pieceSymbol, [row, col]);
-                    listObject.addToPieceList(blackPawnF);
-                    listObject.addToPawnList(blackPawnF);
-                    blackPawnF.updatePreviousPosition(false, false);
-                    boardObject.addToNameArrayPosition([col, row], "blackPawnF");
-                    break;
-                case 6:
-                    let blackPawnG = new Pawn("blackPawnG", piece, "black", "pawn", pieceSymbol, [row, col]);
-                    listObject.addToPieceList(blackPawnG);
-                    listObject.addToPawnList(blackPawnG);
-                    blackPawnG.updatePreviousPosition(false, false);
-                    boardObject.addToNameArrayPosition([col, row], "blackPawnG");
-                    break;
-                case 7:
-                    let blackPawnH = new Pawn("blackPawnH", piece, "black", "pawn", pieceSymbol, [row, col]);
-                    listObject.addToPieceList(blackPawnH);
-                    listObject.addToPawnList(blackPawnH);
-                    blackPawnH.updatePreviousPosition(false, false);
-                    boardObject.addToNameArrayPosition([col, row], "blackPawnH");
-                    break;
-            }
+            // The same as white pawn
+            pawnPiecesList[piece][row][Object.keys(pawnPiecesList[piece][row])[0]] = new Pawn(Object.keys(pawnPiecesList[piece][row])[0], piece, "black", "pawn", pieceSymbol, [row, col]);
+            listObject.addToPieceList(pawnPiecesList[piece][row][Object.keys(pawnPiecesList[piece][row])[0]]);
+            listObject.addToPawnList(pawnPiecesList[piece][row][Object.keys(pawnPiecesList[piece][row])[0]]);
+            pawnPiecesList[piece][row][Object.keys(pawnPiecesList[piece][row])[0]].updatePreviousPosition(false, false);
+            boardObject.addToNameArrayPosition([col, row], pawnPiecesList[piece][row][Object.keys(pawnPiecesList[piece][row])[0]].name);
             break;
         case -2:
             pieceSymbol = "\u{265C}";
@@ -294,6 +193,8 @@ function setUpPieces(col, row, piece, pieceSymbol = "") {
     }
 
     paintPiece(col, row, piece, pieceSymbol);
+
+    return pawnPiecesList;
 }
 
 export { setUpPieces };
