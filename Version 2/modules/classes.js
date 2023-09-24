@@ -214,22 +214,22 @@ class Pawn extends Piece {
             case -2:
             case 2:
                 this.piece = "rook";
-                listObject.addToRookList(this);
+                listObject.addToList("rook", this);
                 break;
             case -3:
             case 3:
                 this.piece = "knight";
-                listObject.addToKnightList(this);
+                listObject.addToList("knight", this);
                 break;
             case -4:
             case 4:
                 this.piece = "bishop";
-                listObject.addToBishopList(this);
+                listObject.addToList("bishop", this);
                 break;
             case -5:
             case 5:
                 this.piece = "queen";
-                listObject.addToQueenList(this);
+                listObject.addToList("queen", this);
                 break;
             default:
                 this.piece = "pawn";

@@ -45,13 +45,16 @@ function startGame(players) {
     document.getElementById("whiteTaken").textContent = "";
     document.getElementById("blackTaken").textContent = "";
 
-    let pawnPiecesList = { "1": { "0": { "whitePawnA": null }, "1": { "whitePawnB": null }, "2": { "whitePawnC": null }, "3": { "whitePawnD": null }, "4": { "whitePawnE": null }, "5": { "whitePawnF": null }, "6": { "whitePawnG": null }, "7": { "whitePawnH": null } },
-                          "-1": { "0": { "blackPawnA": null }, "1": { "blackPawnB": null }, "2": { "blackPawnC": null }, "3": { "blackPawnD": null }, "4": { "blackPawnE": null }, "5": { "blackPawnF": null }, "6": { "blackPawnG": null }, "7": { "blackPawnH": null } } } 
+    let allPiecesList = { "1": { "0": { "whitePawnA": null }, "1": { "whitePawnB": null }, "2": { "whitePawnC": null }, "3": { "whitePawnD": null }, "4": { "whitePawnE": null }, "5": { "whitePawnF": null }, "6": { "whitePawnG": null }, "7": { "whitePawnH": null } },
+                          "-1": { "0": { "blackPawnA": null }, "1": { "blackPawnB": null }, "2": { "blackPawnC": null }, "3": { "blackPawnD": null }, "4": { "blackPawnE": null }, "5": { "blackPawnF": null }, "6": { "blackPawnG": null }, "7": { "blackPawnH": null } },
+                          "2": { "0": { "whiteRookA": null }, "7": { "whiteRookH": null } }, "-2": { "0": { "blackRookA": null }, "7": { "blackRookH": null } }, 
+                          "3": { "1": { "whiteKnightB": null }, "6": { "whiteKnightG": null } }, "-3": { "1": { "blackKnightB": null }, "6": { "blackKnightG": null } }, 
+                          "4": { "2": { "whiteBishopC":null }, "5": { "whiteBishopF": null } }, "-4": { "2": { "blackBishopC":null }, "5": { "blackBishopF": null } } } 
     let pieceArrayLength = boardObject.getPieceArray.length;
     for (var i = 0; i < pieceArrayLength; i++) {
         let pieceArrayILength = boardObject.getPieceArray[i].length;
         for (var j = 0; j < pieceArrayILength; j++) {
-            pawnPiecesList = setUpPieces(i, j, boardObject.getPieceArray[i][j], pawnPiecesList);
+            allPiecesList = setUpPieces(i, j, boardObject.getPieceArray[i][j], allPiecesList);
         }
     }
 

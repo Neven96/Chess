@@ -83,10 +83,6 @@ const boardObject = {
                       [0, 0, 0, 0, 0, 0, 0, 0]],
     pieceTypes: {"pawn": [-1, 1], "rook": [-2, 2], "knight": [-3, 3], "bishop": [-4, 4], "queen": [-5, 5], "king": [-6, 6]},
 
-    get getBoard() {
-        return this.board;
-    },
-
     /**
      * @param {HTMLElement | null} board
      */
@@ -94,8 +90,8 @@ const boardObject = {
         this.board = board;
     },
 
-    get getContent() {
-        return this.content;
+    get getBoard() {
+        return this.board;
     },
 
     /**
@@ -103,6 +99,17 @@ const boardObject = {
      */
     set setContent(content) {
         this.content = content;
+    },
+
+    get getContent() {
+        return this.content;
+    },
+
+    /**
+     * @param {number[][]} boardArray
+     */
+    set setBoardArray(boardArray) {
+        this.boardArray = boardArray;
     },
 
     get getBoardArray() {
@@ -412,67 +419,56 @@ const listObject = {
     },
 
     // List Manipulation
-    // PieceList
-    addToPieceList(newObject) {
-        this.pieceList[newObject.name] = newObject;
+    addToList(listType, newObject) {
+        switch (listType) {
+            case "piece":
+                this.pieceList[newObject.name] = newObject;
+                break;
+            case "pawn":
+                this.pawnList[newObject.name] = newObject;
+                break;
+            case "rook":
+                this.rookList[newObject.name] = newObject;
+                break;
+            case "knight":
+                this.knightList[newObject.name] = newObject;
+                break;
+            case "bishop":
+                this.bishopList[newObject.name] = newObject;
+                break;
+            case "queen":
+                this.queenList[newObject.name] = newObject;
+                break;
+            case "king":
+                this.kingList[newObject.name] = newObject;
+                break;
+        }
     },
 
-    removeFromPieceList(removeObject) {
-        delete this.pieceList[removeObject.name];
-    },
-
-    // PawnList
-    addToPawnList(newObject) {
-        this.pawnList[newObject.name] = newObject;
-    },
-
-    removeFromPawnList(removeObject) {
-        delete this.pawnList[removeObject.name];
-    },
-
-    // RookList
-    addToRookList(newObject) {
-        this.rookList[newObject.name] = newObject;
-    },
-
-    removeFromRookList(removeObject) {
-        delete this.rookList[removeObject.name];
-    },
-
-    // KnightList
-    addToKnightList(newObject) {
-        this.knightList[newObject.name] = newObject;
-    },
-
-    removeFromKnightList(removeObject) {
-        delete this.knightList[removeObject.name];
-    },
-
-    // BishopList
-    addToBishopList(newObject) {
-        this.bishopList[newObject.name] = newObject;
-    },
-
-    removeFromBishopList(removeObject) {
-        delete this.bishopList[removeObject.name];
-    },
-
-    // QueenList
-    addToQueenList(newObject) {
-        this.queenList[newObject.name] = newObject;
-    },
-
-    removeFromQueenList(removeObject) {
-        delete this.queenList[removeObject.name];
-    },
-
-    // KingList
-    addToKingList(newObject) {
-        this.kingList[newObject.name] = newObject;
-    },
-
-    removeFromKingList(removeObject) {
-        delete this.kingList[removeObject.name];
+    removeFromList(listType, removeObject) {
+        switch (listType) {
+            case "piece":
+                delete this.pieceList[removeObject.name];
+                break;
+            case "pawn":
+                delete this.pawnList[removeObject.name];
+                break;
+            case "rook":
+                delete this.rookList[removeObject.name];
+                break;
+            case "knight":
+                delete this.knightList[removeObject.name];
+                break;
+            case "bishop":
+                delete this.bishopList[removeObject.name];
+                break;
+            case "queen":
+                delete this.queenList[removeObject.name];
+                break;
+            case "king":
+                delete this.kingList[removeObject.name];
+                break;
+        }
     },
 }
 
