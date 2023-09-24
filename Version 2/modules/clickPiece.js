@@ -35,7 +35,6 @@ async function clickPiece(event) {
         if (pieceObject.getSelected !== null) {
             // Checks if the clicked tile is a valid move for that piece
             if (pieceObject.getSelected.getValidMove([x_true, y_true])) {
-
                 // For capturing a piece
                 if ((pieceObject.getSelected.getColor === "white" && boardObject.pieceArrayPosition([x_true, y_true]) <= -1) || (pieceObject.getSelected.getColor === "black" && boardObject.pieceArrayPosition([x_true, y_true]) >= 1)) {
                     for (let name in listObject.getPieceList) {
@@ -65,28 +64,26 @@ async function clickPiece(event) {
                 }
 
                 // For promoting
-                if (pieceObject.getSelected.getPiece === "pawn") {
-                    if (y_true === 0 || y_true === 7) {
-                        // Sets up the buttons for promoting the pawn, and then waits until a choice is made
-                        pawnChange();
-                        
-                        // Returns a promise for stopping the board when the pawn change menu appears
-                        let promise = new Promise((resolve) => { 
-                            _promote = resolve 
-                        });
-                        await promise.then((result) => { 
-                            promotion = result[0];
-                            pieceObject.getSelected.changePiece(result[0], result[1]);
-                        });
+                if (pieceObject.getSelected.getPiece === "pawn" && (y_true === 0 || y_true === 7)) {
+                    // Sets up the buttons for promoting the pawn, and then waits until a choice is made
+                    pawnChange();
+                    
+                    // Returns a promise for stopping the board when the pawn change menu appears
+                    let promise = new Promise((resolve) => { 
+                        _promote = resolve 
+                    });
+                    await promise.then((result) => { 
+                        promotion = result[0];
+                        pieceObject.getSelected.changePiece(result[0], result[1]);
+                    });
 
-                        // Removes the promotion buttons and disables them
-                        for (let i = 0; i < document.getElementsByClassName("changePieceButton").length; i++) {
-                            document.getElementsByClassName("changePieceButton")[i].style.display = "none";
-                            document.getElementsByClassName("changePieceButton")[i].disabled = true;
-                        }
-
-                        document.getElementById("lightBox").style.display = "none";
+                    // Removes the promotion buttons and disables them
+                    for (let i = 0; i < document.getElementsByClassName("changePieceButton").length; i++) {
+                        document.getElementsByClassName("changePieceButton")[i].style.display = "none";
+                        document.getElementsByClassName("changePieceButton")[i].disabled = true;
                     }
+
+                    document.getElementById("lightBox").style.display = "none";
                 }
 
                 // For castling
