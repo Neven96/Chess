@@ -6,6 +6,7 @@ import { turnObject } from "./turnKeeping.js";
 import { updateMovement } from "./movement.js";
 import { undoTurn } from "./endTurn.js";
 import { takenPieces } from "./takenPieces.js";
+import { selectPiece } from "./selectPiece.js";
 
 function undoMove() {
     let piece;
@@ -15,12 +16,14 @@ function undoMove() {
     let currentInternalTurn = turnObject.getInternalTurn;
     let currentExternalTurn = turnObject.getExternalTurn;
 
+    // Removes the selection if a piece is selected when clicking undo
+    selectPiece(true);
+
     for (let name in listObject.getPieceList) {
         // Gets the current position of the piece, and all the previous positions
         piece = listObject.getPieceList[name];
         currentPosition = piece.getPiecePosition;
         previousPositions = piece.getPreviousPositions;
-
 
         // Gets the immediate previous position of the piece, if it has been moved and/or if it has been taken
         prevPosition = previousPositions[currentInternalTurn - 2][0];
@@ -43,13 +46,13 @@ function undoMove() {
 
                 // Removes the pawn from the promoted pieces lists
                 if (name in listObject.getRookList) {
-                    listObject.removeFromRookList(piece);
+                    listObject.removeFromList("rook", piece);
                 } else if (name in listObject.getKnightList) {
-                    listObject.removeFromKnightList(piece);
+                    listObject.removeFromList("knight", piece);
                 } else if (name in listObject.getBishopList) {
-                    listObject.removeFromBishopList(piece);
+                    listObject.removeFromList("bishop", piece);
                 } else if (name in listObject.getQueenList) {
-                    listObject.removeFromQueenList(piece);
+                    listObject.removeFromList("queen", piece);
                 }
             }
         }

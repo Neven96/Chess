@@ -7,7 +7,7 @@ import { paintTile } from "./paintTile.js";
 import { turnObject } from "./turnKeeping.js";
 
 // Selects a piece if non is selected, or changes the selected piece to another
-function selectPiece() {
+function selectPiece(undo = false) {
     if (typeObjects.getStarted) {
         // Disables clicking the other player's piece when it's not their turn
         // White turn
@@ -17,6 +17,11 @@ function selectPiece() {
         // Black turn
         if (mod(turnObject.getInternalTurn, 2) === 0 && boardObject.pieceArrayPosition([pieceObject.getX_selected, pieceObject.getY_selected]) >= 1) {
             return;
+        }
+
+        if (undo) {
+            pieceObject.setX_selected = pieceObject.getX_previous;
+            pieceObject.setY_selected = pieceObject.getY_previous;
         }
         // If you click the same or another piece if you have one selected
         if (pieceObject.getSelected !== null) {
