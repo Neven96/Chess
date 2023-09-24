@@ -2,6 +2,7 @@ import { myHeaders } from "./helpers/header.js";
 
 // Flags for game state
 // TimeType: 1 is for counting up from 0, 2 is for counting down from specified time
+// 2 does not work right now
 const typeObjects = {
     players: 1,
     timeType: 1,
@@ -11,46 +12,30 @@ const typeObjects = {
     /**
      * @param {number} players
      */
-    set setPlayers(players) {
-        this.players = players;
-    },
+    set setPlayers(players) {this.players = players;},
 
-    get getPlayers() {
-        return this.players;
-    },
+    get getPlayers() {return this.players;},
 
     /**
      * @param {number} timeType
      */
-    set setTimeType(timeType) {
-        this.timeType = timeType;
-    },
+    set setTimeType(timeType) {this.timeType = timeType;},
 
-    get getTimeType() {
-        return this.timeType;
-    },
+    get getTimeType() {return this.timeType;},
 
     /**
      * @param {boolean} started
      */
-    set setStarted(started) {
-        this.started = started;
-    },
+    set setStarted(started) {this.started = started;},
 
-    get getStarted() {
-        return this.started;
-    },
+    get getStarted() {return this.started;},
 
     /**
      * @param {boolean} finish
      */
-    set setFinish(finish) {
-        this.finish = finish;
-    },
+    set setFinish(finish) {this.finish = finish;},
 
-    get getFinish() {
-        return this.finish;
-    }
+    get getFinish() {return this.finish;}
 }
 
 // The board and layout
@@ -86,57 +71,37 @@ const boardObject = {
     /**
      * @param {HTMLElement | null} board
      */
-    set setBoard(board) {
-        this.board = board;
-    },
+    set setBoard(board) {this.board = board;},
 
-    get getBoard() {
-        return this.board;
-    },
+    get getBoard() {return this.board;},
 
     /**
      * @param {any} content
      */
-    set setContent(content) {
-        this.content = content;
-    },
+    set setContent(content) {this.content = content;},
 
-    get getContent() {
-        return this.content;
-    },
+    get getContent() {return this.content;},
 
     /**
      * @param {number[][]} boardArray
      */
-    set setBoardArray(boardArray) {
-        this.boardArray = boardArray;
-    },
+    set setBoardArray(boardArray) {this.boardArray = boardArray;},
 
-    get getBoardArray() {
-        return this.boardArray;
-    },
+    get getBoardArray() {return this.boardArray;},
 
     /**
      * @param {number[][]} pieceArray
      */
-    set setPieceArray(pieceArray) {
-        this.pieceArray = pieceArray;
-    },
+    set setPieceArray(pieceArray) {this.pieceArray = pieceArray;},
 
-    get getPieceArray() {
-        return this.pieceArray;
-    },
+    get getPieceArray() {return this.pieceArray;},
 
     /**
      * @param {any[][]} pieceNameArray
      */
-    set setPieceNameArray(pieceNameArray) {
-        this.pieceNameArray = pieceNameArray;
-    },
+    set setPieceNameArray(pieceNameArray) {this.pieceNameArray = pieceNameArray;},
 
-    get getPieceNameArray() {
-        return this.pieceNameArray;
-    },
+    get getPieceNameArray() {return this.pieceNameArray;},
 
     addToNameArrayPosition(newPos, pieceName) {
         this.pieceNameArray[newPos[0]][newPos[1]] = pieceName;
@@ -212,123 +177,79 @@ const pieceObject = {
     /**
      * @param {any} selected
      */
-    set setSelected(selected) {
-        this.selected = selected;
-    },
+    set setSelected(selected) {this.selected = selected;},
 
-    get getSelected() {
-        return this.selected;
-    },
+    get getSelected() {return this.selected;},
 
     /**
      * @param {any} prevSelected
      */
-    set setPrevSelected(prevSelected) {
-        this.prevSelected = prevSelected;
-    },
+    set setPrevSelected(prevSelected) {this.prevSelected = prevSelected;},
 
-    get getPrevSelected() {
-        return this.prevSelected;
-    },
+    get getPrevSelected() {return this.prevSelected;},
 
     /**
      * @param {null} rookSelected
      */
-    set setRookSelected(rookSelected) {
-        this.rookSelected = rookSelected;
-    },
+    set setRookSelected(rookSelected) {this.rookSelected = rookSelected;},
 
-    get getRookSelected() {
-        return this.rookSelected;
-    },
+    get getRookSelected() {return this.rookSelected;},
 
     /**
      * @param {string} pieceSymbol
      */
-    set setPieceSymbol(pieceSymbol) {
-        this.pieceSymbol = pieceSymbol;
-    },
+    set setPieceSymbol(pieceSymbol) {this.pieceSymbol = pieceSymbol;},
 
-    get getPieceSymbol() {
-        return this.pieceSymbol;
-    },
+    get getPieceSymbol() {return this.pieceSymbol;},
 
     /**
      * @param {string} prevPieceSymbol
      */
-    set setPrevPieceSymbol(prevPieceSymbol) {
-        this.prevPieceSymbol = prevPieceSymbol;
-    },
+    set setPrevPieceSymbol(prevPieceSymbol) {this.prevPieceSymbol = prevPieceSymbol;},
 
-    get getPrevPieceSymbol() {
-        return this.prevPieceSymbol;
-    },
+    get getPrevPieceSymbol() {return this.prevPieceSymbol;},
 
     /**
      * @param {number} x_selected
      */
-    set setX_selected(x_selected) {
-        this.x_selected = x_selected;
-    },
+    set setX_selected(x_selected) {this.x_selected = x_selected;},
 
-    get getX_selected() {
-        return this.x_selected;
-    },
+    get getX_selected() {return this.x_selected;},
 
     /**
      * @param {number} y_selected
      */
-    set setY_selected(y_selected) {
-        this.y_selected = y_selected;
-    },
+    set setY_selected(y_selected) {this.y_selected = y_selected;},
 
-    get getY_selected() {
-        return this.y_selected;
-    },
+    get getY_selected() {return this.y_selected;},
 
     /**
      * @param {number} x_previous
      */
-    set setX_previous(x_previous) {
-        this.x_previous = x_previous;
-    },
+    set setX_previous(x_previous) {this.x_previous = x_previous;},
 
-    get getX_previous() {
-        return this.x_previous;
-    },
+    get getX_previous() {return this.x_previous;},
 
     /**
      * @param {number} y_previous
      */
-    set setY_previous(y_previous) {
-        this.y_previous = y_previous;
-    },
+    set setY_previous(y_previous) {this.y_previous = y_previous;},
 
-    get getY_previous() {
-        return this.y_previous;
-    },
+    get getY_previous() {return this.y_previous;},
 
     /**
      * @param {number} rook_x
      */
-    set setRook_x(rook_x) {
-        this.rook_x = rook_x;
-    },
+    set setRook_x(rook_x) {this.rook_x = rook_x;},
 
-    get getRook_x() {
-        return this.rook_x;
-    },
+    get getRook_x() {return this.rook_x;},
 
     /**
      * @param {number} rook_y
      */
-    set setRook_y(rook_y) {
-        this.rook_y = rook_y;
-    },
+    set setRook_y(rook_y) {this.rook_y = rook_y;},
 
-    get getRook_y() {
-        return this.rook_y;
-    },
+    get getRook_y() {return this.rook_y;},
 }
 
 // The list of the pieces
@@ -344,79 +265,51 @@ const listObject = {
     /**
      * @param {{}} pieceList
      */
-    set setPieceList(pieceList) {
-        this.pieceList = pieceList;
-    },
+    set setPieceList(pieceList) {this.pieceList = pieceList;},
 
-    get getPieceList() {
-        return this.pieceList;
-    },
+    get getPieceList() {return this.pieceList;},
 
     /**
      * @param {{}} pawnList
      */
-    set setPawnList(pawnList) {
-        this.pawnList = pawnList;
-    },
+    set setPawnList(pawnList) {this.pawnList = pawnList;},
 
-    get getPawnList() {
-        return this.pawnList;
-    },
+    get getPawnList() {return this.pawnList;},
 
     /**
      * @param {{}} rookList
      */
-    set setRookList(rookList) {
-        this.rookList = rookList;
-    },
+    set setRookList(rookList) {this.rookList = rookList;},
 
-    get getRookList() {
-        return this.rookList;
-    },
+    get getRookList() {return this.rookList;},
 
     /**
      * @param {{}} knightList
      */
-    set setKnightList(knightList) {
-        this.knightList = knightList;
-    },
+    set setKnightList(knightList) {this.knightList = knightList;},
 
-    get getKnightList() {
-        return this.knightList;
-    },
+    get getKnightList() {return this.knightList;},
 
     /**
      * @param {{}} bishopList
      */
-    set setBishopList(bishopList) {
-        this.bishopList = bishopList;
-    },
+    set setBishopList(bishopList) {this.bishopList = bishopList;},
 
-    get getBishopList() {
-        return this.bishopList;
-    },
+    get getBishopList() {return this.bishopList;},
 
     /**
      * @param {{}} queenList
      */
-    set setQueenList(queenList) {
-        this.queenList = queenList;
-    },
+    set setQueenList(queenList) {this.queenList = queenList;},
 
-    get getQueenList() {
-        return this.queenList;
-    },
+    get getQueenList() {return this.queenList;},
 
     /**
      * @param {{}} kingList
      */
-    set setKingList(kingList) {
-        this.kingList = kingList;
-    },
+    set setKingList(kingList) {this.kingList = kingList;},
 
-    get getKingList() {
-        return this.kingList;
-    },
+    get getKingList() {return this.kingList;},
 
     // List Manipulation
     addToList(listType, newObject) {
