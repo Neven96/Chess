@@ -1,5 +1,5 @@
 import { myHeaders } from "./helpers/header.js";
-import { boardObject, listObject } from "./objects.js";
+import { boardObject, listObject, pieceObject } from "./objects.js";
 import { paintPiece } from "./paintPiece.js";
 import { paintTile } from "./paintTile.js";
 import { turnObject } from "./turnKeeping.js";
@@ -17,7 +17,9 @@ function undoMove() {
     let currentExternalTurn = turnObject.getExternalTurn;
 
     // Removes the selection if a piece is selected when clicking undo
-    selectPiece(true);
+    if (pieceObject.getSelected !== null) {
+        selectPiece(true);
+    }
 
     for (let name in listObject.getPieceList) {
         // Gets the current position of the piece, and all the previous positions
@@ -30,32 +32,6 @@ function undoMove() {
         prevMoved = previousPositions[currentInternalTurn - 2][1];
         prevTaken = previousPositions[currentInternalTurn - 1][2];
         prevPrevTaken = previousPositions[currentInternalTurn - 2][2];
-
-        // If the piece is a pawn and has been promoted, unpromotes it
-        if (name in listObject.getPawnList) {
-            prevPromoted = previousPositions[currentInternalTurn - 2][3];
-            if (!prevPromoted) {
-                // Changes the piece back to a pawn
-                if (piece.getColor === "white") {
-                    piece.changePiece(1, "\u{2659}");
-                } else if (piece.getColor === "black") {
-                    piece.changePiece(-1, "\u{265F}");
-                }
-
-                piece.setPromoted = false;
-
-                // Removes the pawn from the promoted pieces lists
-                if (name in listObject.getRookList) {
-                    listObject.removeFromList("rook", piece);
-                } else if (name in listObject.getKnightList) {
-                    listObject.removeFromList("knight", piece);
-                } else if (name in listObject.getBishopList) {
-                    listObject.removeFromList("bishop", piece);
-                } else if (name in listObject.getQueenList) {
-                    listObject.removeFromList("queen", piece);
-                }
-            }
-        }
 
         // Resets the moved and taken values of the piece when undoing, if approriate
         if (piece.getMoved) {
@@ -87,6 +63,32 @@ function undoMove() {
         boardObject.movePiece([currentPosition[1], currentPosition[0]],
                               [prevPosition[1], prevPosition[0]],
                               piece, prevTaken);
+
+        // If the piece is a pawn and has been promoted, unpromotes it
+        if (name in listObject.getPawnList) {
+            prevPromoted = previousPositions[currentInternalTurn - 2][3];
+            if (!prevPromoted) {
+                // Changes the piece back to a pawn
+                if (piece.getColor === "white") {
+                    piece.changePiece(1, "\u{2659}");
+                } else if (piece.getColor === "black") {
+                    piece.changePiece(-1, "\u{265F}");
+                }
+
+                piece.setPromoted = false;
+
+                // Removes the pawn from the promoted pieces lists
+                if (name in listObject.getRookList) {
+                    listObject.removeFromList("rook", piece);
+                } else if (name in listObject.getKnightList) {
+                    listObject.removeFromList("knight", piece);
+                } else if (name in listObject.getBishopList) {
+                    listObject.removeFromList("bishop", piece);
+                } else if (name in listObject.getQueenList) {
+                    listObject.removeFromList("queen", piece);
+                }
+            }
+        }
 
         paintPiece(prevPosition[1],
                    prevPosition[0],

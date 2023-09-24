@@ -221,12 +221,6 @@ async function pawnChange() {
         buttonPieceValueList["queen"] = ["\u{265B}", -5];
     }
 
-    console.log(buttonPieceValueList);
-
-    for (let piece in buttonPieceValueList) {
-        console.log(piece);
-    }
-
     document.getElementById("lightBox").style.display = "initial";
 
     // Giving the buttons the values, and making them visible and clickable
