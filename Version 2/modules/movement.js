@@ -2,8 +2,7 @@ import { myHeaders } from "./helpers/header.js";
 import { arrayAddition, arraySubtraction } from "./helpers/arrayManipulation.js";
 import { boardObject, listObject } from "./objects.js";
 
-// Supporting movement functions
-
+// SUPPORTING MOVEMENT FUNCTIONS
 // Movement in a straight line, up, down, left, right
 function lineMovement(piece, newPosition) {
 
@@ -20,7 +19,7 @@ function lineMovement(piece, newPosition) {
 
     // Right
     newPosition = helperMovement(piece, newPosition, -1, 0);
-    
+
     return newPosition;
 }
 
@@ -29,7 +28,7 @@ function diagonalMovement(piece, newPosition) {
 
     // Up-left
     newPosition = helperMovement(piece, newPosition, 1, 1);
-    
+
     // Up-right
     newPosition = helperMovement(piece, newPosition, 1, -1);
 
@@ -72,7 +71,6 @@ function helperMovement(piece, newPosition, x, y) {
         moves++;
         movement = arraySubtraction(piece.getPiecePosition, [moves * x, moves * y]);
     }
-    
     return newPosition;
 }
 
@@ -92,11 +90,10 @@ function helperMovement2(piece, newPosition, x, y) {
             newPosition.push(boardPosition);
         }
     }
-
     return newPosition;
 }
 
-// Movement for the pieces
+// MOVEMENT FOR THE PIECES
 
 // Movement for pawns
 // TODO: En passant, if I can be bothered
@@ -111,35 +108,31 @@ function pawnMovement() {
 
         newPosition = piece.getAvailableMoves;
 
-        if (!piece.getTaken) {
-            if (piece.getPiece === "pawn") {
-                if (piece.getColor === "white") {
-                    // Move 1
-                    // This will give the x and y coordinate for the new movement, not the position in the pieceArray
-                    newPosition = pawnMove(piece, newPosition, 0, -1)
-                    // Move 2
-                    // Needs to check if the space in front is available too, since pawns can't jump
-                    if (!piece.getMoved && boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, -1])) === 0) {
-                        newPosition = pawnMove(piece, newPosition, 0, -2);
-                    }
-                    // Attack
-                    newPosition = pawnAttack(piece, newPosition, -1, -1);
-                    newPosition = pawnAttack(piece, newPosition, 1, -1);
-
-                } else if (piece.getColor === "black") {
-                    // Move 1
-                    newPosition = pawnMove(piece, newPosition, 0, 1)
-                    // Move 2
-                    if (!piece.getMoved && boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, 1])) === 0) {
-                        newPosition = pawnMove(piece, newPosition, 0, 2);
-                    }
-                    // Attack
-                    newPosition = pawnAttack(piece, newPosition, 1, 1);
-                    newPosition = pawnAttack(piece, newPosition, -1, 1);
+        if (!piece.getTaken && piece.getPiece === "pawn") {
+            if (piece.getColor === "white") {
+                // Move 1
+                // This will give the x and y coordinate for the new movement, not the position in the pieceArray
+                newPosition = pawnMove(piece, newPosition, 0, -1)
+                // Move 2
+                // Needs to check if the space in front is available too, since pawns can't jump
+                if (!piece.getMoved && boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, -1])) === 0) {
+                    newPosition = pawnMove(piece, newPosition, 0, -2);
                 }
-
-                piece.updateAvailableMoves(newPosition);
+                // Attack
+                newPosition = pawnAttack(piece, newPosition, -1, -1);
+                newPosition = pawnAttack(piece, newPosition, 1, -1);
+            } else if (piece.getColor === "black") {
+                // Move 1
+                newPosition = pawnMove(piece, newPosition, 0, 1)
+                // Move 2
+                if (!piece.getMoved && boardObject.pieceArrayPosition(arrayAddition(piece.getPiecePosition, [0, 1])) === 0) {
+                    newPosition = pawnMove(piece, newPosition, 0, 2);
+                }
+                // Attack
+                newPosition = pawnAttack(piece, newPosition, 1, 1);
+                newPosition = pawnAttack(piece, newPosition, -1, 1);
             }
+            piece.updateAvailableMoves(newPosition);
         }   
     }
     // Helper functions for moving pawns
@@ -176,11 +169,9 @@ function rookMovement() {
         piece.removeAvailableMoves();
 
         newPosition = piece.getAvailableMoves;
-        if (!piece.getTaken) {
-            if (piece.getPiece === "rook") {
-                newPosition = lineMovement(piece, newPosition);
-                piece.updateAvailableMoves(newPosition);
-            }
+        if (!piece.getTaken && piece.getPiece === "rook") {
+            newPosition = lineMovement(piece, newPosition);
+            piece.updateAvailableMoves(newPosition);
         }
     }
 }
@@ -196,8 +187,7 @@ function knightMovement() {
         piece.removeAvailableMoves();
 
         newPosition = piece.getAvailableMoves;
-
-        if (piece.getPiece === "knight") {
+        if (!piece.getTaken && piece.getPiece === "knight") {
             // One up, two left
             newPosition = helperMovement2(piece, newPosition, 2, 1);
 
@@ -225,7 +215,6 @@ function knightMovement() {
             piece.updateAvailableMoves(newPosition);
         }
     }
-    
 }
 
 // Movement for bishops, using diagonalMovement
@@ -240,11 +229,9 @@ function bishopMovement() {
 
         newPosition = piece.getAvailableMoves;
 
-        if (!piece.getTaken) {
-            if (piece.getPiece === "bishop") {
-                newPosition = diagonalMovement(piece, newPosition);
-                piece.updateAvailableMoves(newPosition);
-            }
+        if (!piece.getTaken && piece.getPiece === "bishop") {
+            newPosition = diagonalMovement(piece, newPosition);
+            piece.updateAvailableMoves(newPosition);
         }    
     }
 }
@@ -261,12 +248,10 @@ function queenMovement() {
 
         newPosition = piece.getAvailableMoves;
 
-        if (!piece.getTaken) {
-            if (piece.getPiece === "queen") {
-                newPosition = lineMovement(piece, newPosition);
-                newPosition = diagonalMovement(piece, newPosition);
-                piece.updateAvailableMoves(newPosition);
-            }
+        if (!piece.getTaken && piece.getPiece === "queen") {
+            newPosition = lineMovement(piece, newPosition);
+            newPosition = diagonalMovement(piece, newPosition);
+            piece.updateAvailableMoves(newPosition);
         }  
     }
 }
@@ -283,7 +268,7 @@ function kingMovement() {
 
         newPosition = piece.getAvailableMoves;
 
-        if (piece.getPiece === "king") {
+        if (!piece.getTaken && piece.getPiece === "king") {
             // Line Movement
             // Y-axis
             // Up
@@ -330,7 +315,6 @@ function kingMovement() {
                             if (rookPiece.getPiecePosition.toString() === [0, 7].toString()) {
                                 // king: 2, rook: -3
                                 if (boardObject.pieceArrayPosition([1, 7]) === 0 && boardObject.pieceArrayPosition([2, 7]) === 0 && boardObject.pieceArrayPosition([3, 7]) === 0) {
-
                                     kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, 2, -3);
                                 }
                             } else if (rookPiece.getPiecePosition.toString() === [7, 7].toString()) {
@@ -339,7 +323,6 @@ function kingMovement() {
                                     kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, -2, 2);
                                 }
                             }
-
                             piece.updateAvailableMoves(newPosition);
                         }
                     }
@@ -361,7 +344,6 @@ function kingMovement() {
                                     kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, -2, 2);
                                 }
                             }
-
                             piece.updateAvailableMoves(newPosition);
                         }
                     }
@@ -369,19 +351,19 @@ function kingMovement() {
             }
         }
     }
-}
 
-// Helper function for the castling process
-function kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, kingMove, rookMove) {
-    // Position for the king
-    newPosition = helperMovement2(piece, newPosition, kingMove, 0);
+    // Helper function for the castling process
+    function kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, kingMove, rookMove) {
+        // Position for the king
+        newPosition = helperMovement2(piece, newPosition, kingMove, 0);
 
-    // Position for the rook
-    rookNewPosition = helperMovement2(rookPiece, rookNewPosition, rookMove, 0);
+        // Position for the rook
+        rookNewPosition = helperMovement2(rookPiece, rookNewPosition, rookMove, 0);
 
-    rookPiece.updateAvailableMoves(rookNewPosition);
+        rookPiece.updateAvailableMoves(rookNewPosition);
 
-    return newPosition;
+        return newPosition;
+    }
 }
 
 function updateMovement() {
