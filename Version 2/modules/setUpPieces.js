@@ -5,8 +5,15 @@ import { paintPiece } from "./paintPiece.js";
 
 // Creates the piece objects and adds them to the correct position
 // Row and col are all kinds of messed up, the problem is that 2d arrays and the canvas uses different for each
-function setUpPieces(col, row, piece, allPiecesList, pieceSymbol = "") {
-    switch (piece) {
+function setUpPieces(col, row, pieceNumber, allPiecesList, pieceSymbol = "") {
+    let pieceName, pieceColor, objectPiece;
+    if (pieceNumber !== 0) {
+        objectPiece = allPiecesList[pieceNumber][row][Object.keys(allPiecesList[pieceNumber][row])[0]];
+        pieceName = Object.keys(allPiecesList[pieceNumber][row])[0];
+        pieceColor = Object.keys(allPiecesList[pieceNumber][row])[1];
+        pieceSymbol = allPiecesList[pieceNumber][row][pieceColor];
+    }
+    switch (pieceNumber) {
         // FOR ALL PIECES:
         // Takes the name from the object list key in startGame module and saves the object in the list
         // Then adds that object to general piece and own piece lists
@@ -15,83 +22,82 @@ function setUpPieces(col, row, piece, allPiecesList, pieceSymbol = "") {
             // Black pawn
             // FALL THROUGH
         case 1:
-            pieceSymbol = allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[1]];
             // White pawn
-            allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]] = new Pawn(Object.keys(allPiecesList[piece][row])[0], piece, Object.keys(allPiecesList[piece][row])[1], "pawn", pieceSymbol, [row, col]);
+            objectPiece = new Pawn(pieceName, pieceNumber, pieceColor, "pawn", pieceSymbol, [row, col]);
 
-            helperSetUp("pawn", allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]]);
+            helperSetUp("pawn", objectPiece);
             break;
         // ROOKS
         case -2:
             // Black rook
             // FALL THROUGH
         case 2:
-            pieceSymbol = allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[1]];
             // White rook
-            allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]] = new Rook(Object.keys(allPiecesList[piece][row])[0], piece, Object.keys(allPiecesList[piece][row])[1], "rook", pieceSymbol, [row, col]);
+            objectPiece = new Rook(pieceName, pieceNumber, pieceColor, "rook", pieceSymbol, [row, col]);
 
-            helperSetUp("rook", allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]]);
+            helperSetUp("rook", objectPiece);
             break;
+        // KNIGHTS
         case -3:
             // Black knight
             // FALL THROUGH
         case 3:
-            pieceSymbol = allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[1]];
             // White knight
-            allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]] = new Knight(Object.keys(allPiecesList[piece][row])[0], piece, Object.keys(allPiecesList[piece][row])[1], "knight", pieceSymbol, [row, col]);
+            objectPiece = new Knight(pieceName, pieceNumber, pieceColor, "knight", pieceSymbol, [row, col]);
 
-            helperSetUp("knight", allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]]);
+            helperSetUp("knight", objectPiece);
             break;
+        // BISHOPS
         case -4:
             // Black bishop
             // FALL THROUGH
         case 4:
-            pieceSymbol = allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[1]];
             // White bishop
-            allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]] = new Bishop(Object.keys(allPiecesList[piece][row])[0], piece, Object.keys(allPiecesList[piece][row])[1], "bishop", pieceSymbol, [row, col]);
+            objectPiece = new Bishop(pieceName, pieceNumber, pieceColor, "bishop", pieceSymbol, [row, col]);
 
-            helperSetUp("bishop", allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]]);
+            helperSetUp("bishop", objectPiece);
             break;
+        // QUEENS
         case -5:
             // Black queen
             // FALL THROUGH
         case 5:
-            pieceSymbol = allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[1]];
             // White queen
-            allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]] = new Queen(Object.keys(allPiecesList[piece][row])[0], piece, Object.keys(allPiecesList[piece][row])[1], "queen", pieceSymbol, [row, col]);
+            objectPiece = new Queen(pieceName, pieceNumber, pieceColor, "queen", pieceSymbol, [row, col]);
 
-            helperSetUp("queen", allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]]);
+            helperSetUp("queen", objectPiece);
             break;
+        // KINGS
         case -6:
             // Black king
             // FALL THROUGH
         case 6:
-            pieceSymbol = allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[1]];
             // White king
-            allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]] = new King(Object.keys(allPiecesList[piece][row])[0], piece, Object.keys(allPiecesList[piece][row])[1], "king", pieceSymbol, [row, col]);
+            objectPiece = new King(pieceName, pieceNumber, pieceColor, "king", pieceSymbol, [row, col]);
 
-            helperSetUp("king", allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]]);
+            helperSetUp("king", objectPiece);
             break;
+        // EMPTY SPACE
         default:
-            // Blank space
             pieceSymbol = "";
             break;
     }
 
-    function helperSetUp(pieceName, pieceObject) {
-        listObject.addToList(pieceName, pieceObject);
-        listObject.addToList("piece", pieceObject);
+    // Function for adding the pieces to their respective lists, and setting their start positions
+    function helperSetUp(pieceType, objectPiece) {
+        listObject.addToList(pieceType, objectPiece);
+        listObject.addToList("piece", objectPiece);
 
-        if (pieceName === "pawn") {
-            pieceObject.updatePreviousPosition(false, false, false);
+        if (pieceType === "pawn") {
+            objectPiece.updatePreviousPosition(false, false, false);
         } else {
-            pieceObject.updatePreviousPosition(false, false);
+            objectPiece.updatePreviousPosition(false, false);
         }
         
-        boardObject.addToNameArrayPosition([col, row], pieceObject.name);
+        boardObject.addToNameArrayPosition([col, row], pieceName);
     }
 
-    paintPiece(col, row, piece, pieceSymbol);
+    paintPiece(col, row, pieceNumber, pieceSymbol);
 }
 
 export { setUpPieces };
