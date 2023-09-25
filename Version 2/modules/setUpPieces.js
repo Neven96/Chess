@@ -7,103 +7,70 @@ import { paintPiece } from "./paintPiece.js";
 // Row and col are all kinds of messed up, the problem is that 2d arrays and the canvas uses different for each
 function setUpPieces(col, row, piece, allPiecesList, pieceSymbol = "") {
     switch (piece) {
-        case 1:
-            pieceSymbol = "\u{2659}";
-            // White pawn
-            // FOR ALL PIECES:
-            // Takes the name from the object list key in startGame module and saves the object in the list
-            // Then adds that object to general piece and own piece lists
-            allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]] = new Pawn(Object.keys(allPiecesList[piece][row])[0], piece, "white", "pawn", pieceSymbol, [row, col]);
-            
-            listObject.addToList("pawn", allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]]);
-            break;
-        case 2:
-            pieceSymbol = "\u{2656}";
-            // White rook
-            allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]] = new Rook(Object.keys(allPiecesList[piece][row])[0], piece, "white", "rook", pieceSymbol, [row, col]);
-
-            listObject.addToList("rook", allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]]);
-            break;
-        case 3:
-            pieceSymbol = "\u{2658}";
-            // White knight
-            allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]] = new Knight(Object.keys(allPiecesList[piece][row])[0], piece, "white", "knight", pieceSymbol, [row, col]);
-
-            listObject.addToList("knight", allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]]);
-            break;
-        case 4:
-            pieceSymbol = "\u{2657}";
-            // White bishop
-            allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]] = new Bishop(Object.keys(allPiecesList[piece][row])[0], piece, "white", "bishop", pieceSymbol, [row, col]);
-
-            listObject.addToList("bishop", allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]]);
-            break;
-        case 5:
-            pieceSymbol = "\u{2655}";
-            // White queen
-            let whiteQueen = new Queen("whiteQueen", piece, "white", "queen", pieceSymbol, [row, col]);
-            listObject.addToList("piece", whiteQueen);
-            listObject.addToList("queen", whiteQueen);
-            whiteQueen.updatePreviousPosition(false, false);
-            boardObject.addToNameArrayPosition([col, row], "whiteQueen");
-            break;
-        case 6:
-            pieceSymbol = "\u{2654}";
-            // White king
-            let whiteKing = new King("whiteKing", piece, "white", "king", pieceSymbol, [row, col]);
-            listObject.addToList("piece", whiteKing);
-            listObject.addToList("king", whiteKing);
-            whiteKing.updatePreviousPosition(false, false);
-            boardObject.addToNameArrayPosition([col, row], "whiteKing");
-            break;
-
-        // BLACK PIECES
+        // FOR ALL PIECES:
+        // Takes the name from the object list key in startGame module and saves the object in the list
+        // Then adds that object to general piece and own piece lists
+        // PAWNS
         case -1:
-            pieceSymbol = "\u{265F}";
             // Black pawn
-            // The same as white pawn
-            allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]] = new Pawn(Object.keys(allPiecesList[piece][row])[0], piece, "black", "pawn", pieceSymbol, [row, col]);
-            
-            listObject.addToList("pawn", allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]]);
-            break;
-        case -2:
-            pieceSymbol = "\u{265C}";
-            // Black rook
-            allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]] = new Rook(Object.keys(allPiecesList[piece][row])[0], piece, "black", "rook", pieceSymbol, [row, col]);
+            // FALL THROUGH
+        case 1:
+            pieceSymbol = allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[1]];
+            // White pawn
+            allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]] = new Pawn(Object.keys(allPiecesList[piece][row])[0], piece, Object.keys(allPiecesList[piece][row])[1], "pawn", pieceSymbol, [row, col]);
 
-            listObject.addToList("rook", allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]]);
+            helperSetUp("pawn", allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]]);
+            break;
+        // ROOKS
+        case -2:
+            // Black rook
+            // FALL THROUGH
+        case 2:
+            pieceSymbol = allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[1]];
+            // White rook
+            allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]] = new Rook(Object.keys(allPiecesList[piece][row])[0], piece, Object.keys(allPiecesList[piece][row])[1], "rook", pieceSymbol, [row, col]);
+
+            helperSetUp("rook", allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]]);
             break;
         case -3:
-            pieceSymbol = "\u{265E}";
             // Black knight
-            allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]] = new Knight(Object.keys(allPiecesList[piece][row])[0], piece, "black", "knight", pieceSymbol, [row, col]);
+            // FALL THROUGH
+        case 3:
+            pieceSymbol = allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[1]];
+            // White knight
+            allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]] = new Knight(Object.keys(allPiecesList[piece][row])[0], piece, Object.keys(allPiecesList[piece][row])[1], "knight", pieceSymbol, [row, col]);
 
-            listObject.addToList("knight", allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]]);
+            helperSetUp("knight", allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]]);
             break;
         case -4:
-            pieceSymbol = "\u{265D}";
             // Black bishop
-            allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]] = new Bishop(Object.keys(allPiecesList[piece][row])[0], piece, "black", "bishop", pieceSymbol, [row, col]);
+            // FALL THROUGH
+        case 4:
+            pieceSymbol = allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[1]];
+            // White bishop
+            allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]] = new Bishop(Object.keys(allPiecesList[piece][row])[0], piece, Object.keys(allPiecesList[piece][row])[1], "bishop", pieceSymbol, [row, col]);
 
-            listObject.addToList("bishop", allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]]);
+            helperSetUp("bishop", allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]]);
             break;
         case -5:
-            pieceSymbol = "\u{265B}";
             // Black queen
-            let blackQueen = new Queen("blackQueen", piece, "black", "queen", pieceSymbol, [row, col]);
-            listObject.addToList("piece", blackQueen);
-            listObject.addToList("queen", blackQueen);
-            blackQueen.updatePreviousPosition(false, false);
-            boardObject.addToNameArrayPosition([col, row], "blackQueen");
+            // FALL THROUGH
+        case 5:
+            pieceSymbol = allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[1]];
+            // White queen
+            allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]] = new Queen(Object.keys(allPiecesList[piece][row])[0], piece, Object.keys(allPiecesList[piece][row])[1], "queen", pieceSymbol, [row, col]);
+
+            helperSetUp("queen", allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]]);
             break;
         case -6:
-            pieceSymbol = "\u{265A}";
             // Black king
-            let blackKing = new King("blackKing", piece, "black", "king", pieceSymbol, [row, col]);
-            listObject.addToList("piece", blackKing);
-            listObject.addToList("king", blackKing);
-            blackKing.updatePreviousPosition(false, false);
-            boardObject.addToNameArrayPosition([col, row], "blackKing");
+            // FALL THROUGH
+        case 6:
+            pieceSymbol = allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[1]];
+            // White king
+            allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]] = new King(Object.keys(allPiecesList[piece][row])[0], piece, Object.keys(allPiecesList[piece][row])[1], "king", pieceSymbol, [row, col]);
+
+            helperSetUp("king", allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]]);
             break;
         default:
             // Blank space
@@ -111,11 +78,17 @@ function setUpPieces(col, row, piece, allPiecesList, pieceSymbol = "") {
             break;
     }
 
-    if (piece <= 4 && piece >= -4 && piece !== 0) {
-        listObject.addToList("piece", allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]]);
+    function helperSetUp(pieceName, pieceObject) {
+        listObject.addToList(pieceName, pieceObject);
+        listObject.addToList("piece", pieceObject);
 
-        allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]].updatePreviousPosition(false, false, false);
-        boardObject.addToNameArrayPosition([col, row], allPiecesList[piece][row][Object.keys(allPiecesList[piece][row])[0]].name);
+        if (pieceName === "pawn") {
+            pieceObject.updatePreviousPosition(false, false, false);
+        } else {
+            pieceObject.updatePreviousPosition(false, false);
+        }
+        
+        boardObject.addToNameArrayPosition([col, row], pieceObject.name);
     }
 
     paintPiece(col, row, piece, pieceSymbol);
