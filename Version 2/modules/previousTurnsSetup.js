@@ -26,7 +26,7 @@ function previousTurnsSetup(castling = "", promotion = 0, attack = false, attack
         tableCellTurnNumber.id = "tableCellTurn" + turnObject.getExternalTurn;
         let tableCellTurnNumberSpan = document.createElement("span");
         tableCellTurnNumberSpan.id = "tableCellTurn" + turnObject.getExternalTurn + "span";
-        
+
         tableCellTurnNumber.appendChild(tableCellTurnNumberSpan)
         tableRow.appendChild(tableCellTurnNumber);
         document.getElementById("previousTurnsTableBody").appendChild(tableRow);
@@ -49,7 +49,6 @@ function previousTurnsSetup(castling = "", promotion = 0, attack = false, attack
 
         let tableCellTurnColor, tableCellTurnColorSpan;
         if (document.getElementById("tableCellTurn" + turnObject.getExternalTurn + turnObject.getTurnColor) === null) {
-            
 
             tableCellTurnColor = document.createElement("td");
             tableCellTurnColor.id = "tableCellTurn" + turnObject.getExternalTurn + turnObject.getTurnColor;
@@ -65,23 +64,18 @@ function previousTurnsSetup(castling = "", promotion = 0, attack = false, attack
             case "pawn":
                 movedPiece = "";
                 break;
-            
             case "rook":
                 movedPiece = "R";
                 break;
-
             case "knight":
                 movedPiece = "N";
                 break;
-
             case "bishop":
                 movedPiece = "B";
                 break;
-
             case "queen":
                 movedPiece = "Q";
                 break;
-
             case "king":
                 movedPiece = "K";
                 break;
@@ -91,31 +85,24 @@ function previousTurnsSetup(castling = "", promotion = 0, attack = false, attack
             case 0:
                 letter = "a";
                 break;
-
             case 1:
                 letter = "b";
                 break;
-
             case 2:
                 letter = "c";
                 break;
-
             case 3:
                 letter = "d";
                 break;
-
             case 4:
                 letter = "e";
                 break;
-
             case 5:
                 letter = "f";
                 break;
-
             case 6:
                 letter = "g";
                 break;
-
             case 7:
                 letter = "h";
                 break;
@@ -125,31 +112,24 @@ function previousTurnsSetup(castling = "", promotion = 0, attack = false, attack
             case 0:
                 number = 8;
                 break;
-
             case 1:
                 number = 7;
                 break;
-
             case 2:
                 number = 6;
                 break;
-
             case 3:
                 number = 5;
                 break;
-
             case 4:
                 number = 4;
                 break;
-
             case 5:
                 number = 3;
                 break;
-
             case 6:
                 number = 2;
                 break;
-
             case 7:
                 number = 1;
                 break;
@@ -160,22 +140,18 @@ function previousTurnsSetup(castling = "", promotion = 0, attack = false, attack
             case -2:
                 promotion = "R";
                 break;
-
             case 3:
             case -3:
                 promotion = "N";
                 break;
-
             case 4:
             case -4:
                 promotion = "B";
                 break;
-
             case 5:
             case -5:
                 promotion = "Q";
                 break;
-        
             default:
                 promotion = "";
                 break;
@@ -187,31 +163,24 @@ function previousTurnsSetup(castling = "", promotion = 0, attack = false, attack
                     case 0:
                         movedPiece = "a";
                         break;
-
                     case 1:
                         movedPiece = "b";
                         break;
-
                     case 2:
                         movedPiece = "c";
                         break;
-
                     case 3:
                         movedPiece = "d";
                         break;
-
                     case 4:
                         movedPiece = "e";
                         break;
-
                     case 5:
                         movedPiece = "f";
                         break;
-
                     case 6:
                         movedPiece = "g";
                         break;
-
                     case 7:
                         movedPiece = "h";
                         break;
