@@ -261,6 +261,39 @@ const listObject = {
     bishopList: {},
     queenList: {},
     kingList: {},
+    // A list of all the pieces to make the setUpPieces a much shorter and more compact module
+    allPieceList: {
+        "1": {
+            "0": { "whitePawnA": null, "white": "\u{2659}" },
+            "1": { "whitePawnB": null, "white": "\u{2659}" },
+            "2": { "whitePawnC": null, "white": "\u{2659}" },
+            "3": { "whitePawnD": null, "white": "\u{2659}" },
+            "4": { "whitePawnE": null, "white": "\u{2659}" },
+            "5": { "whitePawnF": null, "white": "\u{2659}" },
+            "6": { "whitePawnG": null, "white": "\u{2659}" },
+            "7": { "whitePawnH": null, "white": "\u{2659}" }
+        },
+        "-1": {
+            "0": { "blackPawnA": null, "black": "\u{265F}" },
+            "1": { "blackPawnB": null, "black": "\u{265F}" },
+            "2": { "blackPawnC": null, "black": "\u{265F}" },
+            "3": { "blackPawnD": null, "black": "\u{265F}" },
+            "4": { "blackPawnE": null, "black": "\u{265F}" },
+            "5": { "blackPawnF": null, "black": "\u{265F}" },
+            "6": { "blackPawnG": null, "black": "\u{265F}" },
+            "7": { "blackPawnH": null, "black": "\u{265F}" }
+        },
+        "2":  { "0": { "whiteRookA": null, "white": "\u{2656}" }, "7": { "whiteRookH": null, "white": "\u{2656}" } },
+        "-2": { "0": { "blackRookA": null, "black": "\u{265C}" }, "7": { "blackRookH": null, "black": "\u{265C}" } },
+        "3":  { "1": { "whiteKnightB": null, "white": "\u{2658}" }, "6": { "whiteKnightG": null, "white": "\u{2658}" } },
+        "-3": { "1": { "blackKnightB": null, "black": "\u{265E}" }, "6": { "blackKnightG": null, "black": "\u{265E}" } },
+        "4":  { "2": { "whiteBishopC": null, "white": "\u{2657}" }, "5": { "whiteBishopF": null, "white": "\u{2657}" } },
+        "-4": { "2": { "blackBishopC": null, "black": "\u{265D}" }, "5": { "blackBishopF": null, "black": "\u{265D}" } },
+        "5":  { "3": { "whiteQueen": null, "white": "\u{2655}" } },
+        "-5": { "3": { "blackQueen": null, "black": "\u{265B}" } },
+        "6":  { "4": { "whiteKing": null, "white": "\u{2654}" } },
+        "-6": { "4": { "blackKing": null, "black": "\u{265A}" } }
+    },
 
     /**
      * @param {{}} pieceList
@@ -310,6 +343,13 @@ const listObject = {
     set setKingList(kingList) {this.kingList = kingList;},
 
     get getKingList() {return this.kingList;},
+
+    /**
+     * @param {{}} allPieceList
+     */
+    set setAllPieceList(allPieceList) {this.allPieceList = allPieceList;},
+
+    get getAllPieceList() {return this.allPieceList;},
 
     // List Manipulation
     addToList(listType, newObject) {

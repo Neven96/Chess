@@ -92,8 +92,6 @@ function setUpPieces(col, row, piece, allPiecesList, pieceSymbol = "") {
     }
 
     paintPiece(col, row, piece, pieceSymbol);
-
-    return allPiecesList;
 }
 
 export { setUpPieces };
