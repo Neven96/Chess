@@ -16,4 +16,8 @@ function arraySubtraction(array1, array2) {
     return array1.map((item, index) => item - array2[index]);
 }
 
-export { arrayAddition, arraySubtraction };
+function arrayCompare(array1, array2) {
+    return array1.toString() === array2.toString();
+}
+
+export { arrayAddition, arraySubtraction, arrayCompare };

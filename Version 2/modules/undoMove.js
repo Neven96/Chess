@@ -7,6 +7,7 @@ import { updateMovement } from "./movement.js";
 import { undoTurn } from "./endTurn.js";
 import { takenPieces } from "./takenPieces.js";
 import { selectPiece } from "./selectPiece.js";
+import { arrayCompare } from "./helpers/arrayManipulation.js";
 
 function undoMove() {
     let piece;
@@ -34,30 +35,23 @@ function undoMove() {
         prevPrevTaken = previousPositions[currentInternalTurn - 2][2];
 
         // Resets the moved and taken values of the piece when undoing, if approriate
-        if (piece.getMoved) {
-            if (!prevMoved) {
-                piece.setMoved = false;
-            }
+        if (piece.getMoved && !prevMoved) {
+            piece.setMoved = false;
         }
 
-        if (piece.getTaken) {
-            if (!prevPrevTaken) {
-                piece.setTaken = false;
-            }
+        if (piece.getTaken && !prevPrevTaken) {
+            piece.setTaken = false;
         }
         
         piece.setPiecePosition = prevPosition;
 
-        // Cleans the tile before moving back
-        if (currentPosition.toString() !== [99, 99].toString()) {
-            if (boardObject.getPieceArray[currentPosition[1]][currentPosition[0]] === piece.getNumber) {
-                paintTile(currentPosition[1], currentPosition[0]);
-            }
-            
-        } else if (currentPosition.toString() === [99, 99].toString()) {
-            if (prevPosition.toString() !== [99, 99].toString()) {
-                paintTile(prevPosition[1], prevPosition[0]);
-            }
+        // Checks if the piece have not been taken
+        if (!arrayCompare(currentPosition, [99, 99]) && boardObject.getPieceArray[currentPosition[1]][currentPosition[0]] === piece.getNumber) {
+            paintTile(currentPosition[1], currentPosition[0]);
+        } 
+        // Cleans the tile before moving back if it has been taken
+        if (arrayCompare(currentPosition, [99, 99]) && !arrayCompare(prevPosition, [99, 99])) {
+            paintTile(prevPosition[1], prevPosition[0]);
         }
 
         boardObject.movePiece([currentPosition[1], currentPosition[0]],
@@ -90,11 +84,7 @@ function undoMove() {
             }
         }
 
-        paintPiece(prevPosition[1],
-                   prevPosition[0],
-                   piece.getNumber,
-                   piece.getPieceSymbol)
-
+        paintPiece(prevPosition[1], prevPosition[0], piece.getNumber, piece.getPieceSymbol)
     }
 
     // Updates the taken pieces list showing
