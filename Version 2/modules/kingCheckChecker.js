@@ -2,6 +2,7 @@ import { myHeaders } from "./helpers/header.js";
 import { listObject } from "./objects.js";
 import { paintPiece } from "./paintPiece.js";
 import { paintTile } from "./paintTile.js";
+import { arrayCompare } from "./helpers/arrayManipulation.js";
 
 // For checking if the king is in check
 function kingCheckChecker() {
@@ -31,7 +32,7 @@ function kingCheckChecker() {
             piece = listObject.getPieceList[name];
             if (piece.getColor === opposite_color) {
                 for (let array in piece.getAvailableMoves) {
-                    if (king.getPiecePosition.toString() === piece.getAvailableMoves[array].toString()) {
+                    if (arrayCompare(king.getPiecePosition, piece.getAvailableMoves[array])) {
                         check_list[own_color + "_checked"][1] = true;
                         check_list[own_color + "_checked"][0] = king.getName;
                         break outer_loop;

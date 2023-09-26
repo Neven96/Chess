@@ -1,6 +1,7 @@
 import { myHeaders } from "./helpers/header.js";
 import { listObject } from "./objects.js";
 import { turnObject } from "./turnKeeping.js";
+import { arrayCompare } from "./helpers/arrayManipulation.js";
 
 // The class for all pieces
 /**
@@ -130,7 +131,7 @@ class Piece {
 
     // If the position of the piece equals the position given, it returns the piece
     getNameFromPosition(newPosition) {
-        if (this.piecePosition.toString() === newPosition.toString()) {
+        if (arrayCompare(this.piecePosition, newPosition)) {
             return this.name;
         } else {
             return false;
@@ -159,13 +160,13 @@ class Piece {
         this.previousPositions[turnObject.getInternalTurn] = [this.piecePosition, moved, taken];
     }
 
-    // Checks if newPos array is in the availableMoves 2d array
-    getValidMove(newPos) {
+    // Checks if newPosition array is in the availableMoves 2d array
+    getValidMove(newPosition) {
         if (this.availableMoves.length === 0) {
             return false;
         }
         for (let array in this.availableMoves) {
-            if (this.availableMoves[array].toString() === newPos.toString()) {
+            if (arrayCompare(this.availableMoves[array], newPosition)) {
                 return true;
             }
         }
@@ -173,9 +174,9 @@ class Piece {
     }
 
     // Moves the piece and updates the board
-    movePiece(newPos) {
+    movePiece(newPosition) {
         this.updatePreviousPosition(true);
-        this.piecePosition = newPos;
+        this.piecePosition = newPosition;
         if (!this.moved) {
             this.moved = true;
         }

@@ -1,5 +1,5 @@
 import { myHeaders } from "./helpers/header.js";
-import { arrayAddition, arraySubtraction } from "./helpers/arrayManipulation.js";
+import { arrayAddition, arrayCompare, arraySubtraction } from "./helpers/arrayManipulation.js";
 import { boardObject, listObject } from "./objects.js";
 
 // SUPPORTING MOVEMENT FUNCTIONS
@@ -312,12 +312,12 @@ function kingMovement() {
                         let rookNewPosition = rookPiece.getAvailableMoves;
 
                         if (!rookPiece.getMoved && rookPiece.getColor === "white") {
-                            if (rookPiece.getPiecePosition.toString() === [0, 7].toString()) {
+                            if (arrayCompare(rookPiece.getPiecePosition, [0, 7])) {
                                 // king: 2, rook: -3
                                 if (boardObject.pieceArrayPosition([1, 7]) === 0 && boardObject.pieceArrayPosition([2, 7]) === 0 && boardObject.pieceArrayPosition([3, 7]) === 0) {
                                     kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, 2, -3);
                                 }
-                            } else if (rookPiece.getPiecePosition.toString() === [7, 7].toString()) {
+                            } else if (arrayCompare(rookPiece.getPiecePosition, [7, 7])) {
                                 // King: -2, rook: 2
                                 if (boardObject.pieceArrayPosition([6, 7]) === 0 && boardObject.pieceArrayPosition([5, 7]) === 0) {
                                     kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, -2, 2);
@@ -333,12 +333,12 @@ function kingMovement() {
                         let rookNewPosition = rookPiece.getAvailableMoves;
 
                         if (!rookPiece.getMoved && rookPiece.getColor === "black") {
-                            if (rookPiece.getPiecePosition.toString() === [0, 0].toString()) {
+                            if (arrayCompare(rookPiece.getPiecePosition, [0, 0])) {
                                 // king: 2, rook: -3
                                 if (boardObject.pieceArrayPosition([1, 0]) === 0 && boardObject.pieceArrayPosition([2, 0]) === 0 && boardObject.pieceArrayPosition([3, 0]) === 0) {
                                     kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, 2, -3);
                                 }
-                            } else if (rookPiece.getPiecePosition.toString() === [7, 0].toString()) {
+                            } else if (arrayCompare(rookPiece.getPiecePosition, [7, 0])) {
                                 // King: -2, rook: 2
                                 if (boardObject.pieceArrayPosition([6, 0]) === 0 && boardObject.pieceArrayPosition([5, 0]) === 0) {
                                     kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, -2, 2);
