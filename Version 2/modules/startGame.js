@@ -31,7 +31,8 @@ function startGame(players) {
     pauseObject.setPause = true;
     turnObject.setInternalTurn = 0;
     turnObject.setExternalTurn = 0;
-    // Paints the board
+
+    // Repaints the board, if you start a game without reloading the page
     let boardRowLength = boardObject.getBoardArray.length;
     for (var i = 0; i < boardRowLength; i++) {
         let boardColLength = boardObject.getBoardArray[i].length;

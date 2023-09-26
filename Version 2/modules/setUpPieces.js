@@ -24,9 +24,9 @@ function setUpPieces(col, row, pieceNumber, allPiecesList, pieceSymbol = "") {
         case 1:
             // White pawn
             objectPiece = new Pawn(pieceName, pieceNumber, pieceColor, "pawn", pieceSymbol, [row, col]);
-
             helperSetUp("pawn", objectPiece);
             break;
+
         // ROOKS
         case -2:
             // Black rook
@@ -34,9 +34,9 @@ function setUpPieces(col, row, pieceNumber, allPiecesList, pieceSymbol = "") {
         case 2:
             // White rook
             objectPiece = new Rook(pieceName, pieceNumber, pieceColor, "rook", pieceSymbol, [row, col]);
-
             helperSetUp("rook", objectPiece);
             break;
+
         // KNIGHTS
         case -3:
             // Black knight
@@ -44,9 +44,9 @@ function setUpPieces(col, row, pieceNumber, allPiecesList, pieceSymbol = "") {
         case 3:
             // White knight
             objectPiece = new Knight(pieceName, pieceNumber, pieceColor, "knight", pieceSymbol, [row, col]);
-
             helperSetUp("knight", objectPiece);
             break;
+
         // BISHOPS
         case -4:
             // Black bishop
@@ -54,9 +54,9 @@ function setUpPieces(col, row, pieceNumber, allPiecesList, pieceSymbol = "") {
         case 4:
             // White bishop
             objectPiece = new Bishop(pieceName, pieceNumber, pieceColor, "bishop", pieceSymbol, [row, col]);
-
             helperSetUp("bishop", objectPiece);
             break;
+
         // QUEENS
         case -5:
             // Black queen
@@ -64,9 +64,9 @@ function setUpPieces(col, row, pieceNumber, allPiecesList, pieceSymbol = "") {
         case 5:
             // White queen
             objectPiece = new Queen(pieceName, pieceNumber, pieceColor, "queen", pieceSymbol, [row, col]);
-
             helperSetUp("queen", objectPiece);
             break;
+
         // KINGS
         case -6:
             // Black king
@@ -74,14 +74,16 @@ function setUpPieces(col, row, pieceNumber, allPiecesList, pieceSymbol = "") {
         case 6:
             // White king
             objectPiece = new King(pieceName, pieceNumber, pieceColor, "king", pieceSymbol, [row, col]);
-
             helperSetUp("king", objectPiece);
             break;
+
         // EMPTY SPACE
         default:
             pieceSymbol = "";
             break;
     }
+
+    paintPiece(col, row, pieceNumber, pieceSymbol);
 
     // Function for adding the pieces to their respective lists, and setting their start positions
     function helperSetUp(pieceType, objectPiece) {
@@ -93,11 +95,9 @@ function setUpPieces(col, row, pieceNumber, allPiecesList, pieceSymbol = "") {
         } else {
             objectPiece.updatePreviousPosition(false, false);
         }
-        
+
         boardObject.addToNameArrayPosition([col, row], pieceName);
     }
-
-    paintPiece(col, row, pieceNumber, pieceSymbol);
 }
 
 export { setUpPieces };
