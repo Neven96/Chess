@@ -281,9 +281,6 @@ function kingMovement() {
             // Down-right
             newPosition = helperMovement2(piece, newPosition, -1, -1);
 
-            // Puts the new moves into the piece
-            piece.updateAvailableMoves(newPosition);
-
             // Castling
             // Move to either C-square of G-square, 2 moves
             // Rook moves to other side of king, either D-square or F-square, either 3 or 2 moves respectively
@@ -297,15 +294,14 @@ function kingMovement() {
                             if (arrayCompare(rookPiece.getPiecePosition, [0, 7])) {
                                 // king: 2, rook: -3
                                 if (boardObject.pieceArrayPosition([1, 7]) === 0 && boardObject.pieceArrayPosition([2, 7]) === 0 && boardObject.pieceArrayPosition([3, 7]) === 0) {
-                                    kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, 2, -3);
+                                    newPosition = kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, 2, -3);
                                 }
                             } else if (arrayCompare(rookPiece.getPiecePosition, [7, 7])) {
                                 // King: -2, rook: 2
                                 if (boardObject.pieceArrayPosition([6, 7]) === 0 && boardObject.pieceArrayPosition([5, 7]) === 0) {
-                                    kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, -2, 2);
+                                    newPosition = kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, -2, 2);
                                 }
                             }
-                            piece.updateAvailableMoves(newPosition);
                         }
                     }
                 } else if (piece.getColor === "black") {
@@ -318,19 +314,20 @@ function kingMovement() {
                             if (arrayCompare(rookPiece.getPiecePosition, [0, 0])) {
                                 // king: 2, rook: -3
                                 if (boardObject.pieceArrayPosition([1, 0]) === 0 && boardObject.pieceArrayPosition([2, 0]) === 0 && boardObject.pieceArrayPosition([3, 0]) === 0) {
-                                    kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, 2, -3);
+                                    newPosition = kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, 2, -3);
                                 }
                             } else if (arrayCompare(rookPiece.getPiecePosition, [7, 0])) {
                                 // King: -2, rook: 2
                                 if (boardObject.pieceArrayPosition([6, 0]) === 0 && boardObject.pieceArrayPosition([5, 0]) === 0) {
-                                    kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, -2, 2);
+                                    newPosition = kingCastlingHelper(piece, newPosition, rookPiece, rookNewPosition, -2, 2);
                                 }
                             }
-                            piece.updateAvailableMoves(newPosition);
                         }
                     }
                 }
             }
+            // Puts the new moves into the piece
+            piece.updateAvailableMoves(newPosition);
         }
     }
 
