@@ -93,22 +93,27 @@ function helperMovement2(piece, newPosition, x, y) {
     return newPosition;
 }
 
+// Helper function for updating available moves
+function updateNewPositionHelper(piece) {
+    // Removes all moves before creating new
+    piece.removeAvailableMoves();
+
+    let newPosition = piece.getAvailableMoves;
+
+    return newPosition;
+}
+
 // MOVEMENT FOR THE PIECES
 
 // Movement for pawns
 // TODO: En passant, if I can be bothered
 function pawnMovement() {
-    let newPosition;
-
     for (let piece in listObject.getPawnList) {
         piece = listObject.getPieceList[piece];
 
-        // Removes all moves before creating new
-        piece.removeAvailableMoves();
-
-        newPosition = piece.getAvailableMoves;
-
         if (!piece.getTaken && piece.getPiece === "pawn") {
+            let newPosition = updateNewPositionHelper(piece);
+
             if (piece.getColor === "white") {
                 // Move 1
                 // This will give the x and y coordinate for the new movement, not the position in the pieceArray
@@ -160,16 +165,12 @@ function pawnMovement() {
 
 // Movements for rook, using lineMovement
 function rookMovement() {
-    let newPosition;
-
     for (let piece in listObject.getRookList) {
         piece = listObject.getPieceList[piece];
 
-        // Removes all moves before creating new
-        piece.removeAvailableMoves();
-
-        newPosition = piece.getAvailableMoves;
         if (!piece.getTaken && piece.getPiece === "rook") {
+            let newPosition = updateNewPositionHelper(piece);
+
             newPosition = lineMovement(piece, newPosition);
             piece.updateAvailableMoves(newPosition);
         }
@@ -178,16 +179,12 @@ function rookMovement() {
 
 // Movement for knights, using own movement
 function knightMovement() {
-    let newPosition;
-
     for (let piece in listObject.getKnightList) {
         piece = listObject.getPieceList[piece];
 
-        // Removes all moves before creating new
-        piece.removeAvailableMoves();
-
-        newPosition = piece.getAvailableMoves;
         if (!piece.getTaken && piece.getPiece === "knight") {
+            let newPosition = updateNewPositionHelper(piece);
+            
             // One up, two left
             newPosition = helperMovement2(piece, newPosition, 2, 1);
 
@@ -219,17 +216,12 @@ function knightMovement() {
 
 // Movement for bishops, using diagonalMovement
 function bishopMovement() {
-    let newPosition;
-
     for (let piece in listObject.getBishopList) {
         piece = listObject.getPieceList[piece];
 
-        // Removes all moves before creating new
-        piece.removeAvailableMoves();
-
-        newPosition = piece.getAvailableMoves;
-
         if (!piece.getTaken && piece.getPiece === "bishop") {
+            let newPosition = updateNewPositionHelper(piece);
+
             newPosition = diagonalMovement(piece, newPosition);
             piece.updateAvailableMoves(newPosition);
         }    
@@ -238,17 +230,12 @@ function bishopMovement() {
 
 // Movement for queens, using both lineMovement and diagonalMovement
 function queenMovement() {
-    let newPosition;
-
     for (let piece in listObject.getQueenList) {
         piece = listObject.getPieceList[piece];
 
-        // Removes all moves before creating new
-        piece.removeAvailableMoves();
-
-        newPosition = piece.getAvailableMoves;
-
         if (!piece.getTaken && piece.getPiece === "queen") {
+            let newPosition = updateNewPositionHelper(piece);
+            
             newPosition = lineMovement(piece, newPosition);
             newPosition = diagonalMovement(piece, newPosition);
             piece.updateAvailableMoves(newPosition);
@@ -258,17 +245,12 @@ function queenMovement() {
 
 // Movement for kings, using own movement
 function kingMovement() {
-    let newPosition;
-
     for (let piece in listObject.getKingList) {
         piece = listObject.getPieceList[piece];
 
-        // Removes all moves before creating new
-        piece.removeAvailableMoves();
-
-        newPosition = piece.getAvailableMoves;
-
         if (!piece.getTaken && piece.getPiece === "king") {
+            let newPosition = updateNewPositionHelper(piece);
+
             // Line Movement
             // Y-axis
             // Up
