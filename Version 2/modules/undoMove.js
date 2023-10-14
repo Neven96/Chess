@@ -3,7 +3,7 @@ import { boardObject, listObject, pieceObject } from "./objects.js";
 import { paintPiece } from "./paintPiece.js";
 import { paintTile } from "./paintTile.js";
 import { turnObject } from "./turnKeeping.js";
-import { updateMovement } from "./movement.js";
+import { updateMovement } from "./movement2.js";
 import { undoTurn } from "./endTurn.js";
 import { takenPieces } from "./takenPieces.js";
 import { selectPiece } from "./selectPiece.js";

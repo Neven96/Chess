@@ -1,6 +1,6 @@
 import { myHeaders } from "./helpers/header.js";
 import { boardObject, listObject, pieceObject, typeObjects } from "./objects.js";
-import { updateMovement } from "./movement.js";
+import { updateMovement } from "./movement2.js";
 import { paintPiece, paintValidPieces } from "./paintPiece.js";
 import { paintTile } from "./paintTile.js";
 import { selectPiece } from "./selectPiece.js";

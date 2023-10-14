@@ -4,7 +4,7 @@ import { pauseObject } from "./pauseGame.js";
 import { playGameObject } from "./playGame.js";
 import { timeObject } from "./timeKeeping.js";
 import { setUpPieces } from "./setUpPieces.js";
-import { updateMovement } from "./movement.js";
+import { updateMovement } from "./movement2.js";
 import { turnObject } from "./turnKeeping.js";
 import { previousTurnsSetup } from "./previousTurnsSetup.js";
 import { paintTile } from "./paintTile.js";
