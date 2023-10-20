@@ -1,11 +1,16 @@
 # Chess
 
 
-## Version 1
+## Modules
 
-- Is a bunch of different working and non-working versions and is just for archival purposes
+ - Contains all the various modules
 
+## How to run
 
-## Version 2 
-
-- The actively worked on version
+ - Since modules are used, it needs to be run on a server, either locally or a proper one
+ - Local servers are easier so use either, via command line:
+    - Python: 
+        1. python -m http.server [port]
+    - NPM: 
+        1. npm install http-server -g
+        2. http-server
